@@ -16,12 +16,12 @@ public partial class MainWindow : Window
 
     private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
     {
-        TryRun(ViewModel.LoadVariables, "加载环境变量失败");
+        TryRun(() => ViewModel.LoadVariables(), "加载环境变量失败");
     }
 
     private void RefreshButton_OnClick(object sender, RoutedEventArgs e)
     {
-        TryRun(ViewModel.LoadVariables, "刷新环境变量失败");
+        TryRun(() => ViewModel.LoadVariables(), "刷新环境变量失败");
     }
 
     private void NewButton_OnClick(object sender, RoutedEventArgs e)
@@ -46,7 +46,7 @@ public partial class MainWindow : Window
             }
         }
 
-        TryRun(ViewModel.SaveCurrent, "保存环境变量失败");
+        TryRun(() => ViewModel.SaveCurrent(), "保存环境变量失败");
     }
 
     private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
@@ -63,7 +63,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        TryRun(ViewModel.DeleteCurrent, "删除环境变量失败");
+        TryRun(() => ViewModel.DeleteCurrent(), "删除环境变量失败");
     }
 
     private void CancelButton_OnClick(object sender, RoutedEventArgs e)
