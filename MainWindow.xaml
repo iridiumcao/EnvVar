@@ -36,9 +36,6 @@
             <MenuItem Header="{DynamicResource Menu_File}">
                 <MenuItem Header="{DynamicResource Menu_Export}" Click="ExportMenu_Click" />
                 <MenuItem Header="{DynamicResource Menu_Import}" Click="ImportMenu_Click" />
-                <MenuItem x:Name="HistoryMenu" Header="{DynamicResource Menu_RestoreSnapshot}" SubmenuOpened="HistoryMenu_SubmenuOpened">
-                    <MenuItem IsEnabled="False" Header="{DynamicResource Msg_NoSnapshots}" />
-                </MenuItem>
                 <Separator />
                 <MenuItem Header="{DynamicResource Menu_OpenMetadataDir}" Click="OpenMetadataDir_Click" />
                 <Separator />
@@ -332,8 +329,14 @@
                                     IsEnabled="{Binding CanDeleteCurrent}"
                                     Content="{DynamicResource Btn_Delete}" />
                             <Button Width="96"
+                                    Margin="0,0,8,0"
                                     Click="CancelButton_OnClick"
                                     Content="{DynamicResource Btn_Cancel}" />
+                            <Button x:Name="HistoryButton"
+                                    Width="96"
+                                    Click="HistoryButton_Click"
+                                    IsEnabled="{Binding CanDeleteCurrent}"
+                                    Content="{DynamicResource Btn_History}" />
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>

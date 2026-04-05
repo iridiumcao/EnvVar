@@ -95,10 +95,8 @@
     <sys:String x:Key="Btn_SortDesc">降冪排列</sys:String>
 
     <!-- History -->
-    <sys:String x:Key="Menu_RestoreSnapshot">還原快照(_R)</sys:String>
-    <sys:String x:Key="Msg_NoSnapshots">沒有可用的快照。</sys:String>
-    <sys:String x:Key="Msg_SnapshotRestored">已還原快照，匯入了 {0} 個環境變數。</sys:String>
-    <sys:String x:Key="Msg_SnapshotRestoreConfirm">確認還原此快照？目前所有環境變數將可能被覆蓋。</sys:String>
-    <sys:String x:Key="Msg_SnapshotRestoreTitle">確認還原</sys:String>
+    <sys:String x:Key="Btn_History">歷史</sys:String>
+    <sys:String x:Key="Msg_NoHistory">沒有可用的歷史記錄。</sys:String>
+    <sys:String x:Key="Msg_HistoryRestored">已從歷史記錄還原值。</sys:String>
 
 </ResourceDictionary>

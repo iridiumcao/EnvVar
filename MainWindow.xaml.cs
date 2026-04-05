@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using EnvVar.Services;
+using EnvVar.Utilities;
 using EnvVar.ViewModels;
 using EnvVar.Views;
 using Microsoft.Win32;
@@ -298,56 +299,43 @@ public partial class MainWindow : Window
         ViewModel.Editor.SortValuesDescending();
     }
 
-    private void HistoryMenu_SubmenuOpened(object sender, RoutedEventArgs e)
+    private void HistoryButton_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is not MenuItem historyMenu)
-        {
-            return;
-        }
+        var history = ViewModel.GetCurrentVariableHistory();
+        var menu = new ContextMenu();
 
-        historyMenu.Items.Clear();
-        var snapshots = ViewModel.GetSnapshots();
-
-        if (snapshots.Count == 0)
+        if (history.Count == 0)
         {
-            historyMenu.Items.Add(new MenuItem
+            menu.Items.Add(new MenuItem
             {
-                Header = LocalizationService.Get("Msg_NoSnapshots"),
+                Header = LocalizationService.Get("Msg_NoHistory"),
                 IsEnabled = false
             });
-            return;
+        }
+        else
+        {
+            foreach (var entry in history)
+            {
+                var preview = EnvironmentVariableValueParser.BuildPreview(entry.Value, 60);
+                var item = new MenuItem
+                {
+                    Header = $"{entry.Timestamp:g}  {preview}",
+                    Tag = entry
+                };
+                item.Click += HistoryEntry_Click;
+                menu.Items.Add(item);
+            }
         }
 
-        foreach (var snapshot in snapshots)
-        {
-            var item = new MenuItem { Header = snapshot.DisplayName, Tag = snapshot.FilePath };
-            item.Click += RestoreSnapshot_Click;
-            historyMenu.Items.Add(item);
-        }
+        menu.PlacementTarget = HistoryButton;
+        menu.IsOpen = true;
     }
 
-    private void RestoreSnapshot_Click(object sender, RoutedEventArgs e)
+    private void HistoryEntry_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is not MenuItem item || item.Tag is not string filePath)
+        if (sender is MenuItem item && item.Tag is VariableHistoryEntry entry)
         {
-            return;
-        }
-
-        var confirm = MessageBox.Show(
-            this,
-            LocalizationService.Get("Msg_SnapshotRestoreConfirm"),
-            LocalizationService.Get("Msg_SnapshotRestoreTitle"),
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Question);
-
-        if (confirm == MessageBoxResult.Yes)
-        {
-            TryRun(() =>
-            {
-                var count = ViewModel.RestoreFromSnapshot(filePath);
-                ViewModel.LoadVariables();
-                ViewModel.StatusMessage = LocalizationService.Get("Msg_SnapshotRestored", count);
-            }, LocalizationService.Get("Msg_SnapshotRestoreTitle"));
+            ViewModel.RestoreFromHistory(entry);
         }
     }
 

@@ -95,9 +95,7 @@
     <sys:String x:Key="Btn_SortDesc">降序排列</sys:String>
 
     <!-- History -->
-    <sys:String x:Key="Menu_RestoreSnapshot">恢复快照(_R)</sys:String>
-    <sys:String x:Key="Msg_NoSnapshots">没有可用的快照。</sys:String>
-    <sys:String x:Key="Msg_SnapshotRestored">已恢复快照，导入了 {0} 个环境变量。</sys:String>
-    <sys:String x:Key="Msg_SnapshotRestoreConfirm">确认恢复此快照？当前所有环境变量将可能被覆盖。</sys:String>
-    <sys:String x:Key="Msg_SnapshotRestoreTitle">确认恢复</sys:String>
+    <sys:String x:Key="Btn_History">历史</sys:String>
+    <sys:String x:Key="Msg_NoHistory">没有可用的历史记录。</sys:String>
+    <sys:String x:Key="Msg_HistoryRestored">已从历史记录恢复值。</sys:String>
 </ResourceDictionary>

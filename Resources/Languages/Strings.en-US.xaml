@@ -95,10 +95,8 @@
     <sys:String x:Key="Btn_SortDesc">Sort Z→A</sys:String>
 
     <!-- History -->
-    <sys:String x:Key="Menu_RestoreSnapshot">_Restore Snapshot</sys:String>
-    <sys:String x:Key="Msg_NoSnapshots">No snapshots available.</sys:String>
-    <sys:String x:Key="Msg_SnapshotRestored">Snapshot restored. {0} variable(s) imported.</sys:String>
-    <sys:String x:Key="Msg_SnapshotRestoreConfirm">Restore this snapshot? Existing variables may be overwritten.</sys:String>
-    <sys:String x:Key="Msg_SnapshotRestoreTitle">Confirm Restore</sys:String>
+    <sys:String x:Key="Btn_History">History</sys:String>
+    <sys:String x:Key="Msg_NoHistory">No history available.</sys:String>
+    <sys:String x:Key="Msg_HistoryRestored">Restored value from history.</sys:String>
 
 </ResourceDictionary>

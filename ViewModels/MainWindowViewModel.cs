@@ -180,7 +180,18 @@ public sealed class MainWindowViewModel : ObservableObject
 
     public void SaveCurrent()
     {
-        _historyService.SaveSnapshot(Variables);
+        if (!Editor.IsNew)
+        {
+            var existing = Variables.FirstOrDefault(v =>
+                string.Equals(v.Name, Editor.OriginalName, StringComparison.OrdinalIgnoreCase)
+                && v.Level == Editor.OriginalLevel);
+
+            if (existing is not null && !string.Equals(existing.Value, Editor.Value, StringComparison.Ordinal))
+            {
+                _historyService.RecordHistory(existing.Name, existing.Level, existing.Value);
+            }
+        }
+
         _environmentVariableService.Save(Editor);
 
         var savedName = Editor.Name.Trim();
@@ -200,7 +211,15 @@ public sealed class MainWindowViewModel : ObservableObject
         var name = Editor.OriginalName;
         var level = Editor.OriginalLevel;
 
-        _historyService.SaveSnapshot(Variables);
+        var existing = Variables.FirstOrDefault(v =>
+            string.Equals(v.Name, name, StringComparison.OrdinalIgnoreCase)
+            && v.Level == level);
+
+        if (existing is not null && !string.IsNullOrEmpty(existing.Value))
+        {
+            _historyService.RecordHistory(name, level, existing.Value);
+        }
+
         _environmentVariableService.Delete(name, level);
         SelectedVariable = null;
         LoadVariables();
@@ -243,15 +262,20 @@ public sealed class MainWindowViewModel : ObservableObject
         ApplyDisplayMode();
     }
 
-    public IReadOnlyList<SnapshotInfo> GetSnapshots()
+    public IReadOnlyList<VariableHistoryEntry> GetCurrentVariableHistory()
     {
-        return _historyService.GetSnapshots();
+        if (Editor.IsNew || string.IsNullOrWhiteSpace(Editor.OriginalName))
+        {
+            return [];
+        }
+
+        return _historyService.GetHistory(Editor.OriginalName, Editor.OriginalLevel);
     }
 
-    public int RestoreFromSnapshot(string filePath)
+    public void RestoreFromHistory(VariableHistoryEntry entry)
     {
-        var variables = _historyService.LoadSnapshot(filePath);
-        return _exportImportService.Import(variables);
+        Editor.Value = entry.Value;
+        StatusMessage = LocalizationService.Get("Msg_HistoryRestored");
     }
 
     private bool FilterVariable(object obj)

@@ -1,80 +1,108 @@
 using System.IO;
+using System.Text.Json;
 using EnvVar.Models;
 
 namespace EnvVar.Services;
 
 public class VersionHistoryService
 {
-    private readonly string _snapshotDirectory;
+    private const int MaxHistoryPerVariable = 5;
+
+    private static readonly JsonSerializerOptions SerializerOptions = new()
+    {
+        WriteIndented = true
+    };
+
+    private readonly string _historyFilePath;
 
     public VersionHistoryService()
     {
-        _snapshotDirectory = Path.Combine(
+        var directory = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "EnvVar",
-            "Snapshots");
+            "EnvVar");
 
-        Directory.CreateDirectory(_snapshotDirectory);
+        Directory.CreateDirectory(directory);
+        _historyFilePath = Path.Combine(directory, "history.json");
     }
 
-    public void SaveSnapshot(IEnumerable<EnvironmentVariableEntry> variables)
+    public void RecordHistory(string name, EnvironmentVariableLevel level, string value)
     {
-        var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-        var fileName = $"snapshot_{timestamp}.json";
-        var filePath = Path.Combine(_snapshotDirectory, fileName);
+        var allHistory = LoadAll();
+        var key = MetadataStore.BuildKey(name, level);
 
-        var exportVariables = variables.Select(v => new ExportVariable
+        if (!allHistory.TryGetValue(key, out var entries))
         {
-            Name = v.Name,
-            Value = v.Value,
-            Level = v.Level,
-            Alias = v.Alias
-        }).ToList();
+            entries = [];
+            allHistory[key] = entries;
+        }
 
-        var json = System.Text.Json.JsonSerializer.Serialize(exportVariables, new System.Text.Json.JsonSerializerOptions
+        entries.Insert(0, new VariableHistoryEntry
         {
-            WriteIndented = true
+            Value = value,
+            Timestamp = DateTime.Now
         });
 
-        File.WriteAllText(filePath, json);
-    }
-
-    public List<SnapshotInfo> GetSnapshots()
-    {
-        if (!Directory.Exists(_snapshotDirectory))
+        if (entries.Count > MaxHistoryPerVariable)
         {
-            return new List<SnapshotInfo>();
+            entries.RemoveRange(MaxHistoryPerVariable, entries.Count - MaxHistoryPerVariable);
         }
 
-        var files = Directory.GetFiles(_snapshotDirectory, "snapshot_*.json")
-            .OrderByDescending(f => f);
+        SaveAll(allHistory);
+    }
 
-        var snapshots = new List<SnapshotInfo>();
-        foreach (var file in files)
+    public IReadOnlyList<VariableHistoryEntry> GetHistory(string name, EnvironmentVariableLevel level)
+    {
+        var allHistory = LoadAll();
+        var key = MetadataStore.BuildKey(name, level);
+        return allHistory.TryGetValue(key, out var entries) ? entries : [];
+    }
+
+    public void RemoveHistory(string name, EnvironmentVariableLevel level)
+    {
+        var allHistory = LoadAll();
+        var key = MetadataStore.BuildKey(name, level);
+
+        if (allHistory.Remove(key))
         {
-            var fileInfo = new FileInfo(file);
-            snapshots.Add(new SnapshotInfo
+            SaveAll(allHistory);
+        }
+    }
+
+    private Dictionary<string, List<VariableHistoryEntry>> LoadAll()
+    {
+        if (!File.Exists(_historyFilePath))
+        {
+            return new Dictionary<string, List<VariableHistoryEntry>>(StringComparer.OrdinalIgnoreCase);
+        }
+
+        try
+        {
+            var json = File.ReadAllText(_historyFilePath);
+            if (string.IsNullOrWhiteSpace(json))
             {
-                FilePath = file,
-                FileName = fileInfo.Name,
-                CreatedDate = fileInfo.CreationTime
-            });
-        }
+                return new Dictionary<string, List<VariableHistoryEntry>>(StringComparer.OrdinalIgnoreCase);
+            }
 
-        return snapshots;
+            var data = JsonSerializer.Deserialize<Dictionary<string, List<VariableHistoryEntry>>>(json, SerializerOptions);
+            return data is null
+                ? new Dictionary<string, List<VariableHistoryEntry>>(StringComparer.OrdinalIgnoreCase)
+                : new Dictionary<string, List<VariableHistoryEntry>>(data, StringComparer.OrdinalIgnoreCase);
+        }
+        catch (JsonException)
+        {
+            return new Dictionary<string, List<VariableHistoryEntry>>(StringComparer.OrdinalIgnoreCase);
+        }
     }
 
-    public List<ExportVariable> LoadSnapshot(string filePath)
+    private void SaveAll(Dictionary<string, List<VariableHistoryEntry>> allHistory)
     {
-        var json = File.ReadAllText(filePath);
-        return System.Text.Json.JsonSerializer.Deserialize<List<ExportVariable>>(json) ?? new List<ExportVariable>();
+        var json = JsonSerializer.Serialize(allHistory, SerializerOptions);
+        File.WriteAllText(_historyFilePath, json);
     }
 }
 
-public class SnapshotInfo
+public class VariableHistoryEntry
 {
-    public string FilePath { get; set; } = string.Empty;
-    public string FileName { get; set; } = string.Empty;
-    public DateTime CreatedDate { get; set; }
-    public string DisplayName => $"{FileName} ({CreatedDate:g})";
+    public string Value { get; set; } = string.Empty;
+    public DateTime Timestamp { get; set; }
 }
