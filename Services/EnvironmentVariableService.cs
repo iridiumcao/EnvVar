@@ -88,12 +88,18 @@ public sealed class EnvironmentVariableService
             var key = MetadataStore.BuildKey(name, level);
             metadata.TryGetValue(key, out var meta);
 
+            var description = meta?.Description ?? string.Empty;
+            if (string.IsNullOrEmpty(description) && meta is null)
+            {
+                description = WellKnownVariables.GetDescription(name) ?? string.Empty;
+            }
+
             items.Add(new EnvironmentVariableEntry
             {
                 Name = name,
                 Value = entry.Value?.ToString() ?? string.Empty,
                 Alias = meta?.Alias ?? string.Empty,
-                Description = meta?.Description ?? string.Empty,
+                Description = description,
                 Level = level
             });
         }

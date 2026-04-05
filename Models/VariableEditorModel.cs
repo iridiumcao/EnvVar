@@ -109,6 +109,11 @@ public sealed class VariableEditorModel : ObservableObject
         ? LocalizationService.Get("Editor_NewHeader")
         : LocalizationService.Get("Editor_EditHeader", Name, Level);
 
+    public void NotifyHeaderChanged()
+    {
+        OnPropertyChanged(nameof(Header));
+    }
+
     public void LoadFrom(EnvironmentVariableEntry entry)
     {
         IsNew = false;

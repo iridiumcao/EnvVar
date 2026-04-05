@@ -183,6 +183,7 @@ public partial class MainWindow : Window
             LangZhTW.IsChecked = cultureCode == "zh-TW";
             LangEnUS.IsChecked = cultureCode == "en-US";
             UpdateColumnHeaders();
+            ViewModel.Editor.NotifyHeaderChanged();
         }
     }
 

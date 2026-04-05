@@ -25,7 +25,7 @@ public class VersionHistoryService
         _historyFilePath = Path.Combine(directory, "history.json");
     }
 
-    public void RecordHistory(string name, EnvironmentVariableLevel level, string value)
+    public void RecordHistory(string name, EnvironmentVariableLevel level, string value, string alias, string description)
     {
         var allHistory = LoadAll();
         var key = MetadataStore.BuildKey(name, level);
@@ -39,6 +39,8 @@ public class VersionHistoryService
         entries.Insert(0, new VariableHistoryEntry
         {
             Value = value,
+            Alias = alias,
+            Description = description,
             Timestamp = DateTime.Now
         });
 
@@ -104,5 +106,7 @@ public class VersionHistoryService
 public class VariableHistoryEntry
 {
     public string Value { get; set; } = string.Empty;
+    public string Alias { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
     public DateTime Timestamp { get; set; }
 }

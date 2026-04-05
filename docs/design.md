@@ -33,6 +33,10 @@
 - Alias（用户自定义名称）
 - Description（备注说明）
 
+对于常见的系统环境变量（如 PATH、TEMP、USERPROFILE 等），软件内置了预设描述，支持三种语言。
+首次加载时，如果变量尚无用户自定义的元数据，会自动填充预设描述作为默认值。
+用户可随时编辑或清空这些描述。
+
 存储路径：`%LocalAppData%\EnvVar\metadata.json`
 
 键格式：`Name@Level`（复合主键，避免 User / System 同名冲突）
@@ -52,7 +56,7 @@
 
 ### 2.3 展示模式
 
-#### 分级展示（Grouped）
+#### 分级展示（Grouped，默认）
 
 - 按 User / System 分组显示
 - 每组内按名称排序
@@ -96,7 +100,7 @@ PATH = C:\Java\bin;C:\Windows\System32
 
 ### 2.5 搜索
 
-左侧列表顶部提供搜索框，支持按 Name、Alias、Value 实时过滤。
+左侧列表顶部提供搜索框（带放大镜图标暗示），支持按 Name、Alias、Value 实时过滤。
 
 ---
 
@@ -109,13 +113,13 @@ PATH = C:\Java\bin;C:\Windows\System32
 
 ### 2.7 单变量历史恢复
 
-- 每次保存或删除操作前，自动记录该变量的旧值
-- 仅在值实际发生变化时才记录历史
+- 每次保存或删除操作前，自动记录该变量的旧值（包括 Value、Alias、Description）
+- 仅在 Value、Alias 或 Description 实际发生变化时才记录历史
 - 每个变量独立保存最近 5 个历史版本，互不影响
 - 历史数据存储在 `%LocalAppData%\EnvVar\history.json`
 - 键格式与元数据一致：`Name@Level`
 - 在编辑面板中点击「历史」按钮，弹出该变量的历史版本列表
-- 选择某个历史版本后，值会加载到编辑器中（不会自动保存）
+- 选择某个历史版本后，Value、Alias、Description 会加载到编辑器中（不会自动保存）
 
 ---
 
@@ -142,7 +146,7 @@ PATH = C:\Java\bin;C:\Windows\System32
 
 - 修改前读取最新系统变量
 - 删除 / 覆盖前均需用户确认
-- 保存和删除操作前自动记录该变量的历史版本
+- 保存和删除操作前自动记录该变量的历史版本（包含 Value、Alias、Description）
 
 ### 3.3 性能
 

@@ -12,7 +12,7 @@ public sealed class MainWindowViewModel : ObservableObject
     private readonly EnvironmentVariableService _environmentVariableService;
     private readonly ExportImportService _exportImportService;
     private readonly VersionHistoryService _historyService = new();
-    private DisplayMode _displayMode = DisplayMode.Merged;
+    private DisplayMode _displayMode = DisplayMode.Grouped;
     private EnvironmentVariableEntry? _selectedVariable;
     private string _statusMessage = string.Empty;
     private string _searchText = string.Empty;
@@ -186,9 +186,12 @@ public sealed class MainWindowViewModel : ObservableObject
                 string.Equals(v.Name, Editor.OriginalName, StringComparison.OrdinalIgnoreCase)
                 && v.Level == Editor.OriginalLevel);
 
-            if (existing is not null && !string.Equals(existing.Value, Editor.Value, StringComparison.Ordinal))
+            if (existing is not null &&
+                (!string.Equals(existing.Value, Editor.Value, StringComparison.Ordinal) ||
+                 !string.Equals(existing.Alias, Editor.Alias, StringComparison.Ordinal) ||
+                 !string.Equals(existing.Description, Editor.Description, StringComparison.Ordinal)))
             {
-                _historyService.RecordHistory(existing.Name, existing.Level, existing.Value);
+                _historyService.RecordHistory(existing.Name, existing.Level, existing.Value, existing.Alias, existing.Description);
             }
         }
 
@@ -217,7 +220,7 @@ public sealed class MainWindowViewModel : ObservableObject
 
         if (existing is not null && !string.IsNullOrEmpty(existing.Value))
         {
-            _historyService.RecordHistory(name, level, existing.Value);
+            _historyService.RecordHistory(name, level, existing.Value, existing.Alias, existing.Description);
         }
 
         _environmentVariableService.Delete(name, level);
@@ -275,6 +278,8 @@ public sealed class MainWindowViewModel : ObservableObject
     public void RestoreFromHistory(VariableHistoryEntry entry)
     {
         Editor.Value = entry.Value;
+        Editor.Alias = entry.Alias;
+        Editor.Description = entry.Description;
         StatusMessage = LocalizationService.Get("Msg_HistoryRestored");
     }
 

@@ -120,11 +120,28 @@
                                        FontWeight="SemiBold"
                                        VerticalAlignment="Center"
                                        Text="{DynamicResource Label_VariableList}" />
-                            <TextBox DockPanel.Dock="Right"
-                                     Width="160"
-                                     VerticalContentAlignment="Center"
-                                     ToolTip="{DynamicResource Label_Search}"
-                                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+                            <Grid DockPanel.Dock="Right" Width="160">
+                                <TextBox x:Name="SearchBox"
+                                         VerticalContentAlignment="Center"
+                                         ToolTip="{DynamicResource Label_Search}"
+                                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Text="🔍"
+                                           Foreground="#FFAAAAAA"
+                                           VerticalAlignment="Center"
+                                           Margin="6,0,0,0"
+                                           IsHitTestVisible="False">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=SearchBox}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
                         </DockPanel>
                     </Border>
 
@@ -186,54 +203,58 @@
                                    Text="{DynamicResource Label_EditorHint}" />
                     </StackPanel>
 
-                    <StackPanel Margin="0,16,0,0">
+                    <StackPanel Margin="0,16,0,0" Grid.IsSharedSizeScope="True">
                         <Grid Margin="0,0,0,8">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
+                                <ColumnDefinition Width="12" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
                                        VerticalAlignment="Center"
                                        Text="{DynamicResource Label_Name}" />
-                            <TextBox Grid.Column="1"
+                            <TextBox Grid.Column="2"
                                      Text="{Binding Editor.Name, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
 
                         <Grid Margin="0,0,0,8">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
+                                <ColumnDefinition Width="12" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
                                        VerticalAlignment="Center"
                                        Text="{DynamicResource Label_Level}" />
-                            <ComboBox Grid.Column="1"
+                            <ComboBox Grid.Column="2"
                                       ItemsSource="{Binding Source={StaticResource VariableLevels}}"
                                       SelectedItem="{Binding Editor.Level, Mode=TwoWay}" />
                         </Grid>
 
                         <Grid Margin="0,0,0,8">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
+                                <ColumnDefinition Width="12" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
                                        VerticalAlignment="Center"
                                        Text="{DynamicResource Label_Alias}" />
-                            <TextBox Grid.Column="1"
+                            <TextBox Grid.Column="2"
                                      Text="{Binding Editor.Alias, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
 
                         <Grid Margin="0,0,0,8">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
+                                <ColumnDefinition Width="12" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
                                        VerticalAlignment="Top"
                                        Margin="0,6,0,0"
                                        Text="{DynamicResource Label_Description}" />
-                            <TextBox Grid.Column="1"
+                            <TextBox Grid.Column="2"
                                      Height="72"
                                      AcceptsReturn="True"
                                      TextWrapping="Wrap"
@@ -243,15 +264,16 @@
 
                         <Grid Margin="0,0,0,12">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
+                                <ColumnDefinition Width="12" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
                                        VerticalAlignment="Top"
                                        Margin="0,6,0,0"
                                        Text="{DynamicResource Label_Value}" />
-                            <TextBox Grid.Column="1"
-                                     MinHeight="160"
+                            <TextBox Grid.Column="2"
+                                     MinHeight="60"
                                      AcceptsReturn="True"
                                      TextWrapping="Wrap"
                                      VerticalScrollBarVisibility="Auto"
@@ -305,7 +327,7 @@
                                                 <TextBlock Width="36"
                                                            Foreground="#FF5A6B7A"
                                                            VerticalAlignment="Center"
-                                                           Text="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}, Path=(ItemsControl.AlternationIndex), StringFormat=[{0}]}" />
+                                                           Text="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=(ItemsControl.AlternationIndex), StringFormat=[{0}]}" />
                                                 <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
                                                          FontFamily="Cascadia Code"
                                                          BorderThickness="0"
