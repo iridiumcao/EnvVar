@@ -2,6 +2,8 @@
 
 一个面向 Windows 的环境变量可视化管理工具，使用 .NET 10 / WPF 构建。
 
+![](docs/images/JgCqBBysw7.png)
+
 ## 功能
 
 - 浏览用户级与系统级环境变量
