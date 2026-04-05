@@ -8,6 +8,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="EnvVar"
+        Icon="Resources/app.ico"
         Height="720"
         Width="1200"
         MinHeight="640"
@@ -30,6 +31,28 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
 
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="{DynamicResource Menu_File}">
+                <MenuItem Header="{DynamicResource Menu_Export}" Click="ExportMenu_Click" />
+                <MenuItem Header="{DynamicResource Menu_Import}" Click="ImportMenu_Click" />
+                <Separator />
+                <MenuItem Header="{DynamicResource Menu_OpenMetadataDir}" Click="OpenMetadataDir_Click" />
+                <Separator />
+                <MenuItem Header="{DynamicResource Menu_Exit}" Click="ExitMenu_Click" />
+            </MenuItem>
+            <MenuItem Header="{DynamicResource Menu_Settings}">
+                <MenuItem Header="{DynamicResource Menu_Language}">
+                    <MenuItem x:Name="LangZhCN" Header="简体中文" IsCheckable="True" IsChecked="True" Click="LanguageMenu_Click" Tag="zh-CN" />
+                    <MenuItem x:Name="LangZhTW" Header="繁體中文" IsCheckable="True" Click="LanguageMenu_Click" Tag="zh-TW" />
+                    <MenuItem x:Name="LangEnUS" Header="English" IsCheckable="True" Click="LanguageMenu_Click" Tag="en-US" />
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="{DynamicResource Menu_Help}">
+                <MenuItem Header="{DynamicResource Menu_About}" Click="AboutMenu_Click" />
+            </MenuItem>
+        </Menu>
+
     <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -50,23 +73,28 @@
                     <Button Width="96"
                             Margin="0,0,8,0"
                             Click="RefreshButton_OnClick"
-                            Content="刷新" />
+                            Content="{DynamicResource Btn_Refresh}" />
                     <Button Width="96"
                             Margin="0,0,16,0"
                             Click="NewButton_OnClick"
-                            Content="新建" />
+                            Content="{DynamicResource Btn_New}" />
                     <TextBlock VerticalAlignment="Center"
-                               Text="展示模式：" />
+                               Text="{DynamicResource Label_DisplayMode}" />
                     <ComboBox Width="140"
                               Margin="8,0,0,0"
                               ItemsSource="{Binding Source={StaticResource DisplayModes}}"
                               SelectedItem="{Binding DisplayMode, Mode=TwoWay}" />
                 </StackPanel>
 
-                <TextBlock DockPanel.Dock="Right"
-                           VerticalAlignment="Center"
-                           Foreground="#FF666666"
-                           Text="{Binding MetadataPath, StringFormat=元数据：{0}}" />
+                <StackPanel DockPanel.Dock="Right"
+                            Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center"
+                               Foreground="#FF666666"
+                               Text="{DynamicResource Label_MetadataPrefix}" />
+                    <TextBlock VerticalAlignment="Center"
+                               Foreground="#FF666666"
+                               Text="{Binding MetadataPath}" />
+                </StackPanel>
             </DockPanel>
         </Border>
 
@@ -90,12 +118,13 @@
                             BorderThickness="0,0,0,1">
                         <TextBlock FontSize="16"
                                    FontWeight="SemiBold"
-                                   Text="环境变量列表" />
+                                   Text="{DynamicResource Label_VariableList}" />
                     </Border>
 
                     <ListView ItemsSource="{Binding VariablesView}"
                               SelectedItem="{Binding SelectedVariable, Mode=TwoWay}"
-                              BorderThickness="0">
+                              BorderThickness="0"
+                              GridViewColumnHeader.Click="ColumnHeader_Click">
                         <ListView.GroupStyle>
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
@@ -113,16 +142,16 @@
                             <GridView AllowsColumnReorder="False">
                                 <GridViewColumn Width="180"
                                                 DisplayMemberBinding="{Binding NameDisplay}"
-                                                Header="Name" />
+                                                Header="{DynamicResource Col_Name}" />
                                 <GridViewColumn Width="140"
                                                 DisplayMemberBinding="{Binding Alias}"
-                                                Header="Alias" />
+                                                Header="{DynamicResource Col_Alias}" />
                                 <GridViewColumn Width="90"
                                                 DisplayMemberBinding="{Binding Level}"
-                                                Header="Level" />
+                                                Header="{DynamicResource Col_Level}" />
                                 <GridViewColumn Width="360"
                                                 DisplayMemberBinding="{Binding Preview}"
-                                                Header="Preview" />
+                                                Header="{DynamicResource Col_Preview}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -147,7 +176,7 @@
                                    Text="{Binding Editor.Header}" />
                         <TextBlock Margin="0,4,0,0"
                                    Foreground="#FF666666"
-                                   Text="支持用户级 / 系统级环境变量管理；多值变量会自动显示拆分预览。" />
+                                   Text="{DynamicResource Label_EditorHint}" />
                     </StackPanel>
 
                     <StackPanel Margin="0,16,0,0">
@@ -158,7 +187,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
                                        VerticalAlignment="Center"
-                                       Text="Name" />
+                                       Text="{DynamicResource Label_Name}" />
                             <TextBox Grid.Column="1"
                                      Text="{Binding Editor.Name, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
@@ -170,7 +199,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
                                        VerticalAlignment="Center"
-                                       Text="Level" />
+                                       Text="{DynamicResource Label_Level}" />
                             <ComboBox Grid.Column="1"
                                       ItemsSource="{Binding Source={StaticResource VariableLevels}}"
                                       SelectedItem="{Binding Editor.Level, Mode=TwoWay}" />
@@ -183,7 +212,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
                                        VerticalAlignment="Center"
-                                       Text="Alias" />
+                                       Text="{DynamicResource Label_Alias}" />
                             <TextBox Grid.Column="1"
                                      Text="{Binding Editor.Alias, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
@@ -196,7 +225,7 @@
                             <TextBlock Grid.Column="0"
                                        VerticalAlignment="Top"
                                        Margin="0,6,0,0"
-                                       Text="Description" />
+                                       Text="{DynamicResource Label_Description}" />
                             <TextBox Grid.Column="1"
                                      Height="72"
                                      AcceptsReturn="True"
@@ -213,7 +242,7 @@
                             <TextBlock Grid.Column="0"
                                        VerticalAlignment="Top"
                                        Margin="0,6,0,0"
-                                       Text="Value" />
+                                       Text="{DynamicResource Label_Value}" />
                             <TextBox Grid.Column="1"
                                      MinHeight="160"
                                      AcceptsReturn="True"
@@ -231,7 +260,7 @@
                                 Visibility="{Binding Editor.IsMultiValue, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel>
                                 <TextBlock FontWeight="SemiBold"
-                                           Text="拆分预览（只读）" />
+                                           Text="{DynamicResource Label_SplitPreview}" />
                                 <ItemsControl Margin="0,8,0,0"
                                               AlternationCount="2048"
                                               ItemsSource="{Binding Editor.SplitValues}">
@@ -255,15 +284,15 @@
                             <Button Width="96"
                                     Margin="0,0,8,0"
                                     Click="SaveButton_OnClick"
-                                    Content="保存" />
+                                    Content="{DynamicResource Btn_Save}" />
                             <Button Width="96"
                                     Margin="0,0,8,0"
                                     Click="DeleteButton_OnClick"
                                     IsEnabled="{Binding CanDeleteCurrent}"
-                                    Content="删除" />
+                                    Content="{DynamicResource Btn_Delete}" />
                             <Button Width="96"
                                     Click="CancelButton_OnClick"
-                                    Content="取消" />
+                                    Content="{DynamicResource Btn_Cancel}" />
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>
@@ -280,4 +309,5 @@
             <TextBlock Text="{Binding StatusMessage}" />
         </Border>
     </Grid>
+    </DockPanel>
 </Window>

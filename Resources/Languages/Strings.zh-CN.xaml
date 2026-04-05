@@ -1,0 +1,87 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Menu -->
+    <sys:String x:Key="Menu_File">文件(_F)</sys:String>
+    <sys:String x:Key="Menu_Export">导出(_E)</sys:String>
+    <sys:String x:Key="Menu_Import">导入(_I)</sys:String>
+    <sys:String x:Key="Menu_OpenMetadataDir">打开元数据目录(_O)</sys:String>
+    <sys:String x:Key="Menu_Exit">退出(_X)</sys:String>
+    <sys:String x:Key="Menu_Settings">设置(_S)</sys:String>
+    <sys:String x:Key="Menu_Language">语言(_L)</sys:String>
+    <sys:String x:Key="Menu_Help">帮助(_H)</sys:String>
+    <sys:String x:Key="Menu_About">关于(_A)</sys:String>
+
+    <!-- Buttons -->
+    <sys:String x:Key="Btn_Refresh">刷新</sys:String>
+    <sys:String x:Key="Btn_New">新建</sys:String>
+    <sys:String x:Key="Btn_Save">保存</sys:String>
+    <sys:String x:Key="Btn_Delete">删除</sys:String>
+    <sys:String x:Key="Btn_Cancel">取消</sys:String>
+
+    <!-- Labels -->
+    <sys:String x:Key="Label_DisplayMode">展示模式：</sys:String>
+    <sys:String x:Key="Label_MetadataPrefix">元数据：</sys:String>
+    <sys:String x:Key="Label_VariableList">环境变量列表</sys:String>
+    <sys:String x:Key="Label_SplitPreview">拆分预览（只读）</sys:String>
+    <sys:String x:Key="Label_EditorHint">支持用户级 / 系统级环境变量管理；多值变量会自动显示拆分预览。</sys:String>
+    <sys:String x:Key="Label_Name">Name</sys:String>
+    <sys:String x:Key="Label_Level">Level</sys:String>
+    <sys:String x:Key="Label_Alias">Alias</sys:String>
+    <sys:String x:Key="Label_Description">Description</sys:String>
+    <sys:String x:Key="Label_Value">Value</sys:String>
+    <sys:String x:Key="Label_Preview">Preview</sys:String>
+
+    <!-- Column Headers -->
+    <sys:String x:Key="Col_Name">名称</sys:String>
+    <sys:String x:Key="Col_Alias">别名</sys:String>
+    <sys:String x:Key="Col_Level">级别</sys:String>
+    <sys:String x:Key="Col_Preview">预览</sys:String>
+
+    <!-- Messages -->
+    <sys:String x:Key="Msg_Ready">准备就绪。</sys:String>
+    <sys:String x:Key="Msg_LoadFailed">加载环境变量失败</sys:String>
+    <sys:String x:Key="Msg_RefreshFailed">刷新环境变量失败</sys:String>
+    <sys:String x:Key="Msg_SaveFailed">保存环境变量失败</sys:String>
+    <sys:String x:Key="Msg_DeleteFailed">删除环境变量失败</sys:String>
+    <sys:String x:Key="Msg_ConfirmOverwrite">目标名称和级别下已存在同名环境变量，是否覆盖？</sys:String>
+    <sys:String x:Key="Msg_ConfirmOverwriteTitle">确认覆盖</sys:String>
+    <sys:String x:Key="Msg_ConfirmDelete">确认删除当前环境变量？</sys:String>
+    <sys:String x:Key="Msg_ConfirmDeleteTitle">确认删除</sys:String>
+    <sys:String x:Key="Msg_NewVariable">请输入新环境变量信息。</sys:String>
+    <sys:String x:Key="Msg_Selected">已选择 {0}@{1}。</sys:String>
+    <sys:String x:Key="Msg_Loaded">已加载 {0} 个环境变量。</sys:String>
+    <sys:String x:Key="Msg_NoVariables">未读取到环境变量，可直接新建。</sys:String>
+    <sys:String x:Key="Msg_Restored">已恢复当前选中项的原始内容。</sys:String>
+    <sys:String x:Key="Msg_Saved">已保存 {0}@{1}。</sys:String>
+    <sys:String x:Key="Msg_Deleted">已删除 {0}@{1}。</sys:String>
+    <sys:String x:Key="Msg_CannotDeleteNew">当前是新建状态，没有可删除的环境变量。</sys:String>
+    <sys:String x:Key="Msg_NameEmpty">环境变量名称不能为空。</sys:String>
+    <sys:String x:Key="Msg_NameContainsEquals">环境变量名称不能包含 '='。</sys:String>
+    <sys:String x:Key="Msg_InvalidMetadataPath">元数据文件路径无效。</sys:String>
+    <sys:String x:Key="Msg_MetadataReadError">无法读取元数据文件：{0}。请检查 JSON 格式。</sys:String>
+    <sys:String x:Key="Msg_ExportSuccess">已导出到 {0}。</sys:String>
+    <sys:String x:Key="Msg_ImportSuccess">已导入 {0} 个环境变量。</sys:String>
+    <sys:String x:Key="Msg_ImportConfirm">即将导入 {0} 个环境变量，已有的同名变量将被覆盖。是否继续？</sys:String>
+    <sys:String x:Key="Msg_ImportConfirmTitle">确认导入</sys:String>
+    <sys:String x:Key="Msg_AdminRequired">操作系统级环境变量需要管理员权限。是否以管理员身份重新启动？</sys:String>
+    <sys:String x:Key="Msg_AdminRequiredTitle">权限不足</sys:String>
+    <sys:String x:Key="Msg_ExportTitle">导出环境变量</sys:String>
+    <sys:String x:Key="Msg_ImportTitle">导入环境变量</sys:String>
+    <sys:String x:Key="Msg_JsonFilter">JSON 文件 (*.json)|*.json</sys:String>
+
+    <!-- Editor -->
+    <sys:String x:Key="Editor_NewHeader">新建环境变量</sys:String>
+    <sys:String x:Key="Editor_EditHeader">编辑 {0}@{1}</sys:String>
+
+    <!-- About -->
+    <sys:String x:Key="About_Title">关于 EnvVar</sys:String>
+    <sys:String x:Key="About_Version">版本</sys:String>
+    <sys:String x:Key="About_Author">作者</sys:String>
+    <sys:String x:Key="About_License">许可证</sys:String>
+    <sys:String x:Key="About_ProjectUrl">项目地址</sys:String>
+    <sys:String x:Key="About_Description">一个 Windows 环境变量管理工具。</sys:String>
+    <sys:String x:Key="About_Close">关闭</sys:String>
+
+</ResourceDictionary>

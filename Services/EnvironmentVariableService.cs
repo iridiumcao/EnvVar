@@ -133,12 +133,12 @@ public sealed class EnvironmentVariableService
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            throw new InvalidOperationException("环境变量名称不能为空。");
+            throw new InvalidOperationException(LocalizationService.Get("Msg_NameEmpty"));
         }
 
         if (name.Contains('='))
         {
-            throw new InvalidOperationException("环境变量名称不能包含 '='。");
+            throw new InvalidOperationException(LocalizationService.Get("Msg_NameContainsEquals"));
         }
     }
 

@@ -44,7 +44,7 @@ public sealed class MetadataStore
         }
         catch (JsonException ex)
         {
-            throw new InvalidOperationException($"无法读取元数据文件：{FilePath}。请检查 JSON 格式。", ex);
+            throw new InvalidOperationException(LocalizationService.Get("Msg_MetadataReadError", FilePath), ex);
         }
     }
 
@@ -53,7 +53,7 @@ public sealed class MetadataStore
         var directory = Path.GetDirectoryName(FilePath);
         if (string.IsNullOrWhiteSpace(directory))
         {
-            throw new InvalidOperationException("元数据文件路径无效。");
+            throw new InvalidOperationException(LocalizationService.Get("Msg_InvalidMetadataPath"));
         }
 
         Directory.CreateDirectory(directory);

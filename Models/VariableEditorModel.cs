@@ -1,4 +1,5 @@
 using EnvVar.Infrastructure;
+using EnvVar.Services;
 using EnvVar.Utilities;
 
 namespace EnvVar.Models;
@@ -94,7 +95,9 @@ public sealed class VariableEditorModel : ObservableObject
 
     public IReadOnlyList<string> SplitValues => EnvironmentVariableValueParser.Split(Value);
 
-    public string Header => IsNew ? "新建环境变量" : $"编辑 {Name}@{Level}";
+    public string Header => IsNew
+        ? LocalizationService.Get("Editor_NewHeader")
+        : LocalizationService.Get("Editor_EditHeader", Name, Level);
 
     public void LoadFrom(EnvironmentVariableEntry entry)
     {

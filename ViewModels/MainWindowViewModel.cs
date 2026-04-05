@@ -10,9 +10,10 @@ namespace EnvVar.ViewModels;
 public sealed class MainWindowViewModel : ObservableObject
 {
     private readonly EnvironmentVariableService _environmentVariableService;
+    private readonly ExportImportService _exportImportService;
     private DisplayMode _displayMode = DisplayMode.Merged;
     private EnvironmentVariableEntry? _selectedVariable;
-    private string _statusMessage = "准备就绪。";
+    private string _statusMessage = string.Empty;
 
     public MainWindowViewModel()
         : this(new EnvironmentVariableService())
@@ -22,10 +23,12 @@ public sealed class MainWindowViewModel : ObservableObject
     public MainWindowViewModel(EnvironmentVariableService environmentVariableService)
     {
         _environmentVariableService = environmentVariableService;
+        _exportImportService = new ExportImportService(environmentVariableService);
         Variables = new ObservableCollection<EnvironmentVariableEntry>();
         VariablesView = CollectionViewSource.GetDefaultView(Variables);
         Editor = new VariableEditorModel();
         Editor.ResetForNew();
+        _statusMessage = LocalizationService.Get("Msg_Ready");
         ApplyDisplayMode();
     }
 
@@ -59,7 +62,7 @@ public sealed class MainWindowViewModel : ObservableObject
                 if (value is not null)
                 {
                     Editor.LoadFrom(value);
-                    StatusMessage = $"已选择 {value.Name}@{value.Level}。";
+                    StatusMessage = LocalizationService.Get("Msg_Selected", value.Name, value.Level);
                 }
 
                 OnPropertyChanged(nameof(HasSelectedVariable));
@@ -108,11 +111,11 @@ public sealed class MainWindowViewModel : ObservableObject
         if (SelectedVariable is null)
         {
             Editor.ResetForNew();
-            StatusMessage = "未读取到环境变量，可直接新建。";
+            StatusMessage = LocalizationService.Get("Msg_NoVariables");
         }
         else
         {
-            StatusMessage = $"已加载 {Variables.Count} 个环境变量。";
+            StatusMessage = LocalizationService.Get("Msg_Loaded", Variables.Count);
         }
 
         OnPropertyChanged(nameof(CanDeleteCurrent));
@@ -122,7 +125,7 @@ public sealed class MainWindowViewModel : ObservableObject
     {
         SelectedVariable = null;
         Editor.ResetForNew();
-        StatusMessage = "请输入新环境变量信息。";
+        StatusMessage = LocalizationService.Get("Msg_NewVariable");
         OnPropertyChanged(nameof(CanDeleteCurrent));
     }
 
@@ -131,7 +134,7 @@ public sealed class MainWindowViewModel : ObservableObject
         if (SelectedVariable is not null)
         {
             Editor.LoadFrom(SelectedVariable);
-            StatusMessage = "已恢复当前选中项的原始内容。";
+            StatusMessage = LocalizationService.Get("Msg_Restored");
             return;
         }
 
@@ -168,14 +171,14 @@ public sealed class MainWindowViewModel : ObservableObject
         var savedLevel = Editor.Level;
 
         LoadVariables(savedName, savedLevel);
-        StatusMessage = $"已保存 {savedName}@{savedLevel}。";
+        StatusMessage = LocalizationService.Get("Msg_Saved", savedName, savedLevel);
     }
 
     public void DeleteCurrent()
     {
         if (Editor.IsNew)
         {
-            throw new InvalidOperationException("当前是新建状态，没有可删除的环境变量。");
+            throw new InvalidOperationException(LocalizationService.Get("Msg_CannotDeleteNew"));
         }
 
         var name = Editor.OriginalName;
@@ -184,7 +187,31 @@ public sealed class MainWindowViewModel : ObservableObject
         _environmentVariableService.Delete(name, level);
         SelectedVariable = null;
         LoadVariables();
-        StatusMessage = $"已删除 {name}@{level}。";
+        StatusMessage = LocalizationService.Get("Msg_Deleted", name, level);
+    }
+
+    public void Export(string filePath)
+    {
+        _exportImportService.Export(filePath);
+    }
+
+    public List<ExportVariable> LoadImportFile(string filePath)
+    {
+        return _exportImportService.LoadImportFile(filePath);
+    }
+
+    public int Import(List<ExportVariable> variables)
+    {
+        return _exportImportService.Import(variables);
+    }
+
+    public void ApplyColumnSort(string propertyName, ListSortDirection direction)
+    {
+        using (VariablesView.DeferRefresh())
+        {
+            VariablesView.SortDescriptions.Clear();
+            VariablesView.SortDescriptions.Add(new SortDescription(propertyName, direction));
+        }
     }
 
     private void ApplyDisplayMode()

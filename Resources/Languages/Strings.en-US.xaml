@@ -1,0 +1,87 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Menu -->
+    <sys:String x:Key="Menu_File">_File</sys:String>
+    <sys:String x:Key="Menu_Export">_Export</sys:String>
+    <sys:String x:Key="Menu_Import">_Import</sys:String>
+    <sys:String x:Key="Menu_OpenMetadataDir">_Open Metadata Directory</sys:String>
+    <sys:String x:Key="Menu_Exit">E_xit</sys:String>
+    <sys:String x:Key="Menu_Settings">_Settings</sys:String>
+    <sys:String x:Key="Menu_Language">_Language</sys:String>
+    <sys:String x:Key="Menu_Help">_Help</sys:String>
+    <sys:String x:Key="Menu_About">_About</sys:String>
+
+    <!-- Buttons -->
+    <sys:String x:Key="Btn_Refresh">Refresh</sys:String>
+    <sys:String x:Key="Btn_New">New</sys:String>
+    <sys:String x:Key="Btn_Save">Save</sys:String>
+    <sys:String x:Key="Btn_Delete">Delete</sys:String>
+    <sys:String x:Key="Btn_Cancel">Cancel</sys:String>
+
+    <!-- Labels -->
+    <sys:String x:Key="Label_DisplayMode">Display Mode: </sys:String>
+    <sys:String x:Key="Label_MetadataPrefix">Metadata: </sys:String>
+    <sys:String x:Key="Label_VariableList">Environment Variables</sys:String>
+    <sys:String x:Key="Label_SplitPreview">Split Preview (Read-Only)</sys:String>
+    <sys:String x:Key="Label_EditorHint">Manage User / System level environment variables; multi-value variables display split preview automatically.</sys:String>
+    <sys:String x:Key="Label_Name">Name</sys:String>
+    <sys:String x:Key="Label_Level">Level</sys:String>
+    <sys:String x:Key="Label_Alias">Alias</sys:String>
+    <sys:String x:Key="Label_Description">Description</sys:String>
+    <sys:String x:Key="Label_Value">Value</sys:String>
+    <sys:String x:Key="Label_Preview">Preview</sys:String>
+
+    <!-- Column Headers -->
+    <sys:String x:Key="Col_Name">Name</sys:String>
+    <sys:String x:Key="Col_Alias">Alias</sys:String>
+    <sys:String x:Key="Col_Level">Level</sys:String>
+    <sys:String x:Key="Col_Preview">Preview</sys:String>
+
+    <!-- Messages -->
+    <sys:String x:Key="Msg_Ready">Ready.</sys:String>
+    <sys:String x:Key="Msg_LoadFailed">Failed to load environment variables</sys:String>
+    <sys:String x:Key="Msg_RefreshFailed">Failed to refresh environment variables</sys:String>
+    <sys:String x:Key="Msg_SaveFailed">Failed to save environment variable</sys:String>
+    <sys:String x:Key="Msg_DeleteFailed">Failed to delete environment variable</sys:String>
+    <sys:String x:Key="Msg_ConfirmOverwrite">An environment variable with the same name and level already exists. Overwrite?</sys:String>
+    <sys:String x:Key="Msg_ConfirmOverwriteTitle">Confirm Overwrite</sys:String>
+    <sys:String x:Key="Msg_ConfirmDelete">Delete the current environment variable?</sys:String>
+    <sys:String x:Key="Msg_ConfirmDeleteTitle">Confirm Delete</sys:String>
+    <sys:String x:Key="Msg_NewVariable">Enter new environment variable information.</sys:String>
+    <sys:String x:Key="Msg_Selected">Selected {0}@{1}.</sys:String>
+    <sys:String x:Key="Msg_Loaded">Loaded {0} environment variable(s).</sys:String>
+    <sys:String x:Key="Msg_NoVariables">No environment variables found. You can create a new one.</sys:String>
+    <sys:String x:Key="Msg_Restored">Restored original content of the selected item.</sys:String>
+    <sys:String x:Key="Msg_Saved">Saved {0}@{1}.</sys:String>
+    <sys:String x:Key="Msg_Deleted">Deleted {0}@{1}.</sys:String>
+    <sys:String x:Key="Msg_CannotDeleteNew">Currently in new-entry mode. Nothing to delete.</sys:String>
+    <sys:String x:Key="Msg_NameEmpty">Environment variable name cannot be empty.</sys:String>
+    <sys:String x:Key="Msg_NameContainsEquals">Environment variable name cannot contain '='.</sys:String>
+    <sys:String x:Key="Msg_InvalidMetadataPath">Metadata file path is invalid.</sys:String>
+    <sys:String x:Key="Msg_MetadataReadError">Unable to read metadata file: {0}. Please check JSON format.</sys:String>
+    <sys:String x:Key="Msg_ExportSuccess">Exported to {0}.</sys:String>
+    <sys:String x:Key="Msg_ImportSuccess">Imported {0} environment variable(s).</sys:String>
+    <sys:String x:Key="Msg_ImportConfirm">{0} environment variable(s) will be imported. Existing variables with the same name will be overwritten. Continue?</sys:String>
+    <sys:String x:Key="Msg_ImportConfirmTitle">Confirm Import</sys:String>
+    <sys:String x:Key="Msg_AdminRequired">Modifying system-level environment variables requires administrator privileges. Restart as administrator?</sys:String>
+    <sys:String x:Key="Msg_AdminRequiredTitle">Insufficient Privileges</sys:String>
+    <sys:String x:Key="Msg_ExportTitle">Export Environment Variables</sys:String>
+    <sys:String x:Key="Msg_ImportTitle">Import Environment Variables</sys:String>
+    <sys:String x:Key="Msg_JsonFilter">JSON Files (*.json)|*.json</sys:String>
+
+    <!-- Editor -->
+    <sys:String x:Key="Editor_NewHeader">New Environment Variable</sys:String>
+    <sys:String x:Key="Editor_EditHeader">Edit {0}@{1}</sys:String>
+
+    <!-- About -->
+    <sys:String x:Key="About_Title">About EnvVar</sys:String>
+    <sys:String x:Key="About_Version">Version</sys:String>
+    <sys:String x:Key="About_Author">Author</sys:String>
+    <sys:String x:Key="About_License">License</sys:String>
+    <sys:String x:Key="About_ProjectUrl">Project URL</sys:String>
+    <sys:String x:Key="About_Description">A Windows environment variable management tool.</sys:String>
+    <sys:String x:Key="About_Close">Close</sys:String>
+
+</ResourceDictionary>
