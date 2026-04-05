@@ -9,6 +9,7 @@ public sealed class EnvironmentVariableEntry : ObservableObject
     private string _value = string.Empty;
     private string _alias = string.Empty;
     private string _description = string.Empty;
+    private bool _isWellKnown;
     private EnvironmentVariableLevel _level;
 
     public string Name
@@ -50,6 +51,12 @@ public sealed class EnvironmentVariableEntry : ObservableObject
         set => SetProperty(ref _description, value);
     }
 
+    public bool IsWellKnown
+    {
+        get => _isWellKnown;
+        set => SetProperty(ref _isWellKnown, value);
+    }
+
     public EnvironmentVariableLevel Level
     {
         get => _level;
@@ -80,6 +87,7 @@ public sealed class EnvironmentVariableEntry : ObservableObject
             Value = Value,
             Alias = Alias,
             Description = Description,
+            IsWellKnown = IsWellKnown,
             Level = Level
         };
     }

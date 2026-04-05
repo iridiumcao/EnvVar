@@ -89,9 +89,11 @@ public sealed class EnvironmentVariableService
             metadata.TryGetValue(key, out var meta);
 
             var description = meta?.Description ?? string.Empty;
+            var isWellKnown = false;
             if (string.IsNullOrEmpty(description) && meta is null)
             {
                 description = WellKnownVariables.GetDescription(name) ?? string.Empty;
+                isWellKnown = !string.IsNullOrEmpty(description);
             }
 
             items.Add(new EnvironmentVariableEntry
@@ -100,6 +102,7 @@ public sealed class EnvironmentVariableService
                 Value = entry.Value?.ToString() ?? string.Empty,
                 Alias = meta?.Alias ?? string.Empty,
                 Description = description,
+                IsWellKnown = isWellKnown,
                 Level = level
             });
         }
@@ -119,7 +122,9 @@ public sealed class EnvironmentVariableService
             }
         }
 
-        if (string.IsNullOrWhiteSpace(editor.Alias) && string.IsNullOrWhiteSpace(editor.Description))
+        var descriptionToSave = editor.IsWellKnown ? string.Empty : editor.Description.Trim();
+
+        if (string.IsNullOrWhiteSpace(editor.Alias) && string.IsNullOrWhiteSpace(descriptionToSave))
         {
             metadata.Remove(newKey);
         }
@@ -128,7 +133,7 @@ public sealed class EnvironmentVariableService
             metadata[newKey] = new VariableMetadata
             {
                 Alias = editor.Alias.Trim(),
-                Description = editor.Description.Trim()
+                Description = descriptionToSave
             };
         }
 

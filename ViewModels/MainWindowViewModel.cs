@@ -33,6 +33,35 @@ public sealed class MainWindowViewModel : ObservableObject
         Editor.ResetForNew();
         _statusMessage = LocalizationService.Get("Msg_Ready");
         ApplyDisplayMode();
+
+        LocalizationService.LanguageChanged += OnLanguageChanged;
+    }
+
+    private void OnLanguageChanged(object? sender, string cultureCode)
+    {
+        foreach (var variable in Variables)
+        {
+            if (variable.IsWellKnown)
+            {
+                variable.Description = WellKnownVariables.GetDescription(variable.Name) ?? string.Empty;
+            }
+        }
+
+        if (Editor.IsWellKnown)
+        {
+            Editor.Description = WellKnownVariables.GetDescription(Editor.Name) ?? string.Empty;
+        }
+
+        Editor.NotifyHeaderChanged();
+
+        if (SelectedVariable is not null)
+        {
+            StatusMessage = LocalizationService.Get("Msg_Selected", SelectedVariable.Name, SelectedVariable.Level);
+        }
+        else
+        {
+            StatusMessage = LocalizationService.Get("Msg_Ready");
+        }
     }
 
     public ObservableCollection<EnvironmentVariableEntry> Variables { get; }

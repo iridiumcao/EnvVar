@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Windows;
 
@@ -13,6 +14,8 @@ public static class LocalizationService
         "EnvVar",
         "language.txt");
 
+    public static event EventHandler<string>? LanguageChanged;
+
     private static string _currentLanguage = DefaultLanguage;
 
     public static string CurrentLanguage => _currentLanguage;
@@ -26,6 +29,7 @@ public static class LocalizationService
                 var lang = File.ReadAllText(SettingsPath).Trim();
                 if (!string.IsNullOrEmpty(lang))
                 {
+                    _currentLanguage = lang;
                     return lang;
                 }
             }
@@ -63,6 +67,7 @@ public static class LocalizationService
         mergedDicts.Add(newDict);
         _currentLanguage = cultureCode;
         SaveLanguagePreference(cultureCode);
+        LanguageChanged?.Invoke(null, cultureCode);
     }
 
     private static void SaveLanguagePreference(string cultureCode)

@@ -15,6 +15,7 @@ public sealed class VariableEditorModel : ObservableObject
     private EnvironmentVariableLevel _level = EnvironmentVariableLevel.User;
     private string _alias = string.Empty;
     private string _description = string.Empty;
+    private bool _isWellKnown;
     private string _value = string.Empty;
     private bool _syncingFromEditable;
     private readonly ObservableCollection<EditableValueItem> _editableValues = new();
@@ -52,6 +53,20 @@ public sealed class VariableEditorModel : ObservableObject
             if (SetProperty(ref _name, value))
             {
                 OnPropertyChanged(nameof(Header));
+                if (IsNew)
+                {
+                    var desc = WellKnownVariables.GetDescription(value);
+                    if (!string.IsNullOrEmpty(desc))
+                    {
+                        Description = desc;
+                        IsWellKnown = true;
+                    }
+                    else if (IsWellKnown)
+                    {
+                        Description = string.Empty;
+                        IsWellKnown = false;
+                    }
+                }
             }
         }
     }
@@ -77,7 +92,24 @@ public sealed class VariableEditorModel : ObservableObject
     public string Description
     {
         get => _description;
-        set => SetProperty(ref _description, value);
+        set
+        {
+            if (SetProperty(ref _description, value))
+            {
+                // If the value being set doesn't match current language's well-known description,
+                // it's a custom description.
+                if (IsWellKnown && value != WellKnownVariables.GetDescription(Name))
+                {
+                    IsWellKnown = false;
+                }
+            }
+        }
+    }
+
+    public bool IsWellKnown
+    {
+        get => _isWellKnown;
+        set => SetProperty(ref _isWellKnown, value);
     }
 
     public string Value
@@ -123,6 +155,7 @@ public sealed class VariableEditorModel : ObservableObject
         Level = entry.Level;
         Alias = entry.Alias;
         Description = entry.Description;
+        IsWellKnown = entry.IsWellKnown;
         Value = entry.Value;
     }
 
@@ -135,6 +168,7 @@ public sealed class VariableEditorModel : ObservableObject
         Level = EnvironmentVariableLevel.User;
         Alias = string.Empty;
         Description = string.Empty;
+        IsWellKnown = false;
         Value = string.Empty;
     }
 
