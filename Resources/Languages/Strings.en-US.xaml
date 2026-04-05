@@ -8,7 +8,6 @@
     <sys:String x:Key="Menu_Import">_Import</sys:String>
     <sys:String x:Key="Menu_OpenMetadataDir">_Open Metadata Directory</sys:String>
     <sys:String x:Key="Menu_Exit">E_xit</sys:String>
-    <sys:String x:Key="Menu_Settings">_Settings</sys:String>
     <sys:String x:Key="Menu_Language">_Language</sys:String>
     <sys:String x:Key="Menu_Help">_Help</sys:String>
     <sys:String x:Key="Menu_About">_About</sys:String>
@@ -24,7 +23,7 @@
     <sys:String x:Key="Label_DisplayMode">Display Mode: </sys:String>
     <sys:String x:Key="Label_MetadataPrefix">Metadata: </sys:String>
     <sys:String x:Key="Label_VariableList">Environment Variables</sys:String>
-    <sys:String x:Key="Label_SplitPreview">Split Preview (Read-Only)</sys:String>
+    <sys:String x:Key="Label_StructuredEdit">Structured Edit</sys:String>
     <sys:String x:Key="Label_EditorHint">Manage User / System level environment variables; multi-value variables display split preview automatically.</sys:String>
     <sys:String x:Key="Label_Name">Name</sys:String>
     <sys:String x:Key="Label_Level">Level</sys:String>
@@ -77,11 +76,27 @@
 
     <!-- About -->
     <sys:String x:Key="About_Title">About EnvVar</sys:String>
-    <sys:String x:Key="About_Version">Version</sys:String>
+    <sys:String x:Key="About_UpdateDate">Last Updated</sys:String>
     <sys:String x:Key="About_Author">Author</sys:String>
     <sys:String x:Key="About_License">License</sys:String>
     <sys:String x:Key="About_ProjectUrl">Project URL</sys:String>
     <sys:String x:Key="About_Description">A Windows environment variable management tool.</sys:String>
     <sys:String x:Key="About_Close">Close</sys:String>
+
+    <!-- Search -->
+    <sys:String x:Key="Label_Search">Search</sys:String>
+
+    <!-- Structured Edit -->
+    <sys:String x:Key="Btn_AddItem">Add</sys:String>
+    <sys:String x:Key="Btn_RemoveItem">Remove</sys:String>
+    <sys:String x:Key="Btn_MoveUp">Move Up</sys:String>
+    <sys:String x:Key="Btn_MoveDown">Move Down</sys:String>
+
+    <!-- History -->
+    <sys:String x:Key="Menu_RestoreSnapshot">_Restore Snapshot</sys:String>
+    <sys:String x:Key="Msg_NoSnapshots">No snapshots available.</sys:String>
+    <sys:String x:Key="Msg_SnapshotRestored">Snapshot restored. {0} variable(s) imported.</sys:String>
+    <sys:String x:Key="Msg_SnapshotRestoreConfirm">Restore this snapshot? Existing variables may be overwritten.</sys:String>
+    <sys:String x:Key="Msg_SnapshotRestoreTitle">Confirm Restore</sys:String>
 
 </ResourceDictionary>

@@ -13,8 +13,16 @@ namespace EnvVar;
 
 public partial class MainWindow : Window
 {
-    private GridViewColumnHeader? _lastHeaderClicked;
-    private ListSortDirection _lastDirection = ListSortDirection.Ascending;
+    private string? _sortedPropertyName;
+    private int _sortClickCount;
+
+    private static readonly Dictionary<string, string> ColumnResourceKeys = new()
+    {
+        ["NameDisplay"] = "Col_Name",
+        ["Alias"] = "Col_Alias",
+        ["Level"] = "Col_Level",
+        ["Preview"] = "Col_Preview"
+    };
 
     public MainWindow()
     {
@@ -28,6 +36,16 @@ public partial class MainWindow : Window
     private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
     {
         TryRun(() => ViewModel.LoadVariables(), LocalizationService.Get("Msg_LoadFailed"));
+        UpdateColumnHeaders();
+        ViewModel.PropertyChanged += (_, args) =>
+        {
+            if (args.PropertyName == nameof(MainWindowViewModel.DisplayMode))
+            {
+                _sortedPropertyName = null;
+                _sortClickCount = 0;
+                UpdateColumnHeaders();
+            }
+        };
     }
 
     private void RefreshButton_OnClick(object sender, RoutedEventArgs e)
@@ -158,6 +176,7 @@ public partial class MainWindow : Window
             LangZhCN.IsChecked = cultureCode == "zh-CN";
             LangZhTW.IsChecked = cultureCode == "zh-TW";
             LangEnUS.IsChecked = cultureCode == "en-US";
+            UpdateColumnHeaders();
         }
     }
 
@@ -185,16 +204,136 @@ public partial class MainWindow : Window
             return;
         }
 
-        var direction = ListSortDirection.Ascending;
-        if (header == _lastHeaderClicked && _lastDirection == ListSortDirection.Ascending)
+        if (sortBy == _sortedPropertyName)
         {
-            direction = ListSortDirection.Descending;
+            _sortClickCount = (_sortClickCount + 1) % 3;
+        }
+        else
+        {
+            _sortedPropertyName = sortBy;
+            _sortClickCount = 1;
         }
 
-        _lastHeaderClicked = header;
-        _lastDirection = direction;
+        if (_sortClickCount == 0)
+        {
+            _sortedPropertyName = null;
+            ViewModel.ResetColumnSort();
+        }
+        else
+        {
+            var direction = _sortClickCount == 1
+                ? ListSortDirection.Ascending
+                : ListSortDirection.Descending;
+            ViewModel.ApplyColumnSort(sortBy, direction);
+        }
 
-        ViewModel.ApplyColumnSort(sortBy, direction);
+        UpdateColumnHeaders();
+    }
+
+    private void UpdateColumnHeaders()
+    {
+        foreach (var column in VariableGridView.Columns)
+        {
+            if (column.DisplayMemberBinding is Binding binding &&
+                ColumnResourceKeys.TryGetValue(binding.Path.Path, out var resourceKey))
+            {
+                var text = LocalizationService.Get(resourceKey);
+                if (binding.Path.Path == _sortedPropertyName && _sortClickCount > 0)
+                {
+                    text += _sortClickCount == 1 ? " \u25B2" : " \u25BC";
+                }
+
+                column.Header = text;
+            }
+        }
+    }
+
+    private void AddValueItem_Click(object sender, RoutedEventArgs e)
+    {
+        var index = EditableValuesList.SelectedIndex;
+        ViewModel.Editor.AddValueItem(index >= 0 ? index + 1 : -1);
+    }
+
+    private void RemoveValueItem_Click(object sender, RoutedEventArgs e)
+    {
+        var index = EditableValuesList.SelectedIndex;
+        if (index >= 0)
+        {
+            ViewModel.Editor.RemoveValueItemAt(index);
+        }
+    }
+
+    private void MoveValueItemUp_Click(object sender, RoutedEventArgs e)
+    {
+        var index = EditableValuesList.SelectedIndex;
+        ViewModel.Editor.MoveValueItemUp(index);
+        if (index > 0)
+        {
+            EditableValuesList.SelectedIndex = index - 1;
+        }
+    }
+
+    private void MoveValueItemDown_Click(object sender, RoutedEventArgs e)
+    {
+        var index = EditableValuesList.SelectedIndex;
+        ViewModel.Editor.MoveValueItemDown(index);
+        if (index >= 0 && index < EditableValuesList.Items.Count - 1)
+        {
+            EditableValuesList.SelectedIndex = index + 1;
+        }
+    }
+
+    private void HistoryMenu_SubmenuOpened(object sender, RoutedEventArgs e)
+    {
+        if (sender is not MenuItem historyMenu)
+        {
+            return;
+        }
+
+        historyMenu.Items.Clear();
+        var snapshots = ViewModel.GetSnapshots();
+
+        if (snapshots.Count == 0)
+        {
+            historyMenu.Items.Add(new MenuItem
+            {
+                Header = LocalizationService.Get("Msg_NoSnapshots"),
+                IsEnabled = false
+            });
+            return;
+        }
+
+        foreach (var snapshot in snapshots)
+        {
+            var item = new MenuItem { Header = snapshot.DisplayName, Tag = snapshot.FilePath };
+            item.Click += RestoreSnapshot_Click;
+            historyMenu.Items.Add(item);
+        }
+    }
+
+    private void RestoreSnapshot_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not MenuItem item || item.Tag is not string filePath)
+        {
+            return;
+        }
+
+        var confirm = MessageBox.Show(
+            this,
+            LocalizationService.Get("Msg_SnapshotRestoreConfirm"),
+            LocalizationService.Get("Msg_SnapshotRestoreTitle"),
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question);
+
+        if (confirm == MessageBoxResult.Yes)
+        {
+            TryRun(() =>
+            {
+                var count = ViewModel.RestoreFromSnapshot(filePath);
+                ViewModel.LoadVariables();
+                ViewModel.StatusMessage = LocalizationService.Get("Msg_SnapshotRestored", count);
+            }, LocalizationService.Get("Msg_SnapshotRestoreTitle"));
+        }
     }
 
     private void TryRun(Action action, string title)

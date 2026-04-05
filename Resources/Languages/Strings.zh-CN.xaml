@@ -7,8 +7,7 @@
     <sys:String x:Key="Menu_Export">导出(_E)</sys:String>
     <sys:String x:Key="Menu_Import">导入(_I)</sys:String>
     <sys:String x:Key="Menu_OpenMetadataDir">打开元数据目录(_O)</sys:String>
-    <sys:String x:Key="Menu_Exit">退出(_X)</sys:String>
-    <sys:String x:Key="Menu_Settings">设置(_S)</sys:String>
+    <sys:String x:Key="Menu_Exit">退出(_X)</sys:String>
     <sys:String x:Key="Menu_Language">语言(_L)</sys:String>
     <sys:String x:Key="Menu_Help">帮助(_H)</sys:String>
     <sys:String x:Key="Menu_About">关于(_A)</sys:String>
@@ -24,14 +23,14 @@
     <sys:String x:Key="Label_DisplayMode">展示模式：</sys:String>
     <sys:String x:Key="Label_MetadataPrefix">元数据：</sys:String>
     <sys:String x:Key="Label_VariableList">环境变量列表</sys:String>
-    <sys:String x:Key="Label_SplitPreview">拆分预览（只读）</sys:String>
+    <sys:String x:Key="Label_StructuredEdit">结构化编辑</sys:String>
     <sys:String x:Key="Label_EditorHint">支持用户级 / 系统级环境变量管理；多值变量会自动显示拆分预览。</sys:String>
-    <sys:String x:Key="Label_Name">Name</sys:String>
-    <sys:String x:Key="Label_Level">Level</sys:String>
-    <sys:String x:Key="Label_Alias">Alias</sys:String>
-    <sys:String x:Key="Label_Description">Description</sys:String>
-    <sys:String x:Key="Label_Value">Value</sys:String>
-    <sys:String x:Key="Label_Preview">Preview</sys:String>
+    <sys:String x:Key="Label_Name">名称</sys:String>
+    <sys:String x:Key="Label_Level">级别</sys:String>
+    <sys:String x:Key="Label_Alias">别名</sys:String>
+    <sys:String x:Key="Label_Description">描述</sys:String>
+    <sys:String x:Key="Label_Value">值</sys:String>
+    <sys:String x:Key="Label_Preview">预览</sys:String>
 
     <!-- Column Headers -->
     <sys:String x:Key="Col_Name">名称</sys:String>
@@ -77,11 +76,26 @@
 
     <!-- About -->
     <sys:String x:Key="About_Title">关于 EnvVar</sys:String>
-    <sys:String x:Key="About_Version">版本</sys:String>
+    <sys:String x:Key="About_UpdateDate">更新日期</sys:String>
     <sys:String x:Key="About_Author">作者</sys:String>
     <sys:String x:Key="About_License">许可证</sys:String>
     <sys:String x:Key="About_ProjectUrl">项目地址</sys:String>
     <sys:String x:Key="About_Description">一个 Windows 环境变量管理工具。</sys:String>
     <sys:String x:Key="About_Close">关闭</sys:String>
 
+    <!-- Search -->
+    <sys:String x:Key="Label_Search">搜索</sys:String>
+
+    <!-- Structured Edit -->
+    <sys:String x:Key="Btn_AddItem">添加</sys:String>
+    <sys:String x:Key="Btn_RemoveItem">移除</sys:String>
+    <sys:String x:Key="Btn_MoveUp">上移</sys:String>
+    <sys:String x:Key="Btn_MoveDown">下移</sys:String>
+
+    <!-- History -->
+    <sys:String x:Key="Menu_RestoreSnapshot">恢复快照(_R)</sys:String>
+    <sys:String x:Key="Msg_NoSnapshots">没有可用的快照。</sys:String>
+    <sys:String x:Key="Msg_SnapshotRestored">已恢复快照，导入了 {0} 个环境变量。</sys:String>
+    <sys:String x:Key="Msg_SnapshotRestoreConfirm">确认恢复此快照？当前所有环境变量将可能被覆盖。</sys:String>
+    <sys:String x:Key="Msg_SnapshotRestoreTitle">确认恢复</sys:String>
 </ResourceDictionary>

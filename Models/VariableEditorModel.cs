@@ -122,4 +122,47 @@ public sealed class VariableEditorModel : ObservableObject
         Description = string.Empty;
         Value = string.Empty;
     }
+
+    public void AddValueItem(int index)
+    {
+        var values = SplitValues.ToList();
+        if (index < 0 || index > values.Count)
+            values.Add(string.Empty);
+        else
+            values.Insert(index, string.Empty);
+        Value = string.Join(";", values);
+    }
+
+    public void RemoveValueItemAt(int index)
+    {
+        if (index < 0) return;
+        var values = SplitValues.ToList();
+        if (index < values.Count)
+        {
+            values.RemoveAt(index);
+            Value = string.Join(";", values);
+        }
+    }
+
+    public void MoveValueItemUp(int index)
+    {
+        if (index <= 0) return;
+        var values = SplitValues.ToList();
+        if (index < values.Count)
+        {
+            (values[index], values[index - 1]) = (values[index - 1], values[index]);
+            Value = string.Join(";", values);
+        }
+    }
+
+    public void MoveValueItemDown(int index)
+    {
+        if (index < 0) return;
+        var values = SplitValues.ToList();
+        if (index < values.Count - 1)
+        {
+            (values[index], values[index + 1]) = (values[index + 1], values[index]);
+            Value = string.Join(";", values);
+        }
+    }
 }

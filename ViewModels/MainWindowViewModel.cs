@@ -11,9 +11,11 @@ public sealed class MainWindowViewModel : ObservableObject
 {
     private readonly EnvironmentVariableService _environmentVariableService;
     private readonly ExportImportService _exportImportService;
+    private readonly VersionHistoryService _historyService = new();
     private DisplayMode _displayMode = DisplayMode.Merged;
     private EnvironmentVariableEntry? _selectedVariable;
     private string _statusMessage = string.Empty;
+    private string _searchText = string.Empty;
 
     public MainWindowViewModel()
         : this(new EnvironmentVariableService())
@@ -26,6 +28,7 @@ public sealed class MainWindowViewModel : ObservableObject
         _exportImportService = new ExportImportService(environmentVariableService);
         Variables = new ObservableCollection<EnvironmentVariableEntry>();
         VariablesView = CollectionViewSource.GetDefaultView(Variables);
+        VariablesView.Filter = FilterVariable;
         Editor = new VariableEditorModel();
         Editor.ResetForNew();
         _statusMessage = LocalizationService.Get("Msg_Ready");
@@ -75,6 +78,18 @@ public sealed class MainWindowViewModel : ObservableObject
     {
         get => _statusMessage;
         set => SetProperty(ref _statusMessage, value);
+    }
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (SetProperty(ref _searchText, value))
+            {
+                VariablesView.Refresh();
+            }
+        }
     }
 
     public bool HasSelectedVariable => SelectedVariable is not null;
@@ -165,6 +180,7 @@ public sealed class MainWindowViewModel : ObservableObject
 
     public void SaveCurrent()
     {
+        _historyService.SaveSnapshot(Variables);
         _environmentVariableService.Save(Editor);
 
         var savedName = Editor.Name.Trim();
@@ -184,6 +200,7 @@ public sealed class MainWindowViewModel : ObservableObject
         var name = Editor.OriginalName;
         var level = Editor.OriginalLevel;
 
+        _historyService.SaveSnapshot(Variables);
         _environmentVariableService.Delete(name, level);
         SelectedVariable = null;
         LoadVariables();
@@ -210,8 +227,49 @@ public sealed class MainWindowViewModel : ObservableObject
         using (VariablesView.DeferRefresh())
         {
             VariablesView.SortDescriptions.Clear();
+
+            if (DisplayMode == DisplayMode.Grouped)
+            {
+                VariablesView.SortDescriptions.Add(
+                    new SortDescription(nameof(EnvironmentVariableEntry.Level), ListSortDirection.Ascending));
+            }
+
             VariablesView.SortDescriptions.Add(new SortDescription(propertyName, direction));
         }
+    }
+
+    public void ResetColumnSort()
+    {
+        ApplyDisplayMode();
+    }
+
+    public IReadOnlyList<SnapshotInfo> GetSnapshots()
+    {
+        return _historyService.GetSnapshots();
+    }
+
+    public int RestoreFromSnapshot(string filePath)
+    {
+        var variables = _historyService.LoadSnapshot(filePath);
+        return _exportImportService.Import(variables);
+    }
+
+    private bool FilterVariable(object obj)
+    {
+        if (string.IsNullOrWhiteSpace(_searchText))
+        {
+            return true;
+        }
+
+        if (obj is not EnvironmentVariableEntry entry)
+        {
+            return false;
+        }
+
+        var search = _searchText.Trim();
+        return entry.Name.Contains(search, StringComparison.OrdinalIgnoreCase)
+            || entry.Alias.Contains(search, StringComparison.OrdinalIgnoreCase)
+            || entry.Value.Contains(search, StringComparison.OrdinalIgnoreCase);
     }
 
     private void ApplyDisplayMode()

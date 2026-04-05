@@ -8,7 +8,6 @@
     <sys:String x:Key="Menu_Import">匯入(_I)</sys:String>
     <sys:String x:Key="Menu_OpenMetadataDir">開啟中繼資料目錄(_O)</sys:String>
     <sys:String x:Key="Menu_Exit">結束(_X)</sys:String>
-    <sys:String x:Key="Menu_Settings">設定(_S)</sys:String>
     <sys:String x:Key="Menu_Language">語言(_L)</sys:String>
     <sys:String x:Key="Menu_Help">說明(_H)</sys:String>
     <sys:String x:Key="Menu_About">關於(_A)</sys:String>
@@ -24,14 +23,14 @@
     <sys:String x:Key="Label_DisplayMode">顯示模式：</sys:String>
     <sys:String x:Key="Label_MetadataPrefix">中繼資料：</sys:String>
     <sys:String x:Key="Label_VariableList">環境變數清單</sys:String>
-    <sys:String x:Key="Label_SplitPreview">分割預覽（唯讀）</sys:String>
+    <sys:String x:Key="Label_StructuredEdit">結構化編輯</sys:String>
     <sys:String x:Key="Label_EditorHint">支援使用者級 / 系統級環境變數管理；多值變數會自動顯示分割預覽。</sys:String>
-    <sys:String x:Key="Label_Name">Name</sys:String>
-    <sys:String x:Key="Label_Level">Level</sys:String>
-    <sys:String x:Key="Label_Alias">Alias</sys:String>
-    <sys:String x:Key="Label_Description">Description</sys:String>
-    <sys:String x:Key="Label_Value">Value</sys:String>
-    <sys:String x:Key="Label_Preview">Preview</sys:String>
+    <sys:String x:Key="Label_Name">名稱</sys:String>
+    <sys:String x:Key="Label_Level">級別</sys:String>
+    <sys:String x:Key="Label_Alias">別名</sys:String>
+    <sys:String x:Key="Label_Description">描述</sys:String>
+    <sys:String x:Key="Label_Value">值</sys:String>
+    <sys:String x:Key="Label_Preview">預覽</sys:String>
 
     <!-- Column Headers -->
     <sys:String x:Key="Col_Name">名稱</sys:String>
@@ -77,11 +76,27 @@
 
     <!-- About -->
     <sys:String x:Key="About_Title">關於 EnvVar</sys:String>
-    <sys:String x:Key="About_Version">版本</sys:String>
+    <sys:String x:Key="About_UpdateDate">更新日期</sys:String>
     <sys:String x:Key="About_Author">作者</sys:String>
     <sys:String x:Key="About_License">授權條款</sys:String>
     <sys:String x:Key="About_ProjectUrl">專案位址</sys:String>
     <sys:String x:Key="About_Description">一個 Windows 環境變數管理工具。</sys:String>
     <sys:String x:Key="About_Close">關閉</sys:String>
+
+    <!-- Search -->
+    <sys:String x:Key="Label_Search">搜尋</sys:String>
+
+    <!-- Structured Edit -->
+    <sys:String x:Key="Btn_AddItem">新增</sys:String>
+    <sys:String x:Key="Btn_RemoveItem">移除</sys:String>
+    <sys:String x:Key="Btn_MoveUp">上移</sys:String>
+    <sys:String x:Key="Btn_MoveDown">下移</sys:String>
+
+    <!-- History -->
+    <sys:String x:Key="Menu_RestoreSnapshot">還原快照(_R)</sys:String>
+    <sys:String x:Key="Msg_NoSnapshots">沒有可用的快照。</sys:String>
+    <sys:String x:Key="Msg_SnapshotRestored">已還原快照，匯入了 {0} 個環境變數。</sys:String>
+    <sys:String x:Key="Msg_SnapshotRestoreConfirm">確認還原此快照？目前所有環境變數將可能被覆蓋。</sys:String>
+    <sys:String x:Key="Msg_SnapshotRestoreTitle">確認還原</sys:String>
 
 </ResourceDictionary>
