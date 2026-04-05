@@ -45,9 +45,9 @@
                 <MenuItem Header="{DynamicResource Menu_Exit}" Click="ExitMenu_Click" />
             </MenuItem>
             <MenuItem Header="{DynamicResource Menu_Language}">
-                <MenuItem x:Name="LangZhCN" Header="简体中文" IsCheckable="True" IsChecked="True" Click="LanguageMenu_Click" Tag="zh-CN" />
+                <MenuItem x:Name="LangEnUS" Header="English" IsCheckable="True" IsChecked="True" Click="LanguageMenu_Click" Tag="en-US" />
+                <MenuItem x:Name="LangZhCN" Header="简体中文" IsCheckable="True" Click="LanguageMenu_Click" Tag="zh-CN" />
                 <MenuItem x:Name="LangZhTW" Header="繁體中文" IsCheckable="True" Click="LanguageMenu_Click" Tag="zh-TW" />
-                <MenuItem x:Name="LangEnUS" Header="English" IsCheckable="True" Click="LanguageMenu_Click" Tag="en-US" />
             </MenuItem>
             <MenuItem Header="{DynamicResource Menu_Help}">
                 <MenuItem Header="{DynamicResource Menu_About}" Click="AboutMenu_Click" />
@@ -288,6 +288,12 @@
                                         <Button Width="28" Height="28" Margin="2,0"
                                                 Content="↓" Click="MoveValueItemDown_Click"
                                                 ToolTip="{DynamicResource Btn_MoveDown}" />
+                                        <Button Width="28" Height="28" Margin="8,0,2,0"
+                                                Content="A↓" Click="SortValuesAsc_Click"
+                                                ToolTip="{DynamicResource Btn_SortAsc}" />
+                                        <Button Width="28" Height="28" Margin="2,0"
+                                                Content="Z↓" Click="SortValuesDesc_Click"
+                                                ToolTip="{DynamicResource Btn_SortDesc}" />
                                     </StackPanel>
                                 </DockPanel>
                                 <ListBox x:Name="EditableValuesList"

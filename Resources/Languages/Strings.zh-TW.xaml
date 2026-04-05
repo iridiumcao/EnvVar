@@ -91,6 +91,8 @@
     <sys:String x:Key="Btn_RemoveItem">移除</sys:String>
     <sys:String x:Key="Btn_MoveUp">上移</sys:String>
     <sys:String x:Key="Btn_MoveDown">下移</sys:String>
+    <sys:String x:Key="Btn_SortAsc">升冪排列</sys:String>
+    <sys:String x:Key="Btn_SortDesc">降冪排列</sys:String>
 
     <!-- History -->
     <sys:String x:Key="Menu_RestoreSnapshot">還原快照(_R)</sys:String>

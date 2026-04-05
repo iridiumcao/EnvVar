@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Navigation;
@@ -11,8 +12,13 @@ public partial class AboutWindow : Window
     {
         InitializeComponent();
 
-        var version = Assembly.GetExecutingAssembly().GetName().Version;
-        VersionText.Text = version?.ToString(3) ?? "1.0.0";
+        var processPath = Environment.ProcessPath;
+        var assemblyPath = Assembly.GetExecutingAssembly().Location;
+        var path = !string.IsNullOrEmpty(processPath) ? processPath : assemblyPath;
+        var buildDate = !string.IsNullOrEmpty(path) && File.Exists(path)
+            ? File.GetLastWriteTime(path)
+            : DateTime.Now;
+        UpdateDateText.Text = buildDate.ToString("yyyy-MM-dd");
     }
 
     private void GitHubLink_RequestNavigate(object sender, RequestNavigateEventArgs e)

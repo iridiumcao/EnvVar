@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using EnvVar.Infrastructure;
 using EnvVar.Services;
 using EnvVar.Utilities;
@@ -14,6 +16,8 @@ public sealed class VariableEditorModel : ObservableObject
     private string _alias = string.Empty;
     private string _description = string.Empty;
     private string _value = string.Empty;
+    private bool _syncingFromEditable;
+    private readonly ObservableCollection<EditableValueItem> _editableValues = new();
 
     public bool IsNew
     {
@@ -85,6 +89,10 @@ public sealed class VariableEditorModel : ObservableObject
             {
                 OnPropertyChanged(nameof(IsMultiValue));
                 OnPropertyChanged(nameof(SplitValues));
+                if (!_syncingFromEditable)
+                {
+                    RebuildEditableValues();
+                }
             }
         }
     }
@@ -94,6 +102,8 @@ public sealed class VariableEditorModel : ObservableObject
     public bool IsMultiValue => EnvironmentVariableValueParser.IsMultiValue(Value);
 
     public IReadOnlyList<string> SplitValues => EnvironmentVariableValueParser.Split(Value);
+
+    public ObservableCollection<EditableValueItem> EditableValues => _editableValues;
 
     public string Header => IsNew
         ? LocalizationService.Get("Editor_NewHeader")
@@ -125,44 +135,120 @@ public sealed class VariableEditorModel : ObservableObject
 
     public void AddValueItem(int index)
     {
-        var values = SplitValues.ToList();
-        if (index < 0 || index > values.Count)
-            values.Add(string.Empty);
+        var item = new EditableValueItem(string.Empty);
+        item.PropertyChanged += EditableValueItem_Changed;
+        if (index < 0 || index > _editableValues.Count)
+        {
+            _editableValues.Add(item);
+        }
         else
-            values.Insert(index, string.Empty);
-        Value = string.Join(";", values);
+        {
+            _editableValues.Insert(index, item);
+        }
+
+        SyncValueFromEditableValues();
     }
 
     public void RemoveValueItemAt(int index)
     {
-        if (index < 0) return;
-        var values = SplitValues.ToList();
-        if (index < values.Count)
+        if (index < 0 || index >= _editableValues.Count)
         {
-            values.RemoveAt(index);
-            Value = string.Join(";", values);
+            return;
         }
+
+        _editableValues[index].PropertyChanged -= EditableValueItem_Changed;
+        _editableValues.RemoveAt(index);
+        SyncValueFromEditableValues();
     }
 
     public void MoveValueItemUp(int index)
     {
-        if (index <= 0) return;
-        var values = SplitValues.ToList();
-        if (index < values.Count)
+        if (index <= 0 || index >= _editableValues.Count)
         {
-            (values[index], values[index - 1]) = (values[index - 1], values[index]);
-            Value = string.Join(";", values);
+            return;
         }
+
+        _editableValues.Move(index, index - 1);
+        SyncValueFromEditableValues();
     }
 
     public void MoveValueItemDown(int index)
     {
-        if (index < 0) return;
-        var values = SplitValues.ToList();
-        if (index < values.Count - 1)
+        if (index < 0 || index >= _editableValues.Count - 1)
         {
-            (values[index], values[index + 1]) = (values[index + 1], values[index]);
-            Value = string.Join(";", values);
+            return;
+        }
+
+        _editableValues.Move(index, index + 1);
+        SyncValueFromEditableValues();
+    }
+
+    public void SortValuesAscending()
+    {
+        var sorted = _editableValues.Select(v => v.Value)
+            .OrderBy(v => v, StringComparer.OrdinalIgnoreCase).ToList();
+        ApplyNewOrder(sorted);
+    }
+
+    public void SortValuesDescending()
+    {
+        var sorted = _editableValues.Select(v => v.Value)
+            .OrderByDescending(v => v, StringComparer.OrdinalIgnoreCase).ToList();
+        ApplyNewOrder(sorted);
+    }
+
+    private void ApplyNewOrder(List<string> values)
+    {
+        foreach (var item in _editableValues)
+        {
+            item.PropertyChanged -= EditableValueItem_Changed;
+        }
+
+        _editableValues.Clear();
+        foreach (var val in values)
+        {
+            var item = new EditableValueItem(val);
+            item.PropertyChanged += EditableValueItem_Changed;
+            _editableValues.Add(item);
+        }
+
+        SyncValueFromEditableValues();
+    }
+
+    private void RebuildEditableValues()
+    {
+        foreach (var item in _editableValues)
+        {
+            item.PropertyChanged -= EditableValueItem_Changed;
+        }
+
+        _editableValues.Clear();
+        if (IsMultiValue)
+        {
+            foreach (var val in SplitValues)
+            {
+                var editItem = new EditableValueItem(val);
+                editItem.PropertyChanged += EditableValueItem_Changed;
+                _editableValues.Add(editItem);
+            }
+        }
+    }
+
+    private void EditableValueItem_Changed(object? sender, PropertyChangedEventArgs e)
+    {
+        SyncValueFromEditableValues();
+    }
+
+    private void SyncValueFromEditableValues()
+    {
+        _syncingFromEditable = true;
+        try
+        {
+            Value = string.Join(";", _editableValues.Select(v => v.Value));
+        }
+        finally
+        {
+            _syncingFromEditable = false;
         }
     }
 }

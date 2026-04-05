@@ -45,9 +45,9 @@
 
             <TextBlock Grid.Row="0" Grid.Column="0"
                        FontWeight="SemiBold"
-                       Text="{DynamicResource About_Version}" />
+                       Text="{DynamicResource About_UpdateDate}" />
             <TextBlock Grid.Row="0" Grid.Column="1"
-                       x:Name="VersionText" />
+                       x:Name="UpdateDateText" />
 
             <TextBlock Grid.Row="2" Grid.Column="0"
                        FontWeight="SemiBold"

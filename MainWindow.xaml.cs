@@ -35,6 +35,11 @@ public partial class MainWindow : Window
 
     private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
     {
+        var currentLang = LocalizationService.CurrentLanguage;
+        LangEnUS.IsChecked = currentLang == "en-US";
+        LangZhCN.IsChecked = currentLang == "zh-CN";
+        LangZhTW.IsChecked = currentLang == "zh-TW";
+
         TryRun(() => ViewModel.LoadVariables(), LocalizationService.Get("Msg_LoadFailed"));
         UpdateColumnHeaders();
         ViewModel.PropertyChanged += (_, args) =>
@@ -281,6 +286,16 @@ public partial class MainWindow : Window
         {
             EditableValuesList.SelectedIndex = index + 1;
         }
+    }
+
+    private void SortValuesAsc_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.Editor.SortValuesAscending();
+    }
+
+    private void SortValuesDesc_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.Editor.SortValuesDescending();
     }
 
     private void HistoryMenu_SubmenuOpened(object sender, RoutedEventArgs e)
