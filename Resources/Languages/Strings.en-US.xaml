@@ -76,6 +76,7 @@
 
     <!-- About -->
     <sys:String x:Key="About_Title">About EnvVar</sys:String>
+    <sys:String x:Key="About_Version">Version</sys:String>
     <sys:String x:Key="About_UpdateDate">Last Updated</sys:String>
     <sys:String x:Key="About_Author">Author</sys:String>
     <sys:String x:Key="About_License">License</sys:String>

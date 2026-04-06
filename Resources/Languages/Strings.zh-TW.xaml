@@ -76,6 +76,7 @@
 
     <!-- About -->
     <sys:String x:Key="About_Title">關於 EnvVar</sys:String>
+    <sys:String x:Key="About_Version">版本</sys:String>
     <sys:String x:Key="About_UpdateDate">更新日期</sys:String>
     <sys:String x:Key="About_Author">作者</sys:String>
     <sys:String x:Key="About_License">授權條款</sys:String>

@@ -17,7 +17,7 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-Write-Host "==> Building installer..."
+Write-Host "==> Building installer (Version: $version)..."
 
 $iscc = Get-Command iscc -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
 
@@ -31,6 +31,16 @@ if (!$iscc) {
 if (!$iscc) {
     Write-Error "Inno Setup (iscc.exe) not found in PATH or default directory. Please install it first or add it to your PATH."
     exit 1
+}
+
+& $iscc $issPath /dAppVersion=$version /dAppVersionName=$version
+
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Installer build failed"
+    exit 1
+}
+
+Write-Host "==> Done! Installer located in /release" exit 1
 }
 
 & $iscc $issPath

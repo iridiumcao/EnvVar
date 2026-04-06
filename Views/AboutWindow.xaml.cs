@@ -12,8 +12,17 @@ public partial class AboutWindow : Window
         InitializeComponent();
 
         var processPath = Environment.ProcessPath;
-        var assemblyPath = AppContext.BaseDirectory;;
+        var assemblyPath = AppContext.BaseDirectory;
         var path = !string.IsNullOrEmpty(processPath) ? processPath : assemblyPath;
+
+        // Version
+        var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+        if (version != null)
+        {
+            VersionText.Text = $"{version.Major}.{version.Minor}.{version.Build}";
+        }
+
+        // Build Date
         var buildDate = !string.IsNullOrEmpty(path) && File.Exists(path)
             ? File.GetLastWriteTime(path)
             : DateTime.Now;

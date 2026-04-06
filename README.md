@@ -91,11 +91,17 @@ dotnet build
 
 The project uses [Inno Setup 6](https://jrsoftware.org/isdl.php) to create the Windows installer.
 
+### Local Build
 1. Ensure .NET 10 SDK and Inno Setup 6 are installed.
 2. Run the build script:
    ```powershell
-   ./installer/build-installer.ps1
+   ./installer/build-installer.ps1 -version 1.0.0
    ```
 3. The generated installer will be located in the `release/` directory.
+
+### Automated Build (GitHub Actions)
+This project includes a GitHub Actions workflow for automated building and publishing:
+- **On Push/PR to main**: Builds the installer and uploads it as a workflow artifact.
+- **On Tag (`v*`)**: Builds the installer with the tag version and creates a GitHub Release.
 
 For more details, see the [Installer Build Guide](installer/BUILD.md).

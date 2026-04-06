@@ -91,11 +91,17 @@ dotnet build
 
 該項目使用 [Inno Setup 6](https://jrsoftware.org/isdl.php) 建立 Windows 安裝程式。
 
+### 本地構建
 1. 確保已安裝 .NET 10 SDK 和 Inno Setup 6。
 2. 運行構建腳本：
    ```powershell
-   ./installer/build-installer.ps1
+   ./installer/build-installer.ps1 -version 1.0.0
    ```
 3. 生成的安裝程式將位於 `release/` 目錄中。
+
+### 自動化構建 (GitHub Actions)
+專案包含 GitHub Actions 工作流，用於自動構建和發佈：
+- **推送/PR 到 main 分支**: 構建安裝程式並作為工作流製品 (Artifact) 上傳。
+- **打標籤 (`v*`)**: 使用標籤版本號構建安裝程式並建立 GitHub Release。
 
 更多詳情，請參閱 [安裝包構建指南](installer/BUILD.md)。

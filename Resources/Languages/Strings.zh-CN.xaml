@@ -7,7 +7,7 @@
     <sys:String x:Key="Menu_Export">导出(_E)</sys:String>
     <sys:String x:Key="Menu_Import">导入(_I)</sys:String>
     <sys:String x:Key="Menu_OpenMetadataDir">打开元数据目录(_O)</sys:String>
-    <sys:String x:Key="Menu_Exit">退出(_X)</sys:String>
+    <sys:String x:Key="Menu_Exit">退出(_X)</sys:String>
     <sys:String x:Key="Menu_Language">语言(_L)</sys:String>
     <sys:String x:Key="Menu_Help">帮助(_H)</sys:String>
     <sys:String x:Key="Menu_About">关于(_A)</sys:String>
@@ -76,6 +76,7 @@
 
     <!-- About -->
     <sys:String x:Key="About_Title">关于 EnvVar</sys:String>
+    <sys:String x:Key="About_Version">版本</sys:String>
     <sys:String x:Key="About_UpdateDate">更新日期</sys:String>
     <sys:String x:Key="About_Author">作者</sys:String>
     <sys:String x:Key="About_License">许可证</sys:String>

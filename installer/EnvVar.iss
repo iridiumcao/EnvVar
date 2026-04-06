@@ -1,12 +1,12 @@
 [Setup]
 AppName=EnvVar
-AppVersion=1.0.0
+AppVersion={#AppVersion}
 AppPublisher=iridiumcao
 DefaultDirName={autopf}\EnvVar
 ArchitecturesInstallIn64BitMode=x64os
 DefaultGroupName=EnvVar
 OutputDir=..\release
-OutputBaseFilename=EnvVar-Setup
+OutputBaseFilename=EnvVar-Setup-{#AppVersionName}
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern

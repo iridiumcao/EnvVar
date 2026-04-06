@@ -41,30 +41,38 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="8" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Grid.Column="0"
                        FontWeight="SemiBold"
-                       Text="{DynamicResource About_UpdateDate}" />
+                       Text="{DynamicResource About_Version}" />
             <TextBlock Grid.Row="0" Grid.Column="1"
-                       x:Name="UpdateDateText" />
+                       x:Name="VersionText" />
 
             <TextBlock Grid.Row="2" Grid.Column="0"
                        FontWeight="SemiBold"
-                       Text="{DynamicResource About_Author}" />
+                       Text="{DynamicResource About_UpdateDate}" />
             <TextBlock Grid.Row="2" Grid.Column="1"
-                       Text="iridiumcao" />
+                       x:Name="UpdateDateText" />
 
             <TextBlock Grid.Row="4" Grid.Column="0"
                        FontWeight="SemiBold"
-                       Text="{DynamicResource About_License}" />
+                       Text="{DynamicResource About_Author}" />
             <TextBlock Grid.Row="4" Grid.Column="1"
-                       Text="Apache License 2.0" />
+                       Text="iridiumcao" />
 
             <TextBlock Grid.Row="6" Grid.Column="0"
                        FontWeight="SemiBold"
+                       Text="{DynamicResource About_License}" />
+            <TextBlock Grid.Row="6" Grid.Column="1"
+                       Text="Apache License 2.0" />
+
+            <TextBlock Grid.Row="8" Grid.Column="0"
+                       FontWeight="SemiBold"
                        Text="{DynamicResource About_ProjectUrl}" />
-            <TextBlock Grid.Row="6" Grid.Column="1">
+            <TextBlock Grid.Row="8" Grid.Column="1">
                 <Hyperlink x:Name="GitHubLink"
                            NavigateUri="https://github.com/iridiumcao/EnvVar"
                            RequestNavigate="GitHubLink_RequestNavigate">
