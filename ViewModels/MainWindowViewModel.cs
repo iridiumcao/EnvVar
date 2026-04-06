@@ -209,6 +209,8 @@ public sealed class MainWindowViewModel : ObservableObject
 
     public void SaveCurrent()
     {
+        Editor.DeduplicateValue();
+
         if (!Editor.IsNew)
         {
             var existing = Variables.FirstOrDefault(v =>

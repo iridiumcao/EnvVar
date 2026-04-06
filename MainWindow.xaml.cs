@@ -66,6 +66,8 @@ public partial class MainWindow : Window
 
     private void SaveButton_OnClick(object sender, RoutedEventArgs e)
     {
+        ViewModel.Editor.CommitStructuredChanges();
+
         if (ViewModel.WouldOverwriteExisting())
         {
             var overwrite = MessageBox.Show(

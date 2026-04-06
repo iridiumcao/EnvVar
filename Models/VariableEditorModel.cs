@@ -174,7 +174,7 @@ public sealed class VariableEditorModel : ObservableObject
 
     public void AddValueItem(int index)
     {
-        var item = new EditableValueItem(string.Empty);
+        var item = new EditableValueItem(string.Empty, 0);
         item.PropertyChanged += EditableValueItem_Changed;
         if (index < 0 || index > _editableValues.Count)
         {
@@ -185,6 +185,7 @@ public sealed class VariableEditorModel : ObservableObject
             _editableValues.Insert(index, item);
         }
 
+        RefreshIndices();
         SyncValueFromEditableValues();
     }
 
@@ -197,6 +198,7 @@ public sealed class VariableEditorModel : ObservableObject
 
         _editableValues[index].PropertyChanged -= EditableValueItem_Changed;
         _editableValues.RemoveAt(index);
+        RefreshIndices();
         SyncValueFromEditableValues();
     }
 
@@ -208,6 +210,7 @@ public sealed class VariableEditorModel : ObservableObject
         }
 
         _editableValues.Move(index, index - 1);
+        RefreshIndices();
         SyncValueFromEditableValues();
     }
 
@@ -219,6 +222,7 @@ public sealed class VariableEditorModel : ObservableObject
         }
 
         _editableValues.Move(index, index + 1);
+        RefreshIndices();
         SyncValueFromEditableValues();
     }
 
@@ -244,14 +248,23 @@ public sealed class VariableEditorModel : ObservableObject
         }
 
         _editableValues.Clear();
+        int i = 0;
         foreach (var val in values)
         {
-            var item = new EditableValueItem(val);
+            var item = new EditableValueItem(val, i++);
             item.PropertyChanged += EditableValueItem_Changed;
             _editableValues.Add(item);
         }
 
         SyncValueFromEditableValues();
+    }
+
+    private void RefreshIndices()
+    {
+        for (int i = 0; i < _editableValues.Count; i++)
+        {
+            _editableValues[i].Index = i;
+        }
     }
 
     private void RebuildEditableValues()
@@ -264,13 +277,36 @@ public sealed class VariableEditorModel : ObservableObject
         _editableValues.Clear();
         if (IsMultiValue)
         {
+            int i = 0;
             foreach (var val in SplitValues)
             {
-                var editItem = new EditableValueItem(val);
+                var editItem = new EditableValueItem(val, i++);
                 editItem.PropertyChanged += EditableValueItem_Changed;
                 _editableValues.Add(editItem);
             }
         }
+    }
+
+    public void DeduplicateValue()
+    {
+        if (string.IsNullOrWhiteSpace(Value))
+        {
+            return;
+        }
+
+        var values = EnvironmentVariableValueParser.Split(Value);
+        var unique = values.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        
+        if (unique.Count != values.Count)
+        {
+            Value = string.Join(";", unique);
+        }
+    }
+
+    public void CommitStructuredChanges()
+    {
+        // Rebuild the UI list from the current (deduplicated) Value
+        RebuildEditableValues();
     }
 
     private void EditableValueItem_Changed(object? sender, PropertyChangedEventArgs e)
@@ -283,7 +319,12 @@ public sealed class VariableEditorModel : ObservableObject
         _syncingFromEditable = true;
         try
         {
-            Value = string.Join(";", _editableValues.Select(v => v.Value));
+            // Use Distinct() to remove duplicates while preserving order
+            var uniqueValues = _editableValues
+                .Select(v => v.Value)
+                .Where(v => !string.IsNullOrEmpty(v))
+                .Distinct(StringComparer.OrdinalIgnoreCase);
+            Value = string.Join(";", uniqueValues);
         }
         finally
         {

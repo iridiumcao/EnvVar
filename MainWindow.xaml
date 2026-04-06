@@ -193,7 +193,7 @@
                     BorderBrush="#FFE0E0E0"
                     BorderThickness="1"
                     CornerRadius="8">
-                <DockPanel>
+                <DockPanel Grid.IsSharedSizeScope="True">
                     <StackPanel DockPanel.Dock="Top">
                         <TextBlock FontSize="16"
                                    FontWeight="SemiBold"
@@ -203,143 +203,13 @@
                                    Text="{DynamicResource Label_EditorHint}" />
                     </StackPanel>
 
-                    <StackPanel Margin="0,16,0,0" Grid.IsSharedSizeScope="True">
-                        <Grid Margin="0,0,0,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
-                                <ColumnDefinition Width="12" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0"
-                                       VerticalAlignment="Center"
-                                       Text="{DynamicResource Label_Name}" />
-                            <TextBox Grid.Column="2"
-                                     Text="{Binding Editor.Name, UpdateSourceTrigger=PropertyChanged}" />
-                        </Grid>
-
-                        <Grid Margin="0,0,0,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
-                                <ColumnDefinition Width="12" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0"
-                                       VerticalAlignment="Center"
-                                       Text="{DynamicResource Label_Level}" />
-                            <ComboBox Grid.Column="2"
-                                      ItemsSource="{Binding Source={StaticResource VariableLevels}}"
-                                      SelectedItem="{Binding Editor.Level, Mode=TwoWay}" />
-                        </Grid>
-
-                        <Grid Margin="0,0,0,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
-                                <ColumnDefinition Width="12" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0"
-                                       VerticalAlignment="Center"
-                                       Text="{DynamicResource Label_Alias}" />
-                            <TextBox Grid.Column="2"
-                                     Text="{Binding Editor.Alias, UpdateSourceTrigger=PropertyChanged}" />
-                        </Grid>
-
-                        <Grid Margin="0,0,0,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
-                                <ColumnDefinition Width="12" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0"
-                                       VerticalAlignment="Top"
-                                       Margin="0,6,0,0"
-                                       Text="{DynamicResource Label_Description}" />
-                            <TextBox Grid.Column="2"
-                                     Height="72"
-                                     AcceptsReturn="True"
-                                     TextWrapping="Wrap"
-                                     VerticalScrollBarVisibility="Auto"
-                                     Text="{Binding Editor.Description, UpdateSourceTrigger=PropertyChanged}" />
-                        </Grid>
-
-                        <Grid Margin="0,0,0,12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
-                                <ColumnDefinition Width="12" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0"
-                                       VerticalAlignment="Top"
-                                       Margin="0,6,0,0"
-                                       Text="{DynamicResource Label_Value}" />
-                            <TextBox Grid.Column="2"
-                                     MinHeight="60"
-                                     AcceptsReturn="True"
-                                     TextWrapping="Wrap"
-                                     VerticalScrollBarVisibility="Auto"
-                                     FontFamily="Cascadia Code"
-                                     Text="{Binding Editor.Value, UpdateSourceTrigger=PropertyChanged}" />
-                        </Grid>
-
-                        <Border Padding="12"
-                                Background="#FFF9FBFD"
-                                BorderBrush="#FFDDE6EE"
-                                BorderThickness="1"
-                                CornerRadius="6"
-                                Visibility="{Binding Editor.IsMultiValue, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <StackPanel>
-                                <DockPanel>
-                                    <TextBlock DockPanel.Dock="Left"
-                                               FontWeight="SemiBold"
-                                               VerticalAlignment="Center"
-                                               Text="{DynamicResource Label_StructuredEdit}" />
-                                    <StackPanel DockPanel.Dock="Right"
-                                                Orientation="Horizontal">
-                                        <Button Width="28" Height="28" Margin="2,0"
-                                                Content="＋" Click="AddValueItem_Click"
-                                                ToolTip="{DynamicResource Btn_AddItem}" />
-                                        <Button Width="28" Height="28" Margin="2,0"
-                                                Content="－" Click="RemoveValueItem_Click"
-                                                ToolTip="{DynamicResource Btn_RemoveItem}" />
-                                        <Button Width="28" Height="28" Margin="2,0"
-                                                Content="↑" Click="MoveValueItemUp_Click"
-                                                ToolTip="{DynamicResource Btn_MoveUp}" />
-                                        <Button Width="28" Height="28" Margin="2,0"
-                                                Content="↓" Click="MoveValueItemDown_Click"
-                                                ToolTip="{DynamicResource Btn_MoveDown}" />
-                                        <Button Width="28" Height="28" Margin="8,0,2,0"
-                                                Content="A↓" Click="SortValuesAsc_Click"
-                                                ToolTip="{DynamicResource Btn_SortAsc}" />
-                                        <Button Width="28" Height="28" Margin="2,0"
-                                                Content="Z↓" Click="SortValuesDesc_Click"
-                                                ToolTip="{DynamicResource Btn_SortDesc}" />
-                                    </StackPanel>
-                                </DockPanel>
-                                <ListBox x:Name="EditableValuesList"
-                                         Margin="0,8,0,0"
-                                         MaxHeight="300"
-                                         AlternationCount="2048"
-                                         ItemsSource="{Binding Editor.EditableValues}"
-                                         HorizontalContentAlignment="Stretch">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <DockPanel>
-                                                <TextBlock Width="36"
-                                                           Foreground="#FF5A6B7A"
-                                                           VerticalAlignment="Center"
-                                                           Text="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=(ItemsControl.AlternationIndex), StringFormat=[{0}]}" />
-                                                <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
-                                                         FontFamily="Cascadia Code"
-                                                         BorderThickness="0"
-                                                         Background="Transparent" />
-                                            </DockPanel>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </StackPanel>
-                        </Border>
-
-                        <StackPanel Margin="0,16,0,0"
+                    <Grid DockPanel.Dock="Bottom" Margin="0,16,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
+                            <ColumnDefinition Width="12" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="2"
                                     Orientation="Horizontal">
                             <Button Width="96"
                                     Margin="0,0,8,0"
@@ -360,7 +230,146 @@
                                     IsEnabled="{Binding CanDeleteCurrent}"
                                     Content="{DynamicResource Btn_History}" />
                         </StackPanel>
-                    </StackPanel>
+                    </Grid>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,16,0,0">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource Label_Name}" />
+                                <TextBox Grid.Column="2"
+                                         Text="{Binding Editor.Name, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource Label_Level}" />
+                                <ComboBox Grid.Column="2"
+                                          ItemsSource="{Binding Source={StaticResource VariableLevels}}"
+                                          SelectedItem="{Binding Editor.Level, Mode=TwoWay}" />
+                            </Grid>
+
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource Label_Alias}" />
+                                <TextBox Grid.Column="2"
+                                         Text="{Binding Editor.Alias, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           VerticalAlignment="Top"
+                                           Margin="0,6,0,0"
+                                           Text="{DynamicResource Label_Description}" />
+                                <TextBox Grid.Column="2"
+                                         Height="72"
+                                         AcceptsReturn="True"
+                                         TextWrapping="Wrap"
+                                         VerticalScrollBarVisibility="Auto"
+                                         Text="{Binding Editor.Description, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="EditorLabel" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           VerticalAlignment="Top"
+                                           Margin="0,6,0,0"
+                                           Text="{DynamicResource Label_Value}" />
+                                <TextBox Grid.Column="2"
+                                         MinHeight="60"
+                                         MaxHeight="240"
+                                         AcceptsReturn="True"
+                                         TextWrapping="Wrap"
+                                         VerticalScrollBarVisibility="Auto"
+                                         FontFamily="Cascadia Code"
+                                         Text="{Binding Editor.Value, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+
+                            <Border Padding="12"
+                                    Background="#FFF9FBFD"
+                                    BorderBrush="#FFDDE6EE"
+                                    BorderThickness="1"
+                                    CornerRadius="6"
+                                    Visibility="{Binding Editor.IsMultiValue, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <StackPanel>
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Left"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center"
+                                                   Text="{DynamicResource Label_StructuredEdit}" />
+                                        <StackPanel DockPanel.Dock="Right"
+                                                    Orientation="Horizontal">
+                                            <Button Width="28" Height="28" Margin="2,0"
+                                                    Content="＋" Click="AddValueItem_Click"
+                                                    ToolTip="{DynamicResource Btn_AddItem}" />
+                                            <Button Width="28" Height="28" Margin="2,0"
+                                                    Content="－" Click="RemoveValueItem_Click"
+                                                    ToolTip="{DynamicResource Btn_RemoveItem}" />
+                                            <Button Width="28" Height="28" Margin="2,0"
+                                                    Content="↑" Click="MoveValueItemUp_Click"
+                                                    ToolTip="{DynamicResource Btn_MoveUp}" />
+                                            <Button Width="28" Height="28" Margin="2,0"
+                                                    Content="↓" Click="MoveValueItemDown_Click"
+                                                    ToolTip="{DynamicResource Btn_MoveDown}" />
+                                            <Button Width="28" Height="28" Margin="8,0,2,0"
+                                                    Content="A↓" Click="SortValuesAsc_Click"
+                                                    ToolTip="{DynamicResource Btn_SortAsc}" />
+                                            <Button Width="28" Height="28" Margin="2,0"
+                                                    Content="Z↓" Click="SortValuesDesc_Click"
+                                                    ToolTip="{DynamicResource Btn_SortDesc}" />
+                                        </StackPanel>
+                                    </DockPanel>
+                                    <ListBox x:Name="EditableValuesList"
+                                             Margin="0,8,0,0"
+                                             MaxHeight="300"
+                                             ItemsSource="{Binding Editor.EditableValues}"
+                                             HorizontalContentAlignment="Stretch">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <DockPanel>
+                                                    <TextBlock Width="36"
+                                                               Foreground="#FF5A6B7A"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding Index, StringFormat=[{0}]}" />
+                                                    <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
+                                                             FontFamily="Cascadia Code"
+                                                             BorderThickness="0"
+                                                             Background="Transparent" />
+                                                </DockPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
                 </DockPanel>
             </Border>
         </Grid>
