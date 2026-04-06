@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -13,7 +12,7 @@ public partial class AboutWindow : Window
         InitializeComponent();
 
         var processPath = Environment.ProcessPath;
-        var assemblyPath = Assembly.GetExecutingAssembly().Location;
+        var assemblyPath = AppContext.BaseDirectory;;
         var path = !string.IsNullOrEmpty(processPath) ? processPath : assemblyPath;
         var buildDate = !string.IsNullOrEmpty(path) && File.Exists(path)
             ? File.GetLastWriteTime(path)
