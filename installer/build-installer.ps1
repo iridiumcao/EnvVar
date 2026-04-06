@@ -19,10 +19,17 @@ if ($LASTEXITCODE -ne 0) {
 
 Write-Host "==> Building installer..."
 
-$iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+$iscc = Get-Command iscc -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
 
-if (!(Test-Path $iscc)) {
-    Write-Error "Inno Setup not found. Please install it first."
+if (!$iscc) {
+    $defaultPath = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+    if (Test-Path $defaultPath) {
+        $iscc = $defaultPath
+    }
+}
+
+if (!$iscc) {
+    Write-Error "Inno Setup (iscc.exe) not found in PATH or default directory. Please install it first or add it to your PATH."
     exit 1
 }
 
