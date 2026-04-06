@@ -1,4 +1,4 @@
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$scriptDir = $PSScriptRoot
 $projectPath = Join-Path $scriptDir "..\EnvVar.csproj"
 $outputDir = Join-Path $scriptDir "..\release\publish"
 $issPath = Join-Path $scriptDir "EnvVar.iss"
