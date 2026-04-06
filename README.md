@@ -78,9 +78,24 @@ dotnet build
 | `Views/` | Sub-windows (About) |
 | `Resources/Languages/` | Multi-language resource files |
 | `docs/` | Design documents |
+| `installer/` | Installer scripts (Inno Setup) |
 
 ## Documentation
 
 - [Functional Design Document](docs/design.md)
 - [UI Design Document](docs/ui-design.md)
 - [Suggestions and Improvements](docs/suggestions.md)
+- [Installer Build Guide](installer/BUILD.md)
+
+## Building the Installer
+
+The project uses [Inno Setup 6](https://jrsoftware.org/isdl.php) to create the Windows installer.
+
+1. Ensure .NET 10 SDK and Inno Setup 6 are installed.
+2. Run the build script:
+   ```powershell
+   ./installer/build-installer.ps1
+   ```
+3. The generated installer will be located in the `release/` directory.
+
+For more details, see the [Installer Build Guide](installer/BUILD.md).

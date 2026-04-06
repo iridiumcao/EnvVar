@@ -78,9 +78,24 @@ dotnet build
 | `Views/` | 子視窗（About） |
 | `Resources/Languages/` | 多語言資源檔案 |
 | `docs/` | 設計文件 |
+| `installer/` | 安裝程式腳本 (Inno Setup) |
 
 ## 文件
 
 - [功能設計文件](docs/design.md)
 - [UI 設計文件](docs/ui-design.md)
 - [建議與改進方向](docs/suggestions.md)
+- [安裝包構建指南](installer/BUILD.md)
+
+## 構建安裝程式
+
+該項目使用 [Inno Setup 6](https://jrsoftware.org/isdl.php) 建立 Windows 安裝程式。
+
+1. 確保已安裝 .NET 10 SDK 和 Inno Setup 6。
+2. 運行構建腳本：
+   ```powershell
+   ./installer/build-installer.ps1
+   ```
+3. 生成的安裝程式將位於 `release/` 目錄中。
+
+更多詳情，請參閱 [安裝包構建指南](installer/BUILD.md)。

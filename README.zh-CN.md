@@ -78,9 +78,24 @@ dotnet build
 | `Views/` | 子窗口（About） |
 | `Resources/Languages/` | 多语言资源文件 |
 | `docs/` | 设计文档 |
+| `installer/` | 安装程序脚本 (Inno Setup) |
 
 ## 文档
 
 - [功能设计文档](docs/design.md)
 - [UI 设计文档](docs/ui-design.md)
 - [建议与改进方向](docs/suggestions.md)
+- [安装包构建指南](installer/BUILD.md)
+
+## 构建安装程序
+
+该项目使用 [Inno Setup 6](https://jrsoftware.org/isdl.php) 创建 Windows 安装程序。
+
+1. 确保已安装 .NET 10 SDK 和 Inno Setup 6。
+2. 运行构建脚本：
+   ```powershell
+   ./installer/build-installer.ps1
+   ```
+3. 生成的安装程序将位于 `release/` 目录中。
+
+更多详情，请参阅 [安装包构建指南](installer/BUILD.md)。
