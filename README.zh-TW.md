@@ -4,6 +4,12 @@
 
 一個面向 Windows 的環境變數視覺化管理工具，使用 .NET 10 / WPF 構建。
 
+## 下載
+
+[![GitHub Release](https://img.shields.io/github/v/release/iridiumcao/EnvVar?logo=github)](https://github.com/iridiumcao/EnvVar/releases/latest)
+
+您可以從 [Releases](https://github.com/iridiumcao/EnvVar/releases/latest) 頁面下載最新的安裝程式。
+
 ![](docs/images/0cXyIpspG9.png)
 
 ## 功能

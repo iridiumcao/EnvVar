@@ -1,15 +1,25 @@
+param (
+    [string]$version = "1.0.0"
+)
+
 $scriptDir = $PSScriptRoot
 $projectPath = Join-Path $scriptDir "..\EnvVar.csproj"
 $outputDir = Join-Path $scriptDir "..\release\publish"
 $issPath = Join-Path $scriptDir "EnvVar.iss"
 
-Write-Host "==> Publishing application..."
+# Clean up previous build artifacts
+if (Test-Path $outputDir) {
+    Remove-Item -Recurse -Force $outputDir
+}
+
+Write-Host "==> Publishing application (Version: $version)..."
 
 dotnet publish $projectPath `
   -c Release `
   -r win-x64 `
   --self-contained true `
   /p:PublishSingleFile=true `
+  /p:Version=$version `
   -o $outputDir
 
 if ($LASTEXITCODE -ne 0) {
@@ -34,16 +44,6 @@ if (!$iscc) {
 }
 
 & $iscc $issPath /dAppVersion=$version /dAppVersionName=$version
-
-if ($LASTEXITCODE -ne 0) {
-    Write-Error "Installer build failed"
-    exit 1
-}
-
-Write-Host "==> Done! Installer located in /release" exit 1
-}
-
-& $iscc $issPath
 
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Installer build failed"

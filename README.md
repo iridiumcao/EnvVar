@@ -4,6 +4,12 @@ English | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md)
 
 A visual environment variable management tool for Windows, built with .NET 10 / WPF.
 
+## Download
+
+[![GitHub Release](https://img.shields.io/github/v/release/iridiumcao/EnvVar?logo=github)](https://github.com/iridiumcao/EnvVar/releases/latest)
+
+You can download the latest installer from the [Releases](https://github.com/iridiumcao/EnvVar/releases/latest) page.
+
 ![](docs/images/axsELw87FS.png)
 
 ## Features
