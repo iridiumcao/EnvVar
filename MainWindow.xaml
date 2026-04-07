@@ -13,7 +13,8 @@
         Width="1200"
         MinHeight="640"
         MinWidth="980"
-        Background="{DynamicResource WindowBackgroundBrush}">
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Closing="MainWindow_OnClosing">
     <Window.Resources>
         <ObjectDataProvider x:Key="DisplayModes"
                             MethodName="GetValues"
@@ -152,11 +153,13 @@
                         </DockPanel>
                     </Border>
 
-                    <ListView ItemsSource="{Binding VariablesView}"
+                    <ListView x:Name="VariableListView"
+                              ItemsSource="{Binding VariablesView}"
                               SelectedItem="{Binding SelectedVariable, Mode=TwoWay}"
                               BorderThickness="0"
                               Background="{DynamicResource WindowBackgroundBrush}"
-                              GridViewColumnHeader.Click="ColumnHeader_Click">
+                              GridViewColumnHeader.Click="ColumnHeader_Click"
+                              SelectionChanged="VariableListView_OnSelectionChanged">
                         <ListView.GroupStyle>
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>

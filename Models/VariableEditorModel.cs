@@ -20,6 +20,35 @@ public sealed class VariableEditorModel : ObservableObject
     private bool _syncingFromEditable;
     private readonly ObservableCollection<EditableValueItem> _editableValues = new();
 
+    private string _originalAlias = string.Empty;
+    private string _originalDescription = string.Empty;
+    private string _originalValue = string.Empty;
+
+    public string OriginalAlias
+    {
+        get => _originalAlias;
+        private set => SetProperty(ref _originalAlias, value);
+    }
+
+    public string OriginalDescription
+    {
+        get => _originalDescription;
+        private set => SetProperty(ref _originalDescription, value);
+    }
+
+    public string OriginalValue
+    {
+        get => _originalValue;
+        private set => SetProperty(ref _originalValue, value);
+    }
+
+    public bool HasChanges =>
+        !string.Equals(Name, OriginalName, StringComparison.Ordinal) ||
+        Level != OriginalLevel ||
+        !string.Equals(Alias, OriginalAlias, StringComparison.Ordinal) ||
+        !string.Equals(Description, OriginalDescription, StringComparison.Ordinal) ||
+        !string.Equals(Value, OriginalValue, StringComparison.Ordinal);
+
     public bool IsNew
     {
         get => _isNew;
@@ -151,6 +180,10 @@ public sealed class VariableEditorModel : ObservableObject
         IsNew = false;
         OriginalName = entry.Name;
         OriginalLevel = entry.Level;
+        OriginalAlias = entry.Alias;
+        OriginalDescription = entry.Description;
+        OriginalValue = entry.Value;
+
         Name = entry.Name;
         Level = entry.Level;
         Alias = entry.Alias;
@@ -164,6 +197,10 @@ public sealed class VariableEditorModel : ObservableObject
         IsNew = true;
         OriginalName = string.Empty;
         OriginalLevel = EnvironmentVariableLevel.User;
+        OriginalAlias = string.Empty;
+        OriginalDescription = string.Empty;
+        OriginalValue = string.Empty;
+
         Name = string.Empty;
         Level = EnvironmentVariableLevel.User;
         Alias = string.Empty;

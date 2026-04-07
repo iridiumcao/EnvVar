@@ -16,6 +16,7 @@ public partial class MainWindow : Window
 {
     private string? _sortedPropertyName;
     private int _sortClickCount;
+    private bool _isInternalSelectionChange;
 
     private static readonly Dictionary<string, string> ColumnResourceKeys = new()
     {
@@ -63,11 +64,13 @@ public partial class MainWindow : Window
 
     private void RefreshButton_OnClick(object sender, RoutedEventArgs e)
     {
+        if (!CheckUnsavedChanges()) return;
         TryRun(() => ViewModel.LoadVariables(), LocalizationService.Get("Msg_RefreshFailed"));
     }
 
     private void NewButton_OnClick(object sender, RoutedEventArgs e)
     {
+        if (!CheckUnsavedChanges()) return;
         ViewModel.StartCreateNew();
     }
 
@@ -113,6 +116,73 @@ public partial class MainWindow : Window
     private void CancelButton_OnClick(object sender, RoutedEventArgs e)
     {
         ViewModel.CancelEditing();
+    }
+
+    private void VariableListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_isInternalSelectionChange) return;
+
+        if (e.RemovedItems.Count > 0 && ViewModel.Editor.HasChanges)
+        {
+            _isInternalSelectionChange = true;
+            var oldItem = e.RemovedItems[0];
+            var newItem = e.AddedItems.Count > 0 ? e.AddedItems[0] : null;
+
+            // Revert selection temporarily to check
+            VariableListView.SelectedItem = oldItem;
+
+            if (CheckUnsavedChanges())
+            {
+                VariableListView.SelectedItem = newItem;
+            }
+            _isInternalSelectionChange = false;
+        }
+    }
+
+    private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+    {
+        if (!CheckUnsavedChanges())
+        {
+            e.Cancel = true;
+        }
+    }
+
+    private bool CheckUnsavedChanges()
+    {
+        if (!ViewModel.Editor.HasChanges) return true;
+
+        var result = MessageBox.Show(
+            this,
+            LocalizationService.Get("Msg_UnsavedChanges"),
+            LocalizationService.Get("Msg_UnsavedChangesTitle"),
+            MessageBoxButton.YesNoCancel,
+            MessageBoxImage.Question);
+
+        if (result == MessageBoxResult.Yes)
+        {
+            ViewModel.Editor.CommitStructuredChanges();
+            if (ViewModel.WouldOverwriteExisting())
+            {
+                var overwrite = MessageBox.Show(
+                    this,
+                    LocalizationService.Get("Msg_ConfirmOverwrite"),
+                    LocalizationService.Get("Msg_ConfirmOverwriteTitle"),
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (overwrite != MessageBoxResult.Yes) return false;
+            }
+
+            TryRun(() => ViewModel.SaveCurrent(), LocalizationService.Get("Msg_SaveFailed"));
+            return true;
+        }
+
+        if (result == MessageBoxResult.No)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private void ExportMenu_Click(object sender, RoutedEventArgs e)

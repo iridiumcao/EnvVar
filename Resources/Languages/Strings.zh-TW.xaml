@@ -74,6 +74,8 @@
     <sys:String x:Key="Msg_AdminRequiredTitle">權限不足</sys:String>
     <sys:String x:Key="Msg_ExportTitle">匯出環境變數</sys:String>
     <sys:String x:Key="Msg_ImportTitle">匯入環境變數</sys:String>
+    <sys:String x:Key="Msg_UnsavedChanges">目前有未儲存的修改。是否在繼續之前儲存修改？</sys:String>
+    <sys:String x:Key="Msg_UnsavedChangesTitle">未儲存的修改</sys:String>
     <sys:String x:Key="Msg_JsonFilter">JSON 檔案 (*.json)|*.json</sys:String>
     <sys:String x:Key="Msg_InvalidHistoryCount">請輸入 0 到 10 之間的有效整數。</sys:String>
 

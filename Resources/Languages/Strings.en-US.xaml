@@ -74,6 +74,8 @@
     <sys:String x:Key="Msg_AdminRequiredTitle">Insufficient Privileges</sys:String>
     <sys:String x:Key="Msg_ExportTitle">Export Environment Variables</sys:String>
     <sys:String x:Key="Msg_ImportTitle">Import Environment Variables</sys:String>
+    <sys:String x:Key="Msg_UnsavedChanges">You have unsaved changes. Do you want to save them before proceeding?</sys:String>
+    <sys:String x:Key="Msg_UnsavedChangesTitle">Unsaved Changes</sys:String>
     <sys:String x:Key="Msg_JsonFilter">JSON Files (*.json)|*.json</sys:String>
     <sys:String x:Key="Msg_InvalidHistoryCount">Please enter a valid integer between 0 and 10 for history limit.</sys:String>
 
