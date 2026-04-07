@@ -21,7 +21,7 @@ You can download the latest installer from the [Releases](https://github.com/iri
 - Real-time search and filtering (by name, alias, value), search box with magnifying glass indicator
 - Structured editing for multi-value variables (like PATH): item-by-item editing, adding, deleting, moving, and sorting
 - Import / Export as JSON files
-- Automatically record single variable history versions (up to 5), support independent viewing and restoration by variable
+- Automatically record single variable history versions (configurable limit, default 5), support independent viewing and restoration by variable
 - Multi-language support: English / Simplified Chinese / Traditional Chinese (selection persistence)
 - Prompt to restart as administrator when permissions are insufficient
 

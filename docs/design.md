@@ -116,7 +116,7 @@ PATH = C:\Java\bin;C:\Windows\System32
 
 - 每次保存或删除操作前，自动记录该变量的旧值（包括 Value、Alias、Description）
 - 仅在 Value、Alias 或 Description 实际发生变化时才记录历史
-- 每个变量独立保存最近 5 个历史版本，互不影响
+- 每个变量独立保存最近 N 个历史版本（默认 5 个，可在 0-10 之间自定义），互不影响
 - 历史数据存储在 `%LocalAppData%\EnvVar\history.json`
 - 键格式与元数据一致：`Name@Level`
 - 在编辑面板中点击「历史」按钮，弹出该变量的历史版本列表

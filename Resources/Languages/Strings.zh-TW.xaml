@@ -7,6 +7,7 @@
     <sys:String x:Key="Menu_Export">匯出(_E)</sys:String>
     <sys:String x:Key="Menu_Import">匯入(_I)</sys:String>
     <sys:String x:Key="Menu_OpenMetadataDir">開啟中繼資料目錄(_O)</sys:String>
+    <sys:String x:Key="Menu_Settings">設定(_S)</sys:String>
     <sys:String x:Key="Menu_Exit">結束(_X)</sys:String>
     <sys:String x:Key="Menu_Language">語言(_L)</sys:String>
     <sys:String x:Key="Menu_Help">說明(_H)</sys:String>
@@ -69,6 +70,12 @@
     <sys:String x:Key="Msg_ExportTitle">匯出環境變數</sys:String>
     <sys:String x:Key="Msg_ImportTitle">匯入環境變數</sys:String>
     <sys:String x:Key="Msg_JsonFilter">JSON 檔案 (*.json)|*.json</sys:String>
+    <sys:String x:Key="Msg_InvalidHistoryCount">請輸入 0 到 10 之間的有效整數。</sys:String>
+
+    <!-- Settings -->
+    <sys:String x:Key="Title_Settings">設定</sys:String>
+    <sys:String x:Key="Settings_HistoryLimit">每個變數保留的歷史版本數量 (0-10)：</sys:String>
+    <sys:String x:Key="Settings_HistoryLimit_Hint">(設為 0 以停用)</sys:String>
 
     <!-- Editor -->
     <sys:String x:Key="Editor_NewHeader">新增環境變數</sys:String>

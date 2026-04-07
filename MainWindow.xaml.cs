@@ -175,6 +175,12 @@ public partial class MainWindow : Window
         Close();
     }
 
+    private void SettingsMenu_Click(object sender, RoutedEventArgs e)
+    {
+        var settingsWindow = new SettingsWindow { Owner = this };
+        settingsWindow.ShowDialog();
+    }
+
     private void LanguageMenu_Click(object sender, RoutedEventArgs e)
     {
         if (sender is MenuItem menuItem && menuItem.Tag is string cultureCode)

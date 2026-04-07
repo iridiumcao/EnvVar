@@ -6,8 +6,6 @@ namespace EnvVar.Services;
 
 public class VersionHistoryService
 {
-    private const int MaxHistoryPerVariable = 5;
-
     private static readonly JsonSerializerOptions SerializerOptions = new()
     {
         WriteIndented = true
@@ -44,9 +42,10 @@ public class VersionHistoryService
             Timestamp = DateTime.Now
         });
 
-        if (entries.Count > MaxHistoryPerVariable)
+        int maxHistory = SettingsService.Current.MaxHistoryCount;
+        if (entries.Count > maxHistory)
         {
-            entries.RemoveRange(MaxHistoryPerVariable, entries.Count - MaxHistoryPerVariable);
+            entries.RemoveRange(maxHistory, entries.Count - maxHistory);
         }
 
         SaveAll(allHistory);

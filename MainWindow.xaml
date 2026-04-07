@@ -39,6 +39,8 @@
                 <Separator />
                 <MenuItem Header="{DynamicResource Menu_OpenMetadataDir}" Click="OpenMetadataDir_Click" />
                 <Separator />
+                <MenuItem Header="{DynamicResource Menu_Settings}" Click="SettingsMenu_Click" />
+                <Separator />
                 <MenuItem Header="{DynamicResource Menu_Exit}" Click="ExitMenu_Click" />
             </MenuItem>
             <MenuItem Header="{DynamicResource Menu_Language}">

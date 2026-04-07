@@ -48,17 +48,7 @@ public interface IDialogService
 
 ## 二、功能增强
 
-### 4. 快照自动清理
-
-当前每次保存 / 删除都会创建快照，但没有清理机制。长期使用后快照文件会持续增长。
-
-**建议**：增加保留策略，例如：
-
-- 最多保留 N 个快照（如 50 个）
-- 超过 N 天的快照自动删除
-- 可在设置中配置保留数量
-
-### 5. 变量比较与差异查看
+### 4. 变量比较与差异查看
 
 开发者经常需要对比两台机器或两次快照的环境变量差异。
 
@@ -67,7 +57,7 @@ public interface IDialogService
 - 选中一个快照与当前环境对比
 - 高亮新增 / 修改 / 删除的变量
 
-### 6. 变量值校验
+### 5. 变量值校验
 
 对于 PATH 类变量，包含的路径可能实际不存在。
 
@@ -76,7 +66,7 @@ public interface IDialogService
 - 路径不存在时标红或显示警告图标
 - 检测到重复项时给出提示
 
-### 7. 深色模式
+### 6. 深色模式
 
 当前仅有浅色主题。
 
@@ -86,7 +76,7 @@ public interface IDialogService
 
 ## 三、用户体验
 
-### 8. 键盘快捷键
+### 7. 键盘快捷键
 
 当前操作全部依赖鼠标。
 
@@ -101,13 +91,13 @@ public interface IDialogService
 | `Ctrl+F` | 聚焦搜索框 |
 | `Escape` | 取消编辑 |
 
-### 9. 结构化编辑区拖拽排序
+### 8. 结构化编辑区拖拽排序
 
 当前多值项的排序依赖上移 / 下移按钮。
 
 **建议**：支持鼠标拖拽重排（ListBox 拖放），操作更直观。
 
-### 10. 未保存修改提醒
+### 9. 未保存修改提醒
 
 当前切换选中变量或关闭窗口时不会检查是否有未保存的修改。
 
@@ -117,7 +107,7 @@ public interface IDialogService
 
 ## 四、工程化
 
-### 11. 单元测试
+### 10. 单元测试
 
 当前项目没有测试项目。`VariableEditorModel`、`EnvironmentVariableValueParser`、`MetadataStore` 等都有明确的输入输出，非常适合单元测试。
 
@@ -128,14 +118,7 @@ public interface IDialogService
 - `MetadataStore`（JSON 序列化 / 反序列化）
 - `ExportImportService`（导入导出）
 
-### 12. CI/CD
-
-**建议**：配置 GitHub Actions 工作流：
-
-- 每次 Push / PR 自动构建和运行测试
-- 发布时自动打包
-
-### 13. 日志
+### 12. 日志
 
 当前异常仅在状态栏和弹窗中展示，没有持久化的日志。
 

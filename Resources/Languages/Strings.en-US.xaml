@@ -7,6 +7,7 @@
     <sys:String x:Key="Menu_Export">_Export</sys:String>
     <sys:String x:Key="Menu_Import">_Import</sys:String>
     <sys:String x:Key="Menu_OpenMetadataDir">_Open Metadata Directory</sys:String>
+    <sys:String x:Key="Menu_Settings">_Settings</sys:String>
     <sys:String x:Key="Menu_Exit">E_xit</sys:String>
     <sys:String x:Key="Menu_Language">_Language</sys:String>
     <sys:String x:Key="Menu_Help">_Help</sys:String>
@@ -69,6 +70,12 @@
     <sys:String x:Key="Msg_ExportTitle">Export Environment Variables</sys:String>
     <sys:String x:Key="Msg_ImportTitle">Import Environment Variables</sys:String>
     <sys:String x:Key="Msg_JsonFilter">JSON Files (*.json)|*.json</sys:String>
+    <sys:String x:Key="Msg_InvalidHistoryCount">Please enter a valid integer between 0 and 10 for history limit.</sys:String>
+
+    <!-- Settings -->
+    <sys:String x:Key="Title_Settings">Settings</sys:String>
+    <sys:String x:Key="Settings_HistoryLimit">Max History Versions per Variable (0-10):</sys:String>
+    <sys:String x:Key="Settings_HistoryLimit_Hint">(0 to disable)</sys:String>
 
     <!-- Editor -->
     <sys:String x:Key="Editor_NewHeader">New Environment Variable</sys:String>

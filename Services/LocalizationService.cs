@@ -9,11 +9,6 @@ public static class LocalizationService
     private const string LanguageDictionaryPrefix = "Resources/Languages/Strings.";
     private const string DefaultLanguage = "en-US";
 
-    private static readonly string SettingsPath = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "EnvVar",
-        "language.txt");
-
     public static event EventHandler<string>? LanguageChanged;
 
     private static string _currentLanguage = DefaultLanguage;
@@ -22,21 +17,11 @@ public static class LocalizationService
 
     public static string LoadSavedLanguage()
     {
-        try
+        var lang = SettingsService.Current.Language;
+        if (!string.IsNullOrEmpty(lang))
         {
-            if (File.Exists(SettingsPath))
-            {
-                var lang = File.ReadAllText(SettingsPath).Trim();
-                if (!string.IsNullOrEmpty(lang))
-                {
-                    _currentLanguage = lang;
-                    return lang;
-                }
-            }
-        }
-        catch
-        {
-            // Ignore read errors; fall back to default
+            _currentLanguage = lang;
+            return lang;
         }
 
         return DefaultLanguage;
@@ -66,26 +51,11 @@ public static class LocalizationService
 
         mergedDicts.Add(newDict);
         _currentLanguage = cultureCode;
-        SaveLanguagePreference(cultureCode);
+        
+        SettingsService.Current.Language = cultureCode;
+        SettingsService.Save();
+
         LanguageChanged?.Invoke(null, cultureCode);
-    }
-
-    private static void SaveLanguagePreference(string cultureCode)
-    {
-        try
-        {
-            var dir = Path.GetDirectoryName(SettingsPath);
-            if (dir != null)
-            {
-                Directory.CreateDirectory(dir);
-            }
-
-            File.WriteAllText(SettingsPath, cultureCode);
-        }
-        catch
-        {
-            // Ignore write errors
-        }
     }
 
     public static string Get(string key)
