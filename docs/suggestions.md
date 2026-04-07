@@ -66,17 +66,11 @@ public interface IDialogService
 - 路径不存在时标红或显示警告图标
 - 检测到重复项时给出提示
 
-### 6. 深色模式
-
-当前仅有浅色主题。
-
-**建议**：增加深色模式切换，或跟随系统主题。可通过资源字典切换实现，架构与语言切换类似。
-
 ---
 
 ## 三、用户体验
 
-### 7. 键盘快捷键
+### 6. 键盘快捷键
 
 当前操作全部依赖鼠标。
 
@@ -91,7 +85,7 @@ public interface IDialogService
 | `Ctrl+F` | 聚焦搜索框 |
 | `Escape` | 取消编辑 |
 
-### 8. 结构化编辑区拖拽排序
+### 7. 结构化编辑区拖拽排序
 
 当前多值项的排序依赖上移 / 下移按钮。
 
@@ -107,7 +101,7 @@ public interface IDialogService
 
 ## 四、工程化
 
-### 10. 单元测试
+### 8. 单元测试
 
 当前项目没有测试项目。`VariableEditorModel`、`EnvironmentVariableValueParser`、`MetadataStore` 等都有明确的输入输出，非常适合单元测试。
 
@@ -118,7 +112,7 @@ public interface IDialogService
 - `MetadataStore`（JSON 序列化 / 反序列化）
 - `ExportImportService`（导入导出）
 
-### 12. 日志
+### 9. 日志
 
 当前异常仅在状态栏和弹窗中展示，没有持久化的日志。
 

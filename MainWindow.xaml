@@ -12,7 +12,8 @@
         Height="720"
         Width="1200"
         MinHeight="640"
-        MinWidth="980">
+        MinWidth="980"
+        Background="{DynamicResource WindowBackgroundBrush}">
     <Window.Resources>
         <ObjectDataProvider x:Key="DisplayModes"
                             MethodName="GetValues"
@@ -36,24 +37,28 @@
             <MenuItem Header="{DynamicResource Menu_File}">
                 <MenuItem Header="{DynamicResource Menu_Export}" Click="ExportMenu_Click" />
                 <MenuItem Header="{DynamicResource Menu_Import}" Click="ImportMenu_Click" />
-                <Separator />
                 <MenuItem Header="{DynamicResource Menu_OpenMetadataDir}" Click="OpenMetadataDir_Click" />
-                <Separator />
                 <MenuItem Header="{DynamicResource Menu_Settings}" Click="SettingsMenu_Click" />
-                <Separator />
                 <MenuItem Header="{DynamicResource Menu_Exit}" Click="ExitMenu_Click" />
             </MenuItem>
-            <MenuItem Header="{DynamicResource Menu_Language}">
-                <MenuItem x:Name="LangEnUS" Header="English" IsCheckable="True" IsChecked="True" Click="LanguageMenu_Click" Tag="en-US" />
-                <MenuItem x:Name="LangZhCN" Header="简体中文" IsCheckable="True" Click="LanguageMenu_Click" Tag="zh-CN" />
-                <MenuItem x:Name="LangZhTW" Header="繁體中文" IsCheckable="True" Click="LanguageMenu_Click" Tag="zh-TW" />
+            <MenuItem Header="{DynamicResource Menu_Options}">
+                <MenuItem Header="{DynamicResource Menu_Language}">
+                    <MenuItem x:Name="LangEnUS" Header="English" IsCheckable="True" IsChecked="True" Click="LanguageMenu_Click" Tag="en-US" />
+                    <MenuItem x:Name="LangZhCN" Header="简体中文" IsCheckable="True" Click="LanguageMenu_Click" Tag="zh-CN" />
+                    <MenuItem x:Name="LangZhTW" Header="繁體中文" IsCheckable="True" Click="LanguageMenu_Click" Tag="zh-TW" />
+                </MenuItem>
+                <MenuItem Header="{DynamicResource Menu_Theme}">
+                    <MenuItem x:Name="ThemeAuto" Header="{DynamicResource Theme_Auto}" IsCheckable="True" Click="ThemeMenu_Click" Tag="System" />
+                    <MenuItem x:Name="ThemeLight" Header="{DynamicResource Theme_Light}" IsCheckable="True" Click="ThemeMenu_Click" Tag="Light" />
+                    <MenuItem x:Name="ThemeDark" Header="{DynamicResource Theme_Dark}" IsCheckable="True" Click="ThemeMenu_Click" Tag="Dark" />
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="{DynamicResource Menu_Help}">
                 <MenuItem Header="{DynamicResource Menu_About}" Click="AboutMenu_Click" />
             </MenuItem>
         </Menu>
 
-    <Grid Margin="16">
+    <Grid Margin="16" Background="{DynamicResource WindowBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="12" />
@@ -63,8 +68,8 @@
 
         <Border Grid.Row="0"
                 Padding="12"
-                Background="#FFF5F5F5"
-                BorderBrush="#FFE0E0E0"
+                Background="{DynamicResource PanelBackgroundBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
                 BorderThickness="1"
                 CornerRadius="8">
             <DockPanel LastChildFill="False">
@@ -89,10 +94,10 @@
                 <StackPanel DockPanel.Dock="Right"
                             Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center"
-                               Foreground="#FF666666"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
                                Text="{DynamicResource Label_MetadataPrefix}" />
                     <TextBlock VerticalAlignment="Center"
-                               Foreground="#FF666666"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
                                Text="{Binding MetadataPath}" />
                 </StackPanel>
             </DockPanel>
@@ -107,14 +112,14 @@
 
             <Border Grid.Column="0"
                     Padding="0"
-                    BorderBrush="#FFE0E0E0"
+                    BorderBrush="{DynamicResource BorderBrush}"
                     BorderThickness="1"
                     CornerRadius="8">
                 <DockPanel>
                     <Border DockPanel.Dock="Top"
                             Padding="12,10"
-                            Background="#FFF8F8F8"
-                            BorderBrush="#FFE0E0E0"
+                            Background="{DynamicResource PanelBackgroundBrush}"
+                            BorderBrush="{DynamicResource BorderBrush}"
                             BorderThickness="0,0,0,1">
                         <DockPanel>
                             <TextBlock DockPanel.Dock="Left"
@@ -128,7 +133,7 @@
                                          ToolTip="{DynamicResource Label_Search}"
                                          Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Text="🔍"
-                                           Foreground="#FFAAAAAA"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
                                            VerticalAlignment="Center"
                                            Margin="6,0,0,0"
                                            IsHitTestVisible="False">
@@ -150,13 +155,14 @@
                     <ListView ItemsSource="{Binding VariablesView}"
                               SelectedItem="{Binding SelectedVariable, Mode=TwoWay}"
                               BorderThickness="0"
+                              Background="{DynamicResource WindowBackgroundBrush}"
                               GridViewColumnHeader.Click="ColumnHeader_Click">
                         <ListView.GroupStyle>
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
                                     <DataTemplate>
                                         <Border Padding="8,6"
-                                                Background="#FFF0F3F6">
+                                                Background="{DynamicResource PanelBackgroundBrush}">
                                             <TextBlock FontWeight="SemiBold"
                                                        Text="{Binding Name}" />
                                         </Border>
@@ -192,7 +198,7 @@
 
             <Border Grid.Column="2"
                     Padding="16"
-                    BorderBrush="#FFE0E0E0"
+                    BorderBrush="{DynamicResource BorderBrush}"
                     BorderThickness="1"
                     CornerRadius="8">
                 <DockPanel Grid.IsSharedSizeScope="True">
@@ -201,7 +207,7 @@
                                    FontWeight="SemiBold"
                                    Text="{Binding Editor.Header}" />
                         <TextBlock Margin="0,4,0,0"
-                                   Foreground="#FF666666"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"
                                    Text="{DynamicResource Label_EditorHint}" />
                     </StackPanel>
 
@@ -315,8 +321,8 @@
                             </Grid>
 
                             <Border Padding="12"
-                                    Background="#FFF9FBFD"
-                                    BorderBrush="#FFDDE6EE"
+                                    Background="{DynamicResource EditorBackgroundBrush}"
+                                    BorderBrush="{DynamicResource BorderBrush}"
                                     BorderThickness="1"
                                     CornerRadius="6"
                                     Visibility="{Binding Editor.IsMultiValue, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -328,22 +334,28 @@
                                                    Text="{DynamicResource Label_StructuredEdit}" />
                                         <StackPanel DockPanel.Dock="Right"
                                                     Orientation="Horizontal">
-                                            <Button Width="28" Height="28" Margin="2,0"
+                                            <Button Width="30" Height="30" Margin="2,0"
+                                                    Style="{DynamicResource SquareButtonStyle}"
                                                     Content="＋" Click="AddValueItem_Click"
                                                     ToolTip="{DynamicResource Btn_AddItem}" />
-                                            <Button Width="28" Height="28" Margin="2,0"
+                                            <Button Width="30" Height="30" Margin="2,0"
+                                                    Style="{DynamicResource SquareButtonStyle}"
                                                     Content="－" Click="RemoveValueItem_Click"
                                                     ToolTip="{DynamicResource Btn_RemoveItem}" />
-                                            <Button Width="28" Height="28" Margin="2,0"
+                                            <Button Width="30" Height="30" Margin="8,0,2,0"
+                                                    Style="{DynamicResource SquareButtonStyle}"
                                                     Content="↑" Click="MoveValueItemUp_Click"
                                                     ToolTip="{DynamicResource Btn_MoveUp}" />
-                                            <Button Width="28" Height="28" Margin="2,0"
+                                            <Button Width="30" Height="30" Margin="2,0"
+                                                    Style="{DynamicResource SquareButtonStyle}"
                                                     Content="↓" Click="MoveValueItemDown_Click"
                                                     ToolTip="{DynamicResource Btn_MoveDown}" />
-                                            <Button Width="28" Height="28" Margin="8,0,2,0"
+                                            <Button Width="30" Height="30" Margin="8,0,2,0"
+                                                    Style="{DynamicResource SquareButtonStyle}"
                                                     Content="A↓" Click="SortValuesAsc_Click"
                                                     ToolTip="{DynamicResource Btn_SortAsc}" />
-                                            <Button Width="28" Height="28" Margin="2,0"
+                                            <Button Width="30" Height="30" Margin="2,0"
+                                                    Style="{DynamicResource SquareButtonStyle}"
                                                     Content="Z↓" Click="SortValuesDesc_Click"
                                                     ToolTip="{DynamicResource Btn_SortDesc}" />
                                         </StackPanel>
@@ -357,7 +369,7 @@
                                             <DataTemplate>
                                                 <DockPanel>
                                                     <TextBlock Width="36"
-                                                               Foreground="#FF5A6B7A"
+                                                               Foreground="{DynamicResource HistoryTimestampBrush}"
                                                                VerticalAlignment="Center"
                                                                Text="{Binding Index, StringFormat=[{0}]}" />
                                                     <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
@@ -379,8 +391,8 @@
         <Border Grid.Row="3"
                 Margin="0,12,0,0"
                 Padding="12,10"
-                Background="#FFF8F8F8"
-                BorderBrush="#FFE0E0E0"
+                Background="{DynamicResource PanelBackgroundBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
                 BorderThickness="1"
                 CornerRadius="8">
             <TextBlock Text="{Binding StatusMessage}" />

@@ -23,6 +23,7 @@
 - 导入 / 导出为 JSON 文件
 - 自动记录单变量历史版本（数量可配置，默认 5 个），支持按变量独立查看和恢复
 - 多语言支持：English / 简体中文 / 繁體中文（选择持久化）
+- 主题支持：浅色 / 深色 / 跟随系统（主题持久化）
 - 权限不足时提示以管理员身份重启
 
 ## 本地数据
@@ -33,7 +34,7 @@
 |------|------|
 | 元数据 | `%LocalAppData%\EnvVar\metadata.json` |
 | 变量历史 | `%LocalAppData%\EnvVar\history.json` |
-| 语言偏好 | `%LocalAppData%\EnvVar\language.txt` |
+| 应用设置 | `%LocalAppData%\EnvVar\settings.json` |
 
 元数据键格式：`Name@Level`
 
@@ -77,8 +78,8 @@ dotnet build
 |-------------|------|
 | `MainWindow.xaml(.cs)` | 主窗口 |
 | `ViewModels/` | ViewModel 层 |
-| `Models/` | 数据模型 |
-| `Services/` | 业务服务（环境变量读写、元数据、导入导出、历史记录、多语言） |
+| `Models/` | 数据模型（条目、设置、历史） |
+| `Services/` | 业务服务（环境变量读写、元数据、导入导出、历史记录、多语言、设置、主题） |
 | `Infrastructure/` | 基础设施（ObservableObject） |
 | `Utilities/` | 工具类（多值解析） |
 | `Views/` | 子窗口（About） |

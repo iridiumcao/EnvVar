@@ -23,6 +23,7 @@ You can download the latest installer from the [Releases](https://github.com/iri
 - Import / Export as JSON files
 - Automatically record single variable history versions (configurable limit, default 5), support independent viewing and restoration by variable
 - Multi-language support: English / Simplified Chinese / Traditional Chinese (selection persistence)
+- Theme support: Light / Dark / Follow System (theme persistence)
 - Prompt to restart as administrator when permissions are insufficient
 
 ## Local Data
@@ -33,7 +34,7 @@ To avoid polluting real environment variables, `Alias` and `Description` are sav
 |------|------|
 | Metadata | `%LocalAppData%\EnvVar\metadata.json` |
 | Variable History | `%LocalAppData%\EnvVar\history.json` |
-| Language Preference | `%LocalAppData%\EnvVar\language.txt` |
+| Settings | `%LocalAppData%\EnvVar\settings.json` |
 
 Metadata key format: `Name@Level`
 
@@ -55,8 +56,8 @@ Metadata key format: `Name@Level`
 5. Clicking "Delete" will require confirmation.
 6. If the variable value contains `;`, the right side will display a structured editing area where items can be edited, added, deleted, moved, and sorted individually.
 7. When editing an existing variable, click the "History" button to view and restore historical versions of that variable.
-8. Export / Import variables through the "File" menu.
-9. Switch interface language through the "Language" menu, the selection will be remembered automatically.
+8. Export / Import / Settings through the "File" menu.
+9. Switch language and theme through the "Options" menu, the selection will be remembered automatically.
 
 ## Permission Notes
 
@@ -77,8 +78,8 @@ dotnet build
 |-------------|------|
 | `MainWindow.xaml(.cs)` | Main Window |
 | `ViewModels/` | ViewModel Layer |
-| `Models/` | Data Models |
-| `Services/` | Business Services (Env var R/W, Metadata, Import/Export, History, Localization) |
+| `Models/` | Data Models (Entries, Settings, History) |
+| `Services/` | Business Services (Env var R/W, Metadata, Import/Export, History, Localization, Settings, Themes) |
 | `Infrastructure/` | Infrastructure (ObservableObject) |
 | `Utilities/` | Utilities (Multi-value parsing) |
 | `Views/` | Sub-windows (About) |

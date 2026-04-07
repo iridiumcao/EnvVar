@@ -6,7 +6,9 @@
         Height="340"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
-        WindowStyle="ToolWindow">
+        WindowStyle="ToolWindow"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Foreground="{DynamicResource TextBrush}">
     <Grid Margin="24">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -24,7 +26,7 @@
                        Text="EnvVar" />
             <TextBlock Margin="0,4,0,0"
                        HorizontalAlignment="Center"
-                       Foreground="#FF666666"
+                       Foreground="{DynamicResource TextSecondaryBrush}"
                        Text="{DynamicResource About_Description}" />
         </StackPanel>
 

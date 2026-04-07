@@ -112,15 +112,17 @@ PATH = C:\Java\bin;C:\Windows\System32
 
 ---
 
-### 2.7 单变量历史恢复
+### 2.8 主题支持 (深色模式)
 
-- 每次保存或删除操作前，自动记录该变量的旧值（包括 Value、Alias、Description）
-- 仅在 Value、Alias 或 Description 实际发生变化时才记录历史
-- 每个变量独立保存最近 N 个历史版本（默认 5 个，可在 0-10 之间自定义），互不影响
-- 历史数据存储在 `%LocalAppData%\EnvVar\history.json`
-- 键格式与元数据一致：`Name@Level`
-- 在编辑面板中点击「历史」按钮，弹出该变量的历史版本列表
-- 选择某个历史版本后，Value、Alias、Description 会加载到编辑器中（不会自动保存）
+- 支持浅色 (Light)、深色 (Dark) 以及跟随系统 (System) 三种模式
+- 通过切换 ResourceDictionary 实现动态换肤
+- 模式选择持久化存储在 `settings.json` 中
+- 跟随系统模式下，实时监听 Windows 注册表主题变化并自动切换
+
+### 2.9 设置管理
+
+- 统一管理语言、历史保留份数、主题等配置
+- 存储在 `%LocalAppData%\EnvVar\settings.json`
 
 ---
 

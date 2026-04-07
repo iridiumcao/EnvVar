@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Navigation;
+using EnvVar.Services;
 
 namespace EnvVar.Views;
 
@@ -10,6 +11,7 @@ public partial class AboutWindow : Window
     public AboutWindow()
     {
         InitializeComponent();
+        Loaded += (s, e) => ThemeService.UpdateTitleBar(this);
 
         var processPath = Environment.ProcessPath;
         var assemblyPath = AppContext.BaseDirectory;

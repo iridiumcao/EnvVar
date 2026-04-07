@@ -8,6 +8,7 @@ public partial class SettingsWindow : Window
     public SettingsWindow()
     {
         InitializeComponent();
+        Loaded += (s, e) => ThemeService.UpdateTitleBar(this);
         HistoryCountTextBox.Text = SettingsService.Current.MaxHistoryCount.ToString();
     }
 

@@ -36,10 +36,17 @@ public partial class MainWindow : Window
 
     private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
     {
+        ThemeService.UpdateTitleBar(this);
+
         var currentLang = LocalizationService.CurrentLanguage;
         LangEnUS.IsChecked = currentLang == "en-US";
         LangZhCN.IsChecked = currentLang == "zh-CN";
         LangZhTW.IsChecked = currentLang == "zh-TW";
+
+        var currentTheme = ThemeService.CurrentTheme;
+        ThemeAuto.IsChecked = currentTheme == "System";
+        ThemeLight.IsChecked = currentTheme == "Light";
+        ThemeDark.IsChecked = currentTheme == "Dark";
 
         TryRun(() => ViewModel.LoadVariables(), LocalizationService.Get("Msg_LoadFailed"));
         UpdateColumnHeaders();
@@ -192,6 +199,18 @@ public partial class MainWindow : Window
             LangEnUS.IsChecked = cultureCode == "en-US";
             UpdateColumnHeaders();
             ViewModel.Editor.NotifyHeaderChanged();
+        }
+    }
+
+    private void ThemeMenu_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is MenuItem menuItem && menuItem.Tag is string themeName)
+        {
+            ThemeService.ApplyTheme(themeName);
+
+            ThemeAuto.IsChecked = themeName == "System";
+            ThemeLight.IsChecked = themeName == "Light";
+            ThemeDark.IsChecked = themeName == "Dark";
         }
     }
 

@@ -10,6 +10,11 @@
     <sys:String x:Key="Menu_Settings">_Settings</sys:String>
     <sys:String x:Key="Menu_Exit">E_xit</sys:String>
     <sys:String x:Key="Menu_Language">_Language</sys:String>
+    <sys:String x:Key="Menu_Options">_Options</sys:String>
+    <sys:String x:Key="Menu_Theme">_Theme</sys:String>
+    <sys:String x:Key="Theme_Auto">Follow System</sys:String>
+    <sys:String x:Key="Theme_Light">Light</sys:String>
+    <sys:String x:Key="Theme_Dark">Dark</sys:String>
     <sys:String x:Key="Menu_Help">_Help</sys:String>
     <sys:String x:Key="Menu_About">_About</sys:String>
 
