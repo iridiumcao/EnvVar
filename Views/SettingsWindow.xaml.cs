@@ -23,7 +23,8 @@ public partial class SettingsWindow : Window
         }
         else
         {
-            MessageBox.Show(LocalizationService.Get("Msg_InvalidHistoryCount"), 
+            ThemedMessageBox.Show(this,
+                            LocalizationService.Get("Msg_InvalidHistoryCount"), 
                             LocalizationService.Get("Title_Settings"), 
                             MessageBoxButton.OK, 
                             MessageBoxImage.Error);

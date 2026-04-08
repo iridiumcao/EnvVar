@@ -80,7 +80,7 @@ public partial class MainWindow : Window
 
         if (ViewModel.WouldOverwriteExisting())
         {
-            var overwrite = MessageBox.Show(
+            var overwrite = ThemedMessageBox.Show(
                 this,
                 LocalizationService.Get("Msg_ConfirmOverwrite"),
                 LocalizationService.Get("Msg_ConfirmOverwriteTitle"),
@@ -98,7 +98,7 @@ public partial class MainWindow : Window
 
     private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
     {
-        var confirmation = MessageBox.Show(
+        var confirmation = ThemedMessageBox.Show(
             this,
             LocalizationService.Get("Msg_ConfirmDelete"),
             LocalizationService.Get("Msg_ConfirmDeleteTitle"),
@@ -151,7 +151,7 @@ public partial class MainWindow : Window
     {
         if (!ViewModel.Editor.HasChanges) return true;
 
-        var result = MessageBox.Show(
+        var result = ThemedMessageBox.Show(
             this,
             LocalizationService.Get("Msg_UnsavedChanges"),
             LocalizationService.Get("Msg_UnsavedChangesTitle"),
@@ -163,7 +163,7 @@ public partial class MainWindow : Window
             ViewModel.Editor.CommitStructuredChanges();
             if (ViewModel.WouldOverwriteExisting())
             {
-                var overwrite = MessageBox.Show(
+                var overwrite = ThemedMessageBox.Show(
                     this,
                     LocalizationService.Get("Msg_ConfirmOverwrite"),
                     LocalizationService.Get("Msg_ConfirmOverwriteTitle"),
@@ -217,7 +217,7 @@ public partial class MainWindow : Window
             TryRun(() =>
             {
                 var variables = ViewModel.LoadImportFile(dialog.FileName);
-                var confirm = MessageBox.Show(
+                var confirm = ThemedMessageBox.Show(
                     this,
                     LocalizationService.Get("Msg_ImportConfirm", variables.Count),
                     LocalizationService.Get("Msg_ImportConfirmTitle"),
@@ -454,13 +454,13 @@ public partial class MainWindow : Window
         catch (Exception ex)
         {
             ViewModel.StatusMessage = ex.Message;
-            MessageBox.Show(this, ex.Message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+            ThemedMessageBox.Show(this, ex.Message, title, MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
     private void PromptAdminRestart()
     {
-        var result = MessageBox.Show(
+        var result = ThemedMessageBox.Show(
             this,
             LocalizationService.Get("Msg_AdminRequired"),
             LocalizationService.Get("Msg_AdminRequiredTitle"),

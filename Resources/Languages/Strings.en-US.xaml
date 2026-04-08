@@ -24,6 +24,9 @@
     <sys:String x:Key="Btn_Save">Save</sys:String>
     <sys:String x:Key="Btn_Delete">Delete</sys:String>
     <sys:String x:Key="Btn_Cancel">Cancel</sys:String>
+    <sys:String x:Key="Btn_Yes">Yes</sys:String>
+    <sys:String x:Key="Btn_No">No</sys:String>
+    <sys:String x:Key="Btn_OK">OK</sys:String>
 
     <!-- Labels -->
     <sys:String x:Key="Label_DisplayMode">Display Mode: </sys:String>

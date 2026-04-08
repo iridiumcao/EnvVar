@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Runtime.InteropServices;
 using EnvVar.Models;
+using Microsoft.Win32;
 
 namespace EnvVar.Services;
 
@@ -46,13 +47,13 @@ public sealed class EnvironmentVariableService
         var name = editor.Name.Trim();
         ValidateName(name);
 
-        Environment.SetEnvironmentVariable(name, editor.Value, editor.Level.ToTarget());
+        SetRegistryVariable(name, editor.Value, editor.Level);
 
         if (!editor.IsNew &&
             (!string.Equals(editor.OriginalName, name, StringComparison.OrdinalIgnoreCase) ||
              editor.OriginalLevel != editor.Level))
         {
-            Environment.SetEnvironmentVariable(editor.OriginalName, null, editor.OriginalLevel.ToTarget());
+            DeleteRegistryVariable(editor.OriginalName, editor.OriginalLevel);
         }
 
         SaveMetadata(editor, name);
@@ -63,7 +64,7 @@ public sealed class EnvironmentVariableService
     {
         ValidateName(name);
 
-        Environment.SetEnvironmentVariable(name, null, level.ToTarget());
+        DeleteRegistryVariable(name, level);
 
         var metadata = _metadataStore.Load();
         metadata.Remove(MetadataStore.BuildKey(name, level));
@@ -153,16 +154,43 @@ public sealed class EnvironmentVariableService
         }
     }
 
+    private static RegistryKey OpenEnvironmentKey(EnvironmentVariableLevel level, bool writable)
+    {
+        return level == EnvironmentVariableLevel.User
+            ? Registry.CurrentUser.OpenSubKey("Environment", writable)!
+            : Registry.LocalMachine.OpenSubKey(
+                @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment", writable)!;
+    }
+
+    private static void SetRegistryVariable(string name, string value, EnvironmentVariableLevel level)
+    {
+        using var key = OpenEnvironmentKey(level, writable: true);
+        var kind = RegistryValueKind.String;
+        try { kind = key.GetValueKind(name); } catch { /* new entry */ }
+        if (kind != RegistryValueKind.ExpandString && value.Contains('%'))
+            kind = RegistryValueKind.ExpandString;
+        key.SetValue(name, value, kind);
+    }
+
+    private static void DeleteRegistryVariable(string name, EnvironmentVariableLevel level)
+    {
+        using var key = OpenEnvironmentKey(level, writable: true);
+        key.DeleteValue(name, throwOnMissingValue: false);
+    }
+
     private static void BroadcastEnvironmentChange()
     {
-        _ = SendMessageTimeout(
-            HwndBroadcast,
-            WmSettingChange,
-            IntPtr.Zero,
-            "Environment",
-            SendMessageTimeoutFlags.AbortIfHung,
-            5000,
-            out _);
+        Task.Run(() =>
+        {
+            _ = SendMessageTimeout(
+                HwndBroadcast,
+                WmSettingChange,
+                IntPtr.Zero,
+                "Environment",
+                SendMessageTimeoutFlags.AbortIfHung,
+                5000,
+                out _);
+        });
     }
 
     [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]

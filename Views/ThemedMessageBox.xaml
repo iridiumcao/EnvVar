@@ -1,0 +1,30 @@
+<Window x:Class="EnvVar.Views.ThemedMessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title=""
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        MinWidth="340"
+        MaxWidth="520"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Foreground="{DynamicResource TextBrush}">
+    <StackPanel Margin="24,20,24,20">
+        <DockPanel>
+            <TextBlock x:Name="IconText"
+                       DockPanel.Dock="Left"
+                       FontSize="28"
+                       VerticalAlignment="Top"
+                       Margin="0,0,16,0" />
+            <TextBlock x:Name="MessageText"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Center"
+                       FontSize="13" />
+        </DockPanel>
+        <StackPanel x:Name="ButtonPanel"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,20,0,0" />
+    </StackPanel>
+</Window>

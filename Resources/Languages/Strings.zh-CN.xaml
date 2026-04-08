@@ -24,6 +24,9 @@
     <sys:String x:Key="Btn_Save">保存</sys:String>
     <sys:String x:Key="Btn_Delete">删除</sys:String>
     <sys:String x:Key="Btn_Cancel">取消</sys:String>
+    <sys:String x:Key="Btn_Yes">是</sys:String>
+    <sys:String x:Key="Btn_No">否</sys:String>
+    <sys:String x:Key="Btn_OK">确定</sys:String>
 
     <!-- Labels -->
     <sys:String x:Key="Label_DisplayMode">展示模式：</sys:String>

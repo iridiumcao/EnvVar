@@ -378,7 +378,8 @@
                                                     <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
                                                              FontFamily="Cascadia Code"
                                                              BorderThickness="0"
-                                                             Background="Transparent" />
+                                                             Background="Transparent"
+                                                             Padding="2,1" />
                                                 </DockPanel>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>

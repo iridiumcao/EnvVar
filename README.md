@@ -82,7 +82,7 @@ dotnet build
 | `Services/` | Business Services (Env var R/W, Metadata, Import/Export, History, Localization, Settings, Themes) |
 | `Infrastructure/` | Infrastructure (ObservableObject) |
 | `Utilities/` | Utilities (Multi-value parsing) |
-| `Views/` | Sub-windows (About) |
+| `Views/` | Sub-windows (About, Settings, Themed MessageBox) |
 | `Resources/Languages/` | Multi-language resource files |
 | `docs/` | Design documents |
 | `installer/` | Installer scripts (Inno Setup) |

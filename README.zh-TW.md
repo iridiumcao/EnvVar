@@ -83,7 +83,7 @@ dotnet build
 | `Services/` | 業務服務（環境變數讀寫、元數據、匯入匯出、歷史記錄、多語言） |
 | `Infrastructure/` | 基礎設施（ObservableObject） |
 | `Utilities/` | 工具類（多值解析） |
-| `Views/` | 子視窗（About） |
+| `Views/` | 子視窗（About、Settings、自訂訊息框） |
 | `Resources/Languages/` | 多語言資源檔案 |
 | `docs/` | 設計文件 |
 | `installer/` | 安裝程式腳本 (Inno Setup) |

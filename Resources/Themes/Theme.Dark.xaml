@@ -208,7 +208,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="Bd" Background="Transparent" Padding="4">
+                    <Border x:Name="Bd" Background="Transparent" Padding="4,0">
                         <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -219,6 +219,28 @@
                             <Setter TargetName="Bd" Property="Background" Value="{StaticResource SelectedBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ContextMenu Style -->
+    <Style TargetType="ContextMenu">
+        <Setter Property="Background" Value="{StaticResource MenuPopupBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContextMenu">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <StackPanel IsItemsHost="True"
+                                    KeyboardNavigation.DirectionalNavigation="Cycle" />
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
