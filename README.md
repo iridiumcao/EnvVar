@@ -4,7 +4,7 @@ English | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md)
 
 A visual environment variable management tool for Windows, built with .NET 10 / WPF.
 
-![](docs/images/axsELw87FS.png)
+![](docs/images/ReJ0mPH2so.png)
 
 ## Download
 
@@ -84,7 +84,7 @@ dotnet build
 | `Utilities/` | Utilities (Multi-value parsing) |
 | `Views/` | Sub-windows (About, Settings, Themed MessageBox) |
 | `Resources/Languages/` | Multi-language resource files |
-| `docs/` | Design documents |
+| `docs/` | Documents |
 | `installer/` | Installer scripts (Inno Setup) |
 
 ## Documentation

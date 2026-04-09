@@ -4,7 +4,7 @@
 
 一个面向 Windows 的环境变量可视化管理工具，使用 .NET 10 / WPF 构建。
 
-![](docs/images/JgCqBBysw7.png)
+![](docs/images/MM1qE65slt.png)
 
 ## 下载
 
@@ -85,7 +85,7 @@ dotnet build
 | `Utilities/` | 工具类（多值解析） |
 | `Views/` | 子窗口（About、Settings、自定义消息框） |
 | `Resources/Languages/` | 多语言资源文件 |
-| `docs/` | 设计文档 |
+| `docs/` | 文档 |
 | `installer/` | 安装程序脚本 (Inno Setup) |
 
 ## 文档
