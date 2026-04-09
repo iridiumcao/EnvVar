@@ -88,11 +88,24 @@ dotnet build
 | `docs/` | 文檔 |
 | `installer/` | 安裝程式腳本 (Inno Setup) |
 
-## 文件
+## 單元測試
 
-- [功能設計文件](docs/design.md)
-- [UI 設計文件](docs/ui-design.md)
-- [建議與改進方向](docs/suggestions.md)
+本項目包含使用 **xUnit** 和 **Moq** 編寫的完整單元測試套件。
+
+運行測試：
+
+```bash
+dotnet test
+```
+
+更多詳細信息請參閱 [測試文檔](docs/testing.md)。
+
+## 文檔
+
+- [功能設計文檔](docs/design.md)
+- [UI 設計文檔](docs/ui-design.md)
+- [測試文檔](docs/testing.md)
+- [建議與改進方案](docs/suggestions.md)
 - [安裝包構建指南](installer/BUILD.md)
 
 ## 構建安裝程式

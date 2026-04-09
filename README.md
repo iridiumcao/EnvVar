@@ -87,10 +87,23 @@ dotnet build
 | `docs/` | Documents |
 | `installer/` | Installer scripts (Inno Setup) |
 
+## Testing
+
+The project includes a comprehensive suite of unit tests using **xUnit** and **Moq**.
+
+To run the tests:
+
+```bash
+dotnet test
+```
+
+For more details, see the [Testing Documentation](docs/testing.md).
+
 ## Documentation
 
 - [Functional Design Document](docs/design.md)
 - [UI Design Document](docs/ui-design.md)
+- [Testing Documentation](docs/testing.md)
 - [Suggestions and Improvements](docs/suggestions.md)
 - [Installer Build Guide](installer/BUILD.md)
 

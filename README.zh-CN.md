@@ -88,11 +88,24 @@ dotnet build
 | `docs/` | 文档 |
 | `installer/` | 安装程序脚本 (Inno Setup) |
 
+## 单元测试
+
+本项目包含使用 **xUnit** 和 **Moq** 编写的完整单元测试套件。
+
+运行测试：
+
+```bash
+dotnet test
+```
+
+更多详细信息请参阅 [测试文档](docs/testing.md)。
+
 ## 文档
 
 - [功能设计文档](docs/design.md)
 - [UI 设计文档](docs/ui-design.md)
-- [建议与改进方向](docs/suggestions.md)
+- [测试文档](docs/testing.md)
+- [建议与改进方案](docs/suggestions.md)
 - [安装包构建指南](installer/BUILD.md)
 
 ## 构建安装程序

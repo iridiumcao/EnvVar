@@ -95,18 +95,7 @@ public interface IDialogService
 
 ## 四、工程化
 
-### 8. 单元测试
-
-当前项目没有测试项目。`VariableEditorModel`、`EnvironmentVariableValueParser`、`MetadataStore` 等都有明确的输入输出，非常适合单元测试。
-
-**建议**：新建 `EnvVar.Tests` 项目，优先覆盖：
-
-- `EnvironmentVariableValueParser`（拆分 / 合并逻辑）
-- `VariableEditorModel`（EditableValues 同步逻辑）
-- `MetadataStore`（JSON 序列化 / 反序列化）
-- `ExportImportService`（导入导出）
-
-### 9. 日志
+### 8. 日志
 
 当前异常仅在状态栏和弹窗中展示，没有持久化的日志。
 

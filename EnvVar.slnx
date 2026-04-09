@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="EnvVar.csproj" />
+  <Project Path="EnvVar.Tests/EnvVar.Tests.csproj" />
 </Solution>
