@@ -6,11 +6,11 @@
     <sys:String x:Key="Menu_File">檔案(_F)</sys:String>
     <sys:String x:Key="Menu_Export">匯出(_E)</sys:String>
     <sys:String x:Key="Menu_Import">匯入(_I)</sys:String>
-    <sys:String x:Key="Menu_OpenMetadataDir">開啟中繼資料目錄(_O)</sys:String>
+    <sys:String x:Key="Menu_OpenDataDir">開啟資料目錄(_O)</sys:String>
     <sys:String x:Key="Menu_Settings">設定(_S)</sys:String>
+    <sys:String x:Key="Menu_MaxHistory">最大歷史記錄(_M)</sys:String>
     <sys:String x:Key="Menu_Exit">結束(_X)</sys:String>
     <sys:String x:Key="Menu_Language">語言(_L)</sys:String>
-    <sys:String x:Key="Menu_Options">選項(_O)</sys:String>
     <sys:String x:Key="Menu_Theme">主題(_T)</sys:String>
     <sys:String x:Key="Theme_Auto">跟隨系統</sys:String>
     <sys:String x:Key="Theme_Light">淺色</sys:String>

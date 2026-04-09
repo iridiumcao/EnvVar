@@ -234,7 +234,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private void OpenMetadataDir_Click(object sender, RoutedEventArgs e)
+    private void OpenDataDir_Click(object sender, RoutedEventArgs e)
     {
         var dir = System.IO.Path.GetDirectoryName(ViewModel.MetadataPath);
         if (!string.IsNullOrWhiteSpace(dir) && System.IO.Directory.Exists(dir))

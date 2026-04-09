@@ -131,8 +131,8 @@ PATH = C:\Java\bin;C:\Windows\System32
 
 ### 2.11 设置管理
 
-- 统一管理语言、历史保留份数、主题等配置
-- 存储在 `%LocalAppData%\EnvVar\settings.json`
+- 统一在「设置」菜单中管理语言、主题、每个变量的最大历史保留份数等配置。
+- 所有配置项持久化存储在 `%LocalAppData%\EnvVar\settings.json`。
 
 ---
 
@@ -144,7 +144,7 @@ PATH = C:\Java\bin;C:\Windows\System32
 - 简体中文
 - 繁體中文
 
-语言选择会持久化到 `%LocalAppData%\EnvVar\language.txt`，下次启动自动加载。
+语言选择会持久化到 `%LocalAppData%\EnvVar\settings.json`，下次启动自动加载。
 
 ---
 
