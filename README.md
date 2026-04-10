@@ -4,7 +4,7 @@ English | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md)
 
 A visual environment variable management tool for Windows, built with .NET 10 / WPF.
 
-![](docs/images/ReJ0mPH2so.png)
+![English](docs/images/bWpQu88tHn.png)
 
 ## Download
 

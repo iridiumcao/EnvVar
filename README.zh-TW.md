@@ -4,7 +4,7 @@
 
 一個面向 Windows 的環境變數視覺化管理工具，使用 .NET 10 / WPF 構建。
 
-![](docs/images/A0icNUGHrU.png)
+![繁體中文](docs/images/93ey4kjrzI.png)
 
 ## 下載
 
