@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
@@ -17,7 +18,8 @@ public class UpdateInfo
 
 public static class UpdateService
 {
-    private const string GitHubApiUrl = "https://api.github.com/repos/iridiumcao/EnvVar/releases/latest";
+    private const string GitHubApiUrl = "https://api.github.com/repos/iridiumcao/EnvVar/releases";
+    private static readonly Regex VersionPattern = new(@"\d+(\.\d+){1,3}", RegexOptions.Compiled);
     private static readonly HttpClient _httpClient;
 
     static UpdateService()
@@ -32,6 +34,77 @@ public static class UpdateService
     public static Version GetCurrentVersion()
     {
         return Assembly.GetExecutingAssembly().GetName().Version ?? new Version(1, 0, 0, 0);
+    }
+
+    internal static bool TryParseVersion(string? input, out Version version)
+    {
+        version = new Version(0, 0);
+
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            return false;
+        }
+
+        var match = VersionPattern.Match(input);
+        if (!match.Success)
+        {
+            return false;
+        }
+
+        if (!Version.TryParse(match.Value, out var parsedVersion))
+        {
+            return false;
+        }
+
+        version = parsedVersion;
+        return true;
+    }
+
+    internal static ReleaseCandidate? SelectLatestPublishedRelease(string releasesJson)
+    {
+        using var document = JsonDocument.Parse(releasesJson);
+        if (document.RootElement.ValueKind != JsonValueKind.Array)
+        {
+            return null;
+        }
+
+        ReleaseCandidate? latest = null;
+
+        foreach (var release in document.RootElement.EnumerateArray())
+        {
+            if (release.TryGetProperty("draft", out var draftElement) && draftElement.GetBoolean())
+            {
+                continue;
+            }
+
+            if (release.TryGetProperty("prerelease", out var prereleaseElement) && prereleaseElement.GetBoolean())
+            {
+                continue;
+            }
+
+            if (!release.TryGetProperty("tag_name", out var tagElement))
+            {
+                continue;
+            }
+
+            var tagName = tagElement.GetString();
+            if (!TryParseVersion(tagName, out var version))
+            {
+                continue;
+            }
+
+            var releaseUrl = release.TryGetProperty("html_url", out var urlElement)
+                ? urlElement.GetString() ?? string.Empty
+                : string.Empty;
+
+            var candidate = new ReleaseCandidate(tagName ?? string.Empty, version, releaseUrl);
+            if (latest is null || NormalizeVersion(candidate.Version) > NormalizeVersion(latest.Version))
+            {
+                latest = candidate;
+            }
+        }
+
+        return latest;
     }
 
     private static Version NormalizeVersion(Version v)
@@ -49,26 +122,17 @@ public static class UpdateService
         try
         {
             var response = await _httpClient.GetStringAsync(GitHubApiUrl);
-            using var document = JsonDocument.Parse(response);
-            var root = document.RootElement;
-            
-            if (root.TryGetProperty("tag_name", out var tagElement) && root.TryGetProperty("html_url", out var urlElement))
-            {
-                var tagName = tagElement.GetString() ?? string.Empty;
-                var releaseUrl = urlElement.GetString() ?? string.Empty;
 
-                // Extract version number from tag (e.g., "v1.0.1" -> "1.0.1", "v3.141" -> "3.141")
-                var match = Regex.Match(tagName, @"\d+(\.\d+){1,3}");
-                if (match.Success && Version.TryParse(match.Value, out var latestVersion))
+            var latestRelease = SelectLatestPublishedRelease(response);
+            if (latestRelease is not null)
+            {
+                var currentVersion = GetCurrentVersion();
+                return new UpdateInfo
                 {
-                    var currentVersion = GetCurrentVersion();
-                    return new UpdateInfo
-                    {
-                        HasUpdate = NormalizeVersion(latestVersion) > NormalizeVersion(currentVersion),
-                        LatestVersion = tagName,
-                        ReleaseUrl = releaseUrl
-                    };
-                }
+                    HasUpdate = NormalizeVersion(latestRelease.Version) > NormalizeVersion(currentVersion),
+                    LatestVersion = latestRelease.TagName,
+                    ReleaseUrl = latestRelease.ReleaseUrl
+                };
             }
         }
         catch (Exception)
@@ -78,4 +142,6 @@ public static class UpdateService
 
         return new UpdateInfo { HasUpdate = false };
     }
+
+    internal sealed record ReleaseCandidate(string TagName, Version Version, string ReleaseUrl);
 }
