@@ -347,6 +347,38 @@ public partial class MainWindow : Window
         }
     }
 
+    private void StarOnGitHubMenu_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/iridiumcao/EnvVar",
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            ThemedMessageBox.Show(this, ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void ReportIssueMenu_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/iridiumcao/EnvVar/issues",
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            ThemedMessageBox.Show(this, ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
     private void AboutMenu_Click(object sender, RoutedEventArgs e)
     {
         var aboutWindow = new AboutWindow { Owner = this };

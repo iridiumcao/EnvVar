@@ -16,6 +16,8 @@
     <sys:String x:Key="Theme_Light">浅色</sys:String>
     <sys:String x:Key="Theme_Dark">深色</sys:String>
     <sys:String x:Key="Menu_Help">帮助(_H)</sys:String>
+    <sys:String x:Key="Menu_StarOnGitHub">⭐ 在 GitHub 上点赞</sys:String>
+    <sys:String x:Key="Menu_ReportIssue">报告问题(_R)</sys:String>
     <sys:String x:Key="Menu_About">关于(_A)</sys:String>
 
     <!-- Buttons -->

@@ -16,6 +16,8 @@
     <sys:String x:Key="Theme_Light">Light</sys:String>
     <sys:String x:Key="Theme_Dark">Dark</sys:String>
     <sys:String x:Key="Menu_Help">_Help</sys:String>
+    <sys:String x:Key="Menu_StarOnGitHub">⭐ Star on GitHub</sys:String>
+    <sys:String x:Key="Menu_ReportIssue">Report _Issue</sys:String>
     <sys:String x:Key="Menu_About">_About</sys:String>
 
     <!-- Buttons -->
