@@ -60,6 +60,56 @@ public partial class MainWindow : Window
                 UpdateColumnHeaders();
             }
         };
+
+        if (VariableListView.View is GridView gridView)
+        {
+            foreach (var column in gridView.Columns)
+            {
+                ((INotifyPropertyChanged)column).PropertyChanged += (s, args) =>
+                {
+                    if (args.PropertyName == "ActualWidth")
+                    {
+                        Dispatcher.BeginInvoke(new Action(AdjustLastColumnWidth), System.Windows.Threading.DispatcherPriority.Loaded);
+                    }
+                };
+            }
+        }
+    }
+
+    private bool _isAdjustingColumn;
+
+    private void AdjustLastColumnWidth()
+    {
+        if (_isAdjustingColumn) return;
+
+        if (VariableListView.View is GridView gridView && gridView.Columns.Count > 0)
+        {
+            var scrollViewer = GetScrollViewer(VariableListView);
+            if (scrollViewer != null)
+            {
+                double totalWidth = 0;
+                for (int i = 0; i < gridView.Columns.Count - 1; i++)
+                {
+                    totalWidth += gridView.Columns[i].ActualWidth;
+                }
+
+                // Subtract 16 pixels to account for ListViewItem's horizontal padding (4+4) 
+                // and a safe margin, ensuring the horizontal scrollbar never stays visible
+                // when it's not needed.
+                double remainingWidth = scrollViewer.ViewportWidth - totalWidth - 16;
+                if (remainingWidth >= 50)
+                {
+                    _isAdjustingColumn = true;
+                    gridView.Columns[^1].Width = remainingWidth;
+                    _isAdjustingColumn = false;
+                }
+            }
+        }
+    }
+
+    private void VariableListView_OnSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        Dispatcher.BeginInvoke(new Action(AdjustLastColumnWidth), System.Windows.Threading.DispatcherPriority.Loaded);
     }
 
     private void RefreshButton_OnClick(object sender, RoutedEventArgs e)
@@ -137,6 +187,19 @@ public partial class MainWindow : Window
             }
             _isInternalSelectionChange = false;
         }
+    }
+
+    private static ScrollViewer? GetScrollViewer(DependencyObject depObj)
+    {
+        if (depObj is ScrollViewer scrollViewer) return scrollViewer;
+
+        for (int i = 0; i < System.Windows.Media.VisualTreeHelper.GetChildrenCount(depObj); i++)
+        {
+            var child = System.Windows.Media.VisualTreeHelper.GetChild(depObj, i);
+            var result = GetScrollViewer(child);
+            if (result != null) return result;
+        }
+        return null;
     }
 
     private void MainWindow_OnClosing(object sender, CancelEventArgs e)

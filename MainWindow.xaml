@@ -159,7 +159,8 @@
                               BorderThickness="0"
                               Background="{DynamicResource WindowBackgroundBrush}"
                               GridViewColumnHeader.Click="ColumnHeader_Click"
-                              SelectionChanged="VariableListView_OnSelectionChanged">
+                              SelectionChanged="VariableListView_OnSelectionChanged"
+                              SizeChanged="VariableListView_OnSizeChanged">
                         <ListView.GroupStyle>
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
