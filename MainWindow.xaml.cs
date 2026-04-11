@@ -4,6 +4,7 @@ using System.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using EnvVar.Services;
 using EnvVar.Utilities;
 using EnvVar.ViewModels;
@@ -344,6 +345,63 @@ public partial class MainWindow : Window
             ThemeAuto.IsChecked = themeName == "System";
             ThemeLight.IsChecked = themeName == "Light";
             ThemeDark.IsChecked = themeName == "Dark";
+        }
+    }
+
+    private async void CheckUpdateMenu_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.StatusMessage = LocalizationService.Get("Msg_UpdateAvailableTitle"); // Using as a temporary status, or we can just say "Checking..."
+        var originalCursor = Mouse.OverrideCursor;
+        Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+
+        try
+        {
+            var updateInfo = await UpdateService.CheckForUpdatesAsync();
+            
+            // Reset cursor BEFORE showing any blocking dialog
+            Mouse.OverrideCursor = originalCursor;
+            ViewModel.StatusMessage = string.Empty;
+
+            if (updateInfo.HasUpdate)
+            {
+                var result = ThemedMessageBox.Show(
+                    this,
+                    LocalizationService.Get("Msg_UpdateAvailable", updateInfo.LatestVersion),
+                    LocalizationService.Get("Msg_UpdateAvailableTitle"),
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information);
+
+                if (result == MessageBoxResult.Yes && !string.IsNullOrEmpty(updateInfo.ReleaseUrl))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = updateInfo.ReleaseUrl,
+                        UseShellExecute = true
+                    });
+                }
+            }
+            else
+            {
+                // Just use the latest version if we successfully parsed, else generic
+                ThemedMessageBox.Show(
+                    this,
+                    LocalizationService.Get("Msg_UpdateNotNeeded"),
+                    LocalizationService.Get("Msg_UpdateNotNeededTitle"),
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+        }
+        catch (Exception)
+        {
+            Mouse.OverrideCursor = originalCursor;
+            ViewModel.StatusMessage = string.Empty;
+
+            ThemedMessageBox.Show(
+                this,
+                LocalizationService.Get("Msg_UpdateCheckFailed"),
+                LocalizationService.Get("Msg_UpdateAvailableTitle"),
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
         }
     }
 

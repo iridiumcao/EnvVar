@@ -57,6 +57,7 @@
             <MenuItem Header="{DynamicResource Menu_Help}">
                 <MenuItem Header="{DynamicResource Menu_StarOnGitHub}" Click="StarOnGitHubMenu_Click" />
                 <MenuItem Header="{DynamicResource Menu_ReportIssue}" Click="ReportIssueMenu_Click" />
+                <MenuItem Header="{DynamicResource Menu_CheckUpdate}" Click="CheckUpdateMenu_Click" />
                 <MenuItem Header="{DynamicResource Menu_About}" Click="AboutMenu_Click" />
             </MenuItem>
         </Menu>

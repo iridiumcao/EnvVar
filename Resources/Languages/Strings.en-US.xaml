@@ -16,6 +16,7 @@
     <sys:String x:Key="Theme_Light">Light</sys:String>
     <sys:String x:Key="Theme_Dark">Dark</sys:String>
     <sys:String x:Key="Menu_Help">_Help</sys:String>
+    <sys:String x:Key="Menu_CheckUpdate">Check for _Update...</sys:String>
     <sys:String x:Key="Menu_StarOnGitHub">⭐ Star on GitHub</sys:String>
     <sys:String x:Key="Menu_ReportIssue">Report _Issue</sys:String>
     <sys:String x:Key="Menu_About">_About</sys:String>
@@ -26,12 +27,16 @@
     <sys:String x:Key="Btn_Save">Save</sys:String>
     <sys:String x:Key="Btn_Delete">Delete</sys:String>
     <sys:String x:Key="Btn_Cancel">Cancel</sys:String>
+    <sys:String x:Key="Btn_OK">OK</sys:String>
     <sys:String x:Key="Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Btn_No">No</sys:String>
-    <sys:String x:Key="Btn_OK">OK</sys:String>
 
-    <!-- Labels -->
-    <sys:String x:Key="Label_DisplayMode">Display Mode: </sys:String>
+    <!-- Messages -->
+    <sys:String x:Key="Msg_UpdateAvailable">A new version ({0}) is available. Would you like to download it now?</sys:String>
+    <sys:String x:Key="Msg_UpdateAvailableTitle">Update Available</sys:String>
+    <sys:String x:Key="Msg_UpdateNotNeeded">You are already using the latest version.</sys:String>
+    <sys:String x:Key="Msg_UpdateNotNeededTitle">Up to Date</sys:String>
+    <sys:String x:Key="Msg_UpdateCheckFailed">Failed to check for updates. Please check your network or try again later.</sys:String>
     <sys:String x:Key="Label_MetadataPrefix">Metadata: </sys:String>
     <sys:String x:Key="Label_VariableList">Environment Variables</sys:String>
     <sys:String x:Key="Label_StructuredEdit">Structured Edit</sys:String>

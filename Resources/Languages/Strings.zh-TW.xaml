@@ -16,6 +16,7 @@
     <sys:String x:Key="Theme_Light">淺色</sys:String>
     <sys:String x:Key="Theme_Dark">深色</sys:String>
     <sys:String x:Key="Menu_Help">說明(_H)</sys:String>
+    <sys:String x:Key="Menu_CheckUpdate">檢查更新(_U)...</sys:String>
     <sys:String x:Key="Menu_StarOnGitHub">⭐ 在 GitHub 上點讚</sys:String>
     <sys:String x:Key="Menu_ReportIssue">報告問題(_R)</sys:String>
     <sys:String x:Key="Menu_About">關於(_A)</sys:String>
@@ -26,12 +27,15 @@
     <sys:String x:Key="Btn_Save">儲存</sys:String>
     <sys:String x:Key="Btn_Delete">刪除</sys:String>
     <sys:String x:Key="Btn_Cancel">取消</sys:String>
-    <sys:String x:Key="Btn_Yes">是</sys:String>
-    <sys:String x:Key="Btn_No">否</sys:String>
     <sys:String x:Key="Btn_OK">確定</sys:String>
+    <sys:String x:Key="Btn_Yes">是</sys:String>
 
-    <!-- Labels -->
-    <sys:String x:Key="Label_DisplayMode">顯示模式：</sys:String>
+    <!-- Messages -->
+    <sys:String x:Key="Msg_UpdateAvailable">發現新版本 ({0})，是否前往下載？</sys:String>
+    <sys:String x:Key="Msg_UpdateAvailableTitle">發現更新</sys:String>
+    <sys:String x:Key="Msg_UpdateNotNeeded">目前已是最新版本。</sys:String>
+    <sys:String x:Key="Msg_UpdateNotNeededTitle">已是最新版</sys:String>
+    <sys:String x:Key="Msg_UpdateCheckFailed">檢查更新失敗，請稍後重試或檢查網路狀態。</sys:String>
     <sys:String x:Key="Label_MetadataPrefix">中繼資料：</sys:String>
     <sys:String x:Key="Label_VariableList">環境變數清單</sys:String>
     <sys:String x:Key="Label_StructuredEdit">結構化編輯</sys:String>
