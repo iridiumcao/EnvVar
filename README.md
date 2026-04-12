@@ -12,6 +12,22 @@ A visual environment variable management tool for Windows, built with .NET 10 / 
 
 You can download the latest installer from the [Releases](https://github.com/iridiumcao/EnvVar/releases/latest) page.
 
+### Windows Security Notice
+
+Because this project is a brand-new open source application and does not yet have a code signing certificate, Windows SmartScreen may show warnings such as:
+
+- `Windows protected your PC`
+- `Microsoft Defender SmartScreen prevented an unrecognized app from starting`
+
+If that happens, click **Run anyway** to continue installation.
+
+This software is fully open source and malware-free, and you can inspect the source code yourself.
+
+VirusTotal result: **1/70**. Only one machine-learning engine reported a false positive; the other 69 security vendors reported no issue.
+
+This is a common false positive for new Inno Setup installers, not a real problem. Full report:
+https://www.virustotal.com/gui/file/15c7f347097e9084aa25e8ab4d7aff1250d7528df0131981f2b4845103f0c48e/detection
+
 ## Features
 
 - Browse user-level and system-level environment variables

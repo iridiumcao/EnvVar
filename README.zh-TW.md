@@ -12,6 +12,22 @@
 
 您可以從 [Releases](https://github.com/iridiumcao/EnvVar/releases/latest) 頁面下載最新的安裝程式。
 
+### Windows 安全提示（請仔細閱讀）
+
+由於本專案是全新的開源軟體，且尚未申請程式碼簽章憑證，Windows SmartScreen 可能會跳出以下警告：
+
+- `Windows 已保護您的電腦`
+- `Microsoft Defender SmartScreen 封鎖了無法識別的應用程式啟動`
+
+解決方式：點擊 **仍要執行** 即可繼續安裝。
+
+本軟體完全開源、無病毒，您也可以自行查看原始碼驗證。
+
+VirusTotal 檢測結果：**1/70**。僅 1 個機器學習引擎誤報，其餘 69 個安全廠商均未檢測到問題。
+
+這是新 Inno Setup 安裝包常見的誤報，並非真正問題。完整 VirusTotal 報告：
+https://www.virustotal.com/gui/file/15c7f347097e9084aa25e8ab4d7aff1250d7528df0131981f2b4845103f0c48e/detection
+
 ## 功能
 
 - 瀏覽使用者級與系統級環境變數
