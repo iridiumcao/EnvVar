@@ -93,17 +93,7 @@ public interface IDialogService
 
 ---
 
-## 四、工程化
-
-### 8. 日志
-
-当前异常仅在状态栏和弹窗中展示，没有持久化的日志。
-
-**建议**：引入 `Microsoft.Extensions.Logging` 并写入文件日志，方便排查用户反馈的问题。
-
----
-
-## 五、小改进
+## 四、小改进
 
 - `SnapshotInfo` 和 `ExportData` 等小类目前定义在 Service 文件尾部，建议单独放到 `Models/` 目录
 - `VersionHistoryService` 构造函数中直接 `Directory.CreateDirectory`，若权限不足可能抛异常，建议加 try-catch

@@ -35,17 +35,18 @@ public sealed class SettingsService
     {
         if (!File.Exists(FilePath))
         {
-            return new AppSettings();
+            return Normalize(new AppSettings());
         }
 
         try
         {
             var json = File.ReadAllText(FilePath);
-            return JsonSerializer.Deserialize<AppSettings>(json, SerializerOptions) ?? new AppSettings();
+            var settings = JsonSerializer.Deserialize<AppSettings>(json, SerializerOptions) ?? new AppSettings();
+            return Normalize(settings);
         }
         catch
         {
-            return new AppSettings();
+            return Normalize(new AppSettings());
         }
     }
 
@@ -66,5 +67,16 @@ public sealed class SettingsService
         {
             // Ignore write errors
         }
+    }
+
+    private static AppSettings Normalize(AppSettings settings)
+    {
+        settings.Language = string.IsNullOrWhiteSpace(settings.Language) ? "en-US" : settings.Language;
+        settings.Theme = string.IsNullOrWhiteSpace(settings.Theme) ? "System" : settings.Theme;
+        settings.MaxHistoryCount = Math.Clamp(settings.MaxHistoryCount, 0, 10);
+        settings.LogLevel = Enum.IsDefined(settings.LogLevel) ? settings.LogLevel : AppLogLevel.Information;
+        settings.LogRetentionDays = settings.LogRetentionDays is 0 or 7 or 14 or 30 or 180 ? settings.LogRetentionDays : 14;
+        settings.MaxLogFileSizeMb = Math.Clamp(settings.MaxLogFileSizeMb, 1, 1024);
+        return settings;
     }
 }

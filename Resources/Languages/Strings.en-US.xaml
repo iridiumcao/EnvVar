@@ -9,6 +9,7 @@
     <sys:String x:Key="Menu_OpenDataDir">_Open Data Directory</sys:String>
     <sys:String x:Key="Menu_Settings">_Settings</sys:String>
     <sys:String x:Key="Menu_MaxHistory">_Max History</sys:String>
+    <sys:String x:Key="Menu_Logging">_Logging</sys:String>
     <sys:String x:Key="Menu_Exit">E_xit</sys:String>
     <sys:String x:Key="Menu_Language">_Language</sys:String>
     <sys:String x:Key="Menu_Theme">_Theme</sys:String>
@@ -88,11 +89,27 @@
     <sys:String x:Key="Msg_UnsavedChangesTitle">Unsaved Changes</sys:String>
     <sys:String x:Key="Msg_JsonFilter">JSON Files (*.json)|*.json</sys:String>
     <sys:String x:Key="Msg_InvalidHistoryCount">Please enter a valid integer between 0 and 10 for history limit.</sys:String>
+    <sys:String x:Key="Msg_InvalidLogFileSize">Please enter a valid integer greater than 0 for max log file size.</sys:String>
+    <sys:String x:Key="Msg_InvalidLoggingSetting">Please select valid logging settings.</sys:String>
 
     <!-- Settings -->
     <sys:String x:Key="Title_Settings">Settings</sys:String>
     <sys:String x:Key="Settings_HistoryLimit">Max History Versions per Variable (0-10):</sys:String>
     <sys:String x:Key="Settings_HistoryLimit_Hint">(0 to disable)</sys:String>
+    <sys:String x:Key="Title_LoggingSettings">Logging</sys:String>
+    <sys:String x:Key="Settings_LogLevel">Log Level:</sys:String>
+    <sys:String x:Key="Settings_LogRetention">Retention:</sys:String>
+    <sys:String x:Key="Settings_MaxLogFileSize">Max File Size:</sys:String>
+    <sys:String x:Key="Settings_MaxLogFileSize_Hint">(MB)</sys:String>
+    <sys:String x:Key="Settings_LogLevel_Error">Error</sys:String>
+    <sys:String x:Key="Settings_LogLevel_Warning">Warning</sys:String>
+    <sys:String x:Key="Settings_LogLevel_Information">Information</sys:String>
+    <sys:String x:Key="Settings_LogLevel_Debug">Debug</sys:String>
+    <sys:String x:Key="Settings_LogRetention_7">7 days</sys:String>
+    <sys:String x:Key="Settings_LogRetention_14">14 days</sys:String>
+    <sys:String x:Key="Settings_LogRetention_30">30 days</sys:String>
+    <sys:String x:Key="Settings_LogRetention_180">180 days</sys:String>
+    <sys:String x:Key="Settings_LogRetention_Unlimited">Unlimited</sys:String>
 
     <!-- Editor -->
     <sys:String x:Key="Editor_NewHeader">New Environment Variable</sys:String>

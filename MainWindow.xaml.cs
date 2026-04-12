@@ -15,6 +15,7 @@ namespace EnvVar;
 
 public partial class MainWindow : Window
 {
+    private static readonly LoggingService Logger = LoggingService.Shared;
     private string? _sortedPropertyName;
     private int _sortClickCount;
     private bool _isInternalSelectionChange;
@@ -50,7 +51,10 @@ public partial class MainWindow : Window
         ThemeLight.IsChecked = currentTheme == "Light";
         ThemeDark.IsChecked = currentTheme == "Dark";
 
-        TryRun(() => ViewModel.LoadVariables(), LocalizationService.Get("Msg_LoadFailed"));
+        TryRun(
+            () => ViewModel.LoadVariables(),
+            LocalizationService.Get("Msg_LoadFailed"),
+            "Load Environment Variables");
         UpdateColumnHeaders();
         ViewModel.PropertyChanged += (_, args) =>
         {
@@ -116,7 +120,10 @@ public partial class MainWindow : Window
     private void RefreshButton_OnClick(object sender, RoutedEventArgs e)
     {
         if (!CheckUnsavedChanges()) return;
-        TryRun(() => ViewModel.LoadVariables(), LocalizationService.Get("Msg_RefreshFailed"));
+        TryRun(
+            () => ViewModel.LoadVariables(),
+            LocalizationService.Get("Msg_RefreshFailed"),
+            "Refresh Environment Variables");
     }
 
     private void NewButton_OnClick(object sender, RoutedEventArgs e)
@@ -144,7 +151,11 @@ public partial class MainWindow : Window
             }
         }
 
-        TryRun(() => ViewModel.SaveCurrent(), LocalizationService.Get("Msg_SaveFailed"));
+        TryRun(
+            () => ViewModel.SaveCurrent(),
+            LocalizationService.Get("Msg_SaveFailed"),
+            "Save Environment Variable",
+            CreateCurrentEditorContext());
     }
 
     private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
@@ -161,7 +172,11 @@ public partial class MainWindow : Window
             return;
         }
 
-        TryRun(() => ViewModel.DeleteCurrent(), LocalizationService.Get("Msg_DeleteFailed"));
+        TryRun(
+            () => ViewModel.DeleteCurrent(),
+            LocalizationService.Get("Msg_DeleteFailed"),
+            "Delete Environment Variable",
+            CreateOriginalEditorContext());
     }
 
     private void CancelButton_OnClick(object sender, RoutedEventArgs e)
@@ -237,7 +252,11 @@ public partial class MainWindow : Window
                 if (overwrite != MessageBoxResult.Yes) return false;
             }
 
-            TryRun(() => ViewModel.SaveCurrent(), LocalizationService.Get("Msg_SaveFailed"));
+            TryRun(
+                () => ViewModel.SaveCurrent(),
+                LocalizationService.Get("Msg_SaveFailed"),
+                "Save Environment Variable",
+                CreateCurrentEditorContext());
             return true;
         }
 
@@ -264,7 +283,13 @@ public partial class MainWindow : Window
             {
                 ViewModel.Export(dialog.FileName);
                 ViewModel.StatusMessage = LocalizationService.Get("Msg_ExportSuccess", dialog.FileName);
-            }, LocalizationService.Get("Msg_ExportTitle"));
+            },
+            LocalizationService.Get("Msg_ExportTitle"),
+            "Export Environment Variables",
+            new Dictionary<string, string?>
+            {
+                ["File"] = dialog.FileName
+            });
         }
     }
 
@@ -290,11 +315,17 @@ public partial class MainWindow : Window
 
                 if (confirm == MessageBoxResult.Yes)
                 {
-                    var count = ViewModel.Import(variables);
+                    var count = ViewModel.Import(dialog.FileName, variables);
                     ViewModel.LoadVariables();
                     ViewModel.StatusMessage = LocalizationService.Get("Msg_ImportSuccess", count);
                 }
-            }, LocalizationService.Get("Msg_ImportTitle"));
+            },
+            LocalizationService.Get("Msg_ImportTitle"),
+            "Import Environment Variables",
+            new Dictionary<string, string?>
+            {
+                ["File"] = dialog.FileName
+            });
         }
     }
 
@@ -319,6 +350,12 @@ public partial class MainWindow : Window
     private void SettingsMenu_Click(object sender, RoutedEventArgs e)
     {
         var settingsWindow = new SettingsWindow { Owner = this };
+        settingsWindow.ShowDialog();
+    }
+
+    private void LoggingSettingsMenu_Click(object sender, RoutedEventArgs e)
+    {
+        var settingsWindow = new LoggingSettingsWindow { Owner = this };
         settingsWindow.ShowDialog();
     }
 
@@ -590,25 +627,44 @@ public partial class MainWindow : Window
         }
     }
 
-    private void TryRun(Action action, string title)
+    private void TryRun(
+        Action action,
+        string title,
+        string? actionName = null,
+        IReadOnlyDictionary<string, string?>? context = null)
     {
         try
         {
             action();
         }
-        catch (SecurityException)
+        catch (SecurityException ex)
         {
+            LogOperationFailure(actionName ?? title, context, ex);
             PromptAdminRestart();
         }
-        catch (UnauthorizedAccessException)
+        catch (UnauthorizedAccessException ex)
         {
+            LogOperationFailure(actionName ?? title, context, ex);
             PromptAdminRestart();
         }
         catch (Exception ex)
         {
+            LogOperationFailure(actionName ?? title, context, ex);
             ViewModel.StatusMessage = ex.Message;
             ThemedMessageBox.Show(this, ex.Message, title, MessageBoxButton.OK, MessageBoxImage.Error);
         }
+    }
+
+    private static void LogOperationFailure(
+        string actionName,
+        IReadOnlyDictionary<string, string?>? context,
+        Exception exception)
+    {
+        Logger.Error(
+            exception.Message,
+            action: actionName,
+            context: context,
+            exception: exception);
     }
 
     private void PromptAdminRestart()
@@ -624,6 +680,7 @@ public partial class MainWindow : Window
         {
             try
             {
+                Logger.Warning("Administrator restart requested.", action: "Admin Restart");
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = Environment.ProcessPath!,
@@ -632,10 +689,34 @@ public partial class MainWindow : Window
                 });
                 Application.Current.Shutdown();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // User cancelled the UAC prompt
+                Logger.Warning(
+                    "Administrator restart was cancelled or failed.",
+                    action: "Admin Restart",
+                    exception: ex);
             }
         }
+    }
+
+    private Dictionary<string, string?> CreateCurrentEditorContext()
+    {
+        return new Dictionary<string, string?>
+        {
+            ["Variable"] = ViewModel.Editor.Name.Trim(),
+            ["Level"] = ViewModel.Editor.Level.ToString(),
+            ["Value"] = ViewModel.Editor.Value,
+            ["Operation"] = ViewModel.Editor.IsNew ? "Add" : "Modify"
+        };
+    }
+
+    private Dictionary<string, string?> CreateOriginalEditorContext()
+    {
+        return new Dictionary<string, string?>
+        {
+            ["Variable"] = ViewModel.Editor.OriginalName,
+            ["Level"] = ViewModel.Editor.OriginalLevel.ToString(),
+            ["Value"] = ViewModel.SelectedVariable?.Value ?? ViewModel.Editor.Value
+        };
     }
 }

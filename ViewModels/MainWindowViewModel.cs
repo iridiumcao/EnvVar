@@ -12,6 +12,7 @@ public sealed class MainWindowViewModel : ObservableObject
     private readonly EnvironmentVariableService _environmentVariableService;
     private readonly ExportImportService _exportImportService;
     private readonly VersionHistoryService _historyService = new();
+    private readonly LoggingService _loggingService = LoggingService.Shared;
     private DisplayMode _displayMode = DisplayMode.Grouped;
     private EnvironmentVariableEntry? _selectedVariable;
     private string _statusMessage = string.Empty;
@@ -210,6 +211,9 @@ public sealed class MainWindowViewModel : ObservableObject
     public void SaveCurrent()
     {
         Editor.DeduplicateValue();
+        var isNew = Editor.IsNew;
+        var originalName = Editor.OriginalName;
+        var originalLevel = Editor.OriginalLevel;
 
         if (!Editor.IsNew)
         {
@@ -230,6 +234,17 @@ public sealed class MainWindowViewModel : ObservableObject
 
         var savedName = Editor.Name.Trim();
         var savedLevel = Editor.Level;
+
+        _loggingService.Information(
+            isNew ? "Environment variable added successfully." : "Environment variable saved successfully.",
+            action: "Save Environment Variable",
+            context: CreateVariableContext(
+                savedName,
+                savedLevel,
+                Editor.Value,
+                originalName,
+                originalLevel,
+                isNew ? "Add" : "Modify"));
 
         LoadVariables(savedName, savedLevel);
         StatusMessage = LocalizationService.Get("Msg_Saved", savedName, savedLevel);
@@ -255,6 +270,10 @@ public sealed class MainWindowViewModel : ObservableObject
         }
 
         _environmentVariableService.Delete(name, level);
+        _loggingService.Information(
+            "Environment variable deleted successfully.",
+            action: "Delete Environment Variable",
+            context: CreateVariableContext(name, level, existing?.Value));
         SelectedVariable = null;
         LoadVariables();
         StatusMessage = LocalizationService.Get("Msg_Deleted", name, level);
@@ -263,6 +282,13 @@ public sealed class MainWindowViewModel : ObservableObject
     public void Export(string filePath)
     {
         _exportImportService.Export(filePath);
+        _loggingService.Information(
+            "Environment variables exported successfully.",
+            action: "Export Environment Variables",
+            context: new Dictionary<string, string?>
+            {
+                ["File"] = filePath
+            });
     }
 
     public List<ExportVariable> LoadImportFile(string filePath)
@@ -270,9 +296,18 @@ public sealed class MainWindowViewModel : ObservableObject
         return _exportImportService.LoadImportFile(filePath);
     }
 
-    public int Import(List<ExportVariable> variables)
+    public int Import(string filePath, List<ExportVariable> variables)
     {
-        return _exportImportService.Import(variables);
+        var count = _exportImportService.Import(variables);
+        _loggingService.Information(
+            "Environment variables imported successfully.",
+            action: "Import Environment Variables",
+            context: new Dictionary<string, string?>
+            {
+                ["File"] = filePath,
+                ["Count"] = count.ToString()
+            });
+        return count;
     }
 
     public void ApplyColumnSort(string propertyName, ListSortDirection direction)
@@ -347,5 +382,38 @@ public sealed class MainWindowViewModel : ObservableObject
                 VariablesView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(EnvironmentVariableEntry.Level)));
             }
         }
+    }
+
+    private static Dictionary<string, string?> CreateVariableContext(
+        string name,
+        EnvironmentVariableLevel level,
+        string? value,
+        string? originalName = null,
+        EnvironmentVariableLevel? originalLevel = null,
+        string? operation = null)
+    {
+        var context = new Dictionary<string, string?>
+        {
+            ["Variable"] = name,
+            ["Level"] = level.ToString(),
+            ["Value"] = value
+        };
+
+        if (!string.IsNullOrWhiteSpace(originalName))
+        {
+            context["OriginalVariable"] = originalName;
+        }
+
+        if (originalLevel is not null)
+        {
+            context["OriginalLevel"] = originalLevel.ToString();
+        }
+
+        if (!string.IsNullOrWhiteSpace(operation))
+        {
+            context["Operation"] = operation;
+        }
+
+        return context;
     }
 }

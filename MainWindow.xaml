@@ -53,6 +53,7 @@
                     <MenuItem x:Name="ThemeDark" Header="{DynamicResource Theme_Dark}" IsCheckable="True" Click="ThemeMenu_Click" Tag="Dark" />
                 </MenuItem>
                 <MenuItem Header="{DynamicResource Menu_MaxHistory}" Click="SettingsMenu_Click" />
+                <MenuItem Header="{DynamicResource Menu_Logging}" Click="LoggingSettingsMenu_Click" />
             </MenuItem>
             <MenuItem Header="{DynamicResource Menu_Help}">
                 <MenuItem Header="{DynamicResource Menu_StarOnGitHub}" Click="StarOnGitHubMenu_Click" />

@@ -22,6 +22,7 @@ You can download the latest installer from the [Releases](https://github.com/iri
 - Structured editing for multi-value variables (like PATH): item-by-item editing, adding, deleting, moving, and sorting
 - Import / Export as JSON files
 - Automatically record single variable history versions (configurable limit, default 5), support independent viewing and restoration by variable
+- Built-in rolling log system for lifecycle events, key operations, and unhandled exceptions
 - Multi-language support: English / Simplified Chinese / Traditional Chinese (selection persistence)
 - Theme support: Light / Dark / Follow System (theme persistence)
 - Prompt to restart as administrator when permissions are insufficient
@@ -35,6 +36,7 @@ To avoid polluting real environment variables, `Alias` and `Description` are sav
 | Metadata | `%LocalAppData%\EnvVar\metadata.json` |
 | Variable History | `%LocalAppData%\EnvVar\history.json` |
 | Settings | `%LocalAppData%\EnvVar\settings.json` |
+| Logs | `%LocalAppData%\EnvVar\Logs\YYYY-MM-DD.log` |
 
 Metadata key format: `Name@Level`
 
@@ -57,7 +59,7 @@ Metadata key format: `Name@Level`
 6. If the variable value contains `;`, the right side will display a structured editing area where items can be edited, added, deleted, moved, and sorted individually.
 7. When editing an existing variable, click the "History" button to view and restore historical versions of that variable.
 8. Export / Import through the "File" menu.
-9. Switch language, theme and configure history limit through the "Settings" menu, the selection will be remembered automatically.
+9. Use the "Settings" menu to switch language and theme, keep "Max History" separate, and manage logging through the dedicated "Logging" entry. Choices are remembered automatically.
 
 ## Permission Notes
 
@@ -78,8 +80,8 @@ dotnet build
 |-------------|------|
 | `MainWindow.xaml(.cs)` | Main Window |
 | `ViewModels/` | ViewModel Layer |
-| `Models/` | Data Models (Entries, Settings, History) |
-| `Services/` | Business Services (Env var R/W, Metadata, Import/Export, History, Localization, Settings, Themes) |
+| `Models/` | Data Models (Entries, Settings, History, Logging) |
+| `Services/` | Business Services (Env var R/W, Metadata, Import/Export, History, Logging, Localization, Settings, Themes) |
 | `Infrastructure/` | Infrastructure (ObservableObject) |
 | `Utilities/` | Utilities (Multi-value parsing) |
 | `Views/` | Sub-windows (About, Settings, Themed MessageBox) |

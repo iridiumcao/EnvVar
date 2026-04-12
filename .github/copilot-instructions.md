@@ -29,7 +29,8 @@ Persistence is split across Windows registry and local JSON files:
 - `Services/EnvironmentVariableService.cs` reads user/system variables and writes them directly to the registry (`HKCU\Environment` and `HKLM\...\Environment`), then broadcasts `WM_SETTINGCHANGE`.
 - `Services/MetadataStore.cs` stores alias/description separately from the registry in `%LocalAppData%\EnvVar\metadata.json`.
 - `Services/VersionHistoryService.cs` stores per-variable history in `%LocalAppData%\EnvVar\history.json`.
-- `Services/SettingsService.cs` stores theme/language/history settings in `%LocalAppData%\EnvVar\settings.json`.
+- `Services/SettingsService.cs` stores theme/language/history/logging settings in `%LocalAppData%\EnvVar\settings.json`.
+- `Services/LoggingService.cs` stores rolling logs in `%LocalAppData%\EnvVar\Logs`.
 - `Services/ExportImportService.cs` is the only import/export path; exported JSON includes both registry-backed values and local metadata.
 
 Localization and theming are service-driven rather than view-model-driven:

@@ -9,6 +9,7 @@
     <sys:String x:Key="Menu_OpenDataDir">開啟資料目錄(_O)</sys:String>
     <sys:String x:Key="Menu_Settings">設定(_S)</sys:String>
     <sys:String x:Key="Menu_MaxHistory">最大歷史記錄(_M)</sys:String>
+    <sys:String x:Key="Menu_Logging">日誌(_G)</sys:String>
     <sys:String x:Key="Menu_Exit">結束(_X)</sys:String>
     <sys:String x:Key="Menu_Language">語言(_L)</sys:String>
     <sys:String x:Key="Menu_Theme">主題(_T)</sys:String>
@@ -87,11 +88,27 @@
     <sys:String x:Key="Msg_UnsavedChangesTitle">未儲存的修改</sys:String>
     <sys:String x:Key="Msg_JsonFilter">JSON 檔案 (*.json)|*.json</sys:String>
     <sys:String x:Key="Msg_InvalidHistoryCount">請輸入 0 到 10 之間的有效整數。</sys:String>
+    <sys:String x:Key="Msg_InvalidLogFileSize">請輸入大於 0 的有效日誌檔案大小整數。</sys:String>
+    <sys:String x:Key="Msg_InvalidLoggingSetting">請選擇有效的日誌設定。</sys:String>
 
     <!-- Settings -->
     <sys:String x:Key="Title_Settings">設定</sys:String>
     <sys:String x:Key="Settings_HistoryLimit">每個變數保留的歷史版本數量 (0-10)：</sys:String>
     <sys:String x:Key="Settings_HistoryLimit_Hint">(設為 0 以停用)</sys:String>
+    <sys:String x:Key="Title_LoggingSettings">日誌</sys:String>
+    <sys:String x:Key="Settings_LogLevel">日誌級別：</sys:String>
+    <sys:String x:Key="Settings_LogRetention">保留時間：</sys:String>
+    <sys:String x:Key="Settings_MaxLogFileSize">單檔最大大小：</sys:String>
+    <sys:String x:Key="Settings_MaxLogFileSize_Hint">(MB)</sys:String>
+    <sys:String x:Key="Settings_LogLevel_Error">錯誤</sys:String>
+    <sys:String x:Key="Settings_LogLevel_Warning">警告</sys:String>
+    <sys:String x:Key="Settings_LogLevel_Information">資訊</sys:String>
+    <sys:String x:Key="Settings_LogLevel_Debug">偵錯</sys:String>
+    <sys:String x:Key="Settings_LogRetention_7">7 天</sys:String>
+    <sys:String x:Key="Settings_LogRetention_14">14 天</sys:String>
+    <sys:String x:Key="Settings_LogRetention_30">30 天</sys:String>
+    <sys:String x:Key="Settings_LogRetention_180">180 天</sys:String>
+    <sys:String x:Key="Settings_LogRetention_Unlimited">無限制</sys:String>
 
     <!-- Editor -->
     <sys:String x:Key="Editor_NewHeader">新增環境變數</sys:String>
