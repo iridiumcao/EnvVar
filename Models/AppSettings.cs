@@ -8,6 +8,7 @@ public sealed class AppSettings
     public AppLogLevel LogLevel { get; set; } = AppLogLevel.Information;
     public int LogRetentionDays { get; set; } = 14;
     public int MaxLogFileSizeMb { get; set; } = 5;
+    public bool ShowAliasColumn { get; set; } = true;
 
     public double? WindowLeft { get; set; }
     public double? WindowTop { get; set; }

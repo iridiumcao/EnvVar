@@ -41,16 +41,19 @@
                 <MenuItem Header="{DynamicResource Menu_OpenDataDir}" Click="OpenDataDir_Click" />
                 <MenuItem Header="{DynamicResource Menu_Exit}" Click="ExitMenu_Click" />
             </MenuItem>
+            <MenuItem Header="{DynamicResource Menu_View}">
+                <MenuItem x:Name="MenuShowAlias" Header="{DynamicResource Menu_ShowAlias}" IsCheckable="True" Click="ShowAliasMenu_Click" />
+                <MenuItem Header="{DynamicResource Menu_Theme}">
+                    <MenuItem x:Name="ThemeAuto" Header="{DynamicResource Theme_Auto}" IsCheckable="True" Click="ThemeMenu_Click" Tag="System" />
+                    <MenuItem x:Name="ThemeLight" Header="{DynamicResource Theme_Light}" IsCheckable="True" Click="ThemeMenu_Click" Tag="Light" />
+                    <MenuItem x:Name="ThemeDark" Header="{DynamicResource Theme_Dark}" IsCheckable="True" Click="ThemeMenu_Click" Tag="Dark" />
+                </MenuItem>
+            </MenuItem>
             <MenuItem Header="{DynamicResource Menu_Settings}">
                 <MenuItem Header="{DynamicResource Menu_Language}">
                     <MenuItem x:Name="LangEnUS" Header="English" IsCheckable="True" IsChecked="True" Click="LanguageMenu_Click" Tag="en-US" />
                     <MenuItem x:Name="LangZhCN" Header="简体中文" IsCheckable="True" Click="LanguageMenu_Click" Tag="zh-CN" />
                     <MenuItem x:Name="LangZhTW" Header="繁體中文" IsCheckable="True" Click="LanguageMenu_Click" Tag="zh-TW" />
-                </MenuItem>
-                <MenuItem Header="{DynamicResource Menu_Theme}">
-                    <MenuItem x:Name="ThemeAuto" Header="{DynamicResource Theme_Auto}" IsCheckable="True" Click="ThemeMenu_Click" Tag="System" />
-                    <MenuItem x:Name="ThemeLight" Header="{DynamicResource Theme_Light}" IsCheckable="True" Click="ThemeMenu_Click" Tag="Light" />
-                    <MenuItem x:Name="ThemeDark" Header="{DynamicResource Theme_Dark}" IsCheckable="True" Click="ThemeMenu_Click" Tag="Dark" />
                 </MenuItem>
                 <MenuItem Header="{DynamicResource Menu_MaxHistory}" Click="SettingsMenu_Click" />
                 <MenuItem Header="{DynamicResource Menu_Logging}" Click="LoggingSettingsMenu_Click" />
@@ -183,7 +186,7 @@
                                 <GridViewColumn Width="180"
                                                 DisplayMemberBinding="{Binding NameDisplay}"
                                                 Header="{DynamicResource Col_Name}" />
-                                <GridViewColumn Width="140"
+                                <GridViewColumn x:Name="ColAlias" Width="140"
                                                 DisplayMemberBinding="{Binding Alias}"
                                                 Header="{DynamicResource Col_Alias}" />
                                 <GridViewColumn Width="90"

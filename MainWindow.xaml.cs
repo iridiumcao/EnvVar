@@ -136,6 +136,9 @@ public partial class MainWindow : Window
         ThemeLight.IsChecked = currentTheme == "Light";
         ThemeDark.IsChecked = currentTheme == "Dark";
 
+        MenuShowAlias.IsChecked = SettingsService.Current.ShowAliasColumn;
+        UpdateAliasColumnVisibility();
+
         TryRun(
             () => ViewModel.LoadVariables(),
             LocalizationService.Get("Msg_LoadFailed"),
@@ -470,6 +473,31 @@ public partial class MainWindow : Window
             ThemeAuto.IsChecked = themeName == "System";
             ThemeLight.IsChecked = themeName == "Light";
             ThemeDark.IsChecked = themeName == "Dark";
+        }
+    }
+
+    private void ShowAliasMenu_Click(object sender, RoutedEventArgs e)
+    {
+        SettingsService.Current.ShowAliasColumn = MenuShowAlias.IsChecked;
+        SettingsService.Save();
+        UpdateAliasColumnVisibility();
+    }
+
+    private void UpdateAliasColumnVisibility()
+    {
+        if (SettingsService.Current.ShowAliasColumn)
+        {
+            if (!VariableGridView.Columns.Contains(ColAlias))
+            {
+                VariableGridView.Columns.Insert(1, ColAlias);
+            }
+        }
+        else
+        {
+            if (VariableGridView.Columns.Contains(ColAlias))
+            {
+                VariableGridView.Columns.Remove(ColAlias);
+            }
         }
     }
 
