@@ -75,7 +75,7 @@ Metadata key format: `Name@Level`
 6. If the variable value contains `;`, the right side will display a structured editing area where items can be edited, added, deleted, moved, and sorted individually.
 7. When editing an existing variable, click the "History" button to view and restore historical versions of that variable.
 8. Export / Import through the "File" menu.
-9. Use the "Settings" menu to switch language and theme, keep "Max History" separate, and manage logging through the dedicated "Logging" entry. Choices are remembered automatically.
+9. Use the "Preferences" menu to switch language, theme, alias column visibility, max history, and logging. Choices are remembered automatically.
 
 ## Permission Notes
 

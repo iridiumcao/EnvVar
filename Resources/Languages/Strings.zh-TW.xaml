@@ -7,9 +7,9 @@
     <sys:String x:Key="Menu_Export">匯出(_E)</sys:String>
     <sys:String x:Key="Menu_Import">匯入(_I)</sys:String>
     <sys:String x:Key="Menu_OpenDataDir">開啟資料目錄(_O)</sys:String>
-    <sys:String x:Key="Menu_View">檢視(_V)</sys:String>
+    <sys:String x:Key="Menu_Preferences">設定(_S)</sys:String>
     <sys:String x:Key="Menu_ShowAlias">顯示別名欄(_A)</sys:String>
-    <sys:String x:Key="Menu_Settings">設定(_S)</sys:String>
+    <sys:String x:Key="Menu_HideAlias">隱藏別名欄(_A)</sys:String>
     <sys:String x:Key="Menu_MaxHistory">最大歷史記錄(_M)</sys:String>
     <sys:String x:Key="Menu_Logging">日誌(_G)</sys:String>
     <sys:String x:Key="Menu_Exit">結束(_X)</sys:String>

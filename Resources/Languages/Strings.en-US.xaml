@@ -7,9 +7,9 @@
     <sys:String x:Key="Menu_Export">_Export</sys:String>
     <sys:String x:Key="Menu_Import">_Import</sys:String>
     <sys:String x:Key="Menu_OpenDataDir">_Open Data Directory</sys:String>
-    <sys:String x:Key="Menu_View">_View</sys:String>
+    <sys:String x:Key="Menu_Preferences">_Preferences</sys:String>
     <sys:String x:Key="Menu_ShowAlias">Show _Alias Column</sys:String>
-    <sys:String x:Key="Menu_Settings">_Settings</sys:String>
+    <sys:String x:Key="Menu_HideAlias">Hide _Alias Column</sys:String>
     <sys:String x:Key="Menu_MaxHistory">_Max History</sys:String>
     <sys:String x:Key="Menu_Logging">_Logging</sys:String>
     <sys:String x:Key="Menu_Exit">E_xit</sys:String>

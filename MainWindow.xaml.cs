@@ -138,6 +138,7 @@ public partial class MainWindow : Window
 
         MenuShowAlias.IsChecked = SettingsService.Current.ShowAliasColumn;
         UpdateAliasColumnVisibility();
+        UpdateAliasMenuHeader();
 
         TryRun(
             () => ViewModel.LoadVariables(),
@@ -460,6 +461,7 @@ public partial class MainWindow : Window
             LangZhTW.IsChecked = cultureCode == "zh-TW";
             LangEnUS.IsChecked = cultureCode == "en-US";
             UpdateColumnHeaders();
+            UpdateAliasMenuHeader();
             ViewModel.Editor.NotifyHeaderChanged();
         }
     }
@@ -478,9 +480,10 @@ public partial class MainWindow : Window
 
     private void ShowAliasMenu_Click(object sender, RoutedEventArgs e)
     {
-        SettingsService.Current.ShowAliasColumn = MenuShowAlias.IsChecked;
+        SettingsService.Current.ShowAliasColumn = !SettingsService.Current.ShowAliasColumn;
         SettingsService.Save();
         UpdateAliasColumnVisibility();
+        UpdateAliasMenuHeader();
     }
 
     private void UpdateAliasColumnVisibility()
@@ -499,6 +502,12 @@ public partial class MainWindow : Window
                 VariableGridView.Columns.Remove(ColAlias);
             }
         }
+    }
+
+    private void UpdateAliasMenuHeader()
+    {
+        var key = SettingsService.Current.ShowAliasColumn ? "Menu_HideAlias" : "Menu_ShowAlias";
+        MenuShowAlias.Header = LocalizationService.Get(key);
     }
 
     private async void CheckUpdateMenu_Click(object sender, RoutedEventArgs e)
