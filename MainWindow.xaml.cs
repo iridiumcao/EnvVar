@@ -35,6 +35,91 @@ public partial class MainWindow : Window
         Loaded += MainWindow_OnLoaded;
     }
 
+    protected override void OnSourceInitialized(EventArgs e)
+    {
+        base.OnSourceInitialized(e);
+        RestoreWindowPlacement();
+    }
+
+    private void RestoreWindowPlacement()
+    {
+        var settings = SettingsService.Current;
+        
+        if (settings.WindowWidth.HasValue && settings.WindowHeight.HasValue &&
+            settings.WindowLeft.HasValue && settings.WindowTop.HasValue)
+        {
+            var left = settings.WindowLeft.Value;
+            var top = settings.WindowTop.Value;
+            var width = settings.WindowWidth.Value;
+            var height = settings.WindowHeight.Value;
+
+            if (IsWindowPositionValid(left, top, width, height))
+            {
+                Width = width;
+                Height = height;
+                Left = left;
+                Top = top;
+
+                if (settings.IsMaximized)
+                {
+                    WindowState = WindowState.Maximized;
+                }
+                return;
+            }
+        }
+
+        // Default or Invalid State
+        WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        Width = 1000;
+        Height = 700;
+    }
+
+    private bool IsWindowPositionValid(double left, double top, double width, double height)
+    {
+        if (width < 200 || height < 200)
+            return false;
+
+        var windowRect = new Rect(left, top, width, height);
+        // Shrink slightly to avoid precision issues at boundaries
+        windowRect.Inflate(-1, -1);
+
+        var virtualScreenRect = new Rect(
+            SystemParameters.VirtualScreenLeft,
+            SystemParameters.VirtualScreenTop,
+            SystemParameters.VirtualScreenWidth,
+            SystemParameters.VirtualScreenHeight);
+
+        return virtualScreenRect.Contains(windowRect);
+    }
+
+    private void SaveWindowPlacement()
+    {
+        var settings = SettingsService.Current;
+        if (WindowState == WindowState.Normal)
+        {
+            settings.IsMaximized = false;
+            settings.WindowLeft = Left;
+            settings.WindowTop = Top;
+            settings.WindowWidth = Width;
+            settings.WindowHeight = Height;
+        }
+        else
+        {
+            // For both Minimized and Maximized, RestoreBounds contains the "normal" size and location
+            settings.IsMaximized = WindowState == WindowState.Maximized;
+            
+            if (!RestoreBounds.IsEmpty)
+            {
+                settings.WindowLeft = RestoreBounds.Left;
+                settings.WindowTop = RestoreBounds.Top;
+                settings.WindowWidth = RestoreBounds.Width;
+                settings.WindowHeight = RestoreBounds.Height;
+            }
+        }
+        
+        SettingsService.Save();
+    }
+
     private MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
 
     private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -223,7 +308,10 @@ public partial class MainWindow : Window
         if (!CheckUnsavedChanges())
         {
             e.Cancel = true;
+            return;
         }
+
+        SaveWindowPlacement();
     }
 
     private bool CheckUnsavedChanges()
@@ -681,11 +769,21 @@ public partial class MainWindow : Window
             try
             {
                 Logger.Warning("Administrator restart requested.", action: "Admin Restart");
+                
+                // Release the single instance mutex before starting the new elevated process,
+                // otherwise the new instance will think the old instance is still running and exit.
+                if (Application.Current is App app)
+                {
+                    app.ReleaseSingleInstanceMutex();
+                }
+
+                var processPath = Environment.ProcessPath!;
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = Environment.ProcessPath!,
+                    FileName = processPath,
                     UseShellExecute = true,
-                    Verb = "runas"
+                    Verb = "runas",
+                    WorkingDirectory = System.IO.Path.GetDirectoryName(processPath)
                 });
                 Application.Current.Shutdown();
             }

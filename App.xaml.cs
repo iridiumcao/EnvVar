@@ -55,13 +55,19 @@ public partial class App : Application
         LoggingService.Shared.Information("Application exiting.", action: "Application Exiting");
         UnregisterGlobalExceptionHandlers();
 
+        ReleaseSingleInstanceMutex();
+
+        base.OnExit(e);
+    }
+
+    public void ReleaseSingleInstanceMutex()
+    {
         if (_singleInstanceService is not null)
         {
             _singleInstanceService.ActivationRequested -= OnActivationRequested;
             _singleInstanceService.Dispose();
+            _singleInstanceService = null;
         }
-
-        base.OnExit(e);
     }
 
     private void OnActivationRequested(object? sender, EventArgs e)
