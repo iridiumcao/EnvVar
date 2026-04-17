@@ -36,8 +36,8 @@ public sealed class EnvironmentVariableService
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
-        var variables = Environment.GetEnvironmentVariables(level.ToTarget());
-        return variables.Contains(name);
+        using var key = OpenEnvironmentKey(level, writable: false);
+        return key?.GetValue(name) != null;
     }
 
     public void Save(VariableEditorModel editor)
@@ -78,16 +78,18 @@ public sealed class EnvironmentVariableService
         IReadOnlyDictionary<string, VariableMetadata> metadata,
         ICollection<EnvironmentVariableEntry> items)
     {
-        foreach (DictionaryEntry entry in Environment.GetEnvironmentVariables(level.ToTarget()))
+        using var key = OpenEnvironmentKey(level, writable: false);
+        if (key == null)
         {
-            var name = entry.Key?.ToString();
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                continue;
-            }
+            return;
+        }
 
-            var key = MetadataStore.BuildKey(name, level);
-            metadata.TryGetValue(key, out var meta);
+        foreach (var name in key.GetValueNames())
+        {
+            var value = key.GetValue(name, string.Empty, RegistryValueOptions.DoNotExpandEnvironmentNames)?.ToString() ?? string.Empty;
+
+            var metaKey = MetadataStore.BuildKey(name, level);
+            metadata.TryGetValue(metaKey, out var meta);
 
             var description = meta?.Description ?? string.Empty;
             var isWellKnown = false;
@@ -100,7 +102,7 @@ public sealed class EnvironmentVariableService
             items.Add(new EnvironmentVariableEntry
             {
                 Name = name,
-                Value = entry.Value?.ToString() ?? string.Empty,
+                Value = value,
                 Alias = meta?.Alias ?? string.Empty,
                 Description = description,
                 IsWellKnown = isWellKnown,
