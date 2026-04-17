@@ -1,100 +1,63 @@
 # EnvVar 建议与改进方向
 
-基于对当前代码的审阅，以下是我对项目的一些改进建议，按优先级分类。
+本文档记录了对 EnvVar 项目的改进建议，旨在提升代码质量、用户体验及功能的完备性。
 
 ---
 
-## 一、代码质量与架构
+## 一、 架构与代码质量 (优先级：高)
 
-### 1. 引入 MVVM 命令框架
+### 1. 深度落实 MVVM 模式
+目前虽然存在 `MainWindowViewModel`，但大量的逻辑（弹窗、排序控制、窗口状态管理）仍滞留在 `MainWindow.xaml.cs` 中。
+- **建议**：引入 `RelayCommand` 或利用社区成熟的 MVVM 库（如 `CommunityToolkit.Mvvm`），将 code-behind 中的点击事件全面迁移至 ViewModel。
+- **目标**：实现 View 与 Logic 的彻底解耦。
 
-当前所有按钮事件（`SaveButton_OnClick`、`DeleteButton_OnClick` 等）都写在 `MainWindow.xaml.cs` 的 code-behind 中，导致 View 层承担了较多的流程控制逻辑（如弹窗确认、异常处理）。
+### 2. 引入依赖注入 (DI)
+当前 Service 类的实例化散落在各处（如 `App.xaml.cs` 和各 ViewModel 构造函数），不利于管理生命周期。
+- **建议**：使用 `Microsoft.Extensions.DependencyInjection` 统一管理 `EnvironmentVariableService`、`LoggingService` 等。
+- **目标**：增强代码的可维护性和模块化。
 
-**建议**：引入 `ICommand` / `RelayCommand`，将按钮操作绑定到 ViewModel 的命令属性上。
-这样做的好处：
+### 3. 抽象弹窗与交互服务 (IDialogService)
+ViewModel 目前无法直接触发确认框或错误提示。
+- **建议**：定义并实现 `IDialogService` 接口，将 `ThemedMessageBox` 和 `SaveFileDialog` 的调用封装其中。
+- **目标**：使 ViewModel 的业务流程可被单元测试覆盖。
 
-- View 层更薄，仅负责 UI 交互
-- ViewModel 可独立进行单元测试
-- 可以更自然地控制按钮的 `CanExecute` 状态
-
-### 2. 抽象弹窗交互
-
-当前 ViewModel 无法控制弹窗（确认对话框、文件选择器），这些都直接写在 code-behind 中。
-
-**建议**：定义一个 `IDialogService` 接口：
-
-```csharp
-public interface IDialogService
-{
-    bool Confirm(string message, string title);
-    string? ShowSaveFileDialog(string title, string filter, string defaultName);
-    string? ShowOpenFileDialog(string title, string filter);
-}
-```
-
-在 code-behind 中实现并注入 ViewModel，这样 ViewModel 可以完整处理业务流程而无需依赖 WPF 类型。
-
-### 3. 引入依赖注入
-
-当前 `MainWindowViewModel` 在构造函数中直接 `new` 了 `EnvironmentVariableService`、`ExportImportService`、`VersionHistoryService`。
-
-**建议**：使用 `Microsoft.Extensions.DependencyInjection`，在 `App.xaml.cs` 中配置服务容器。好处：
-
-- 服务生命周期统一管理
-- 方便测试时替换实现
-- 为将来拆分功能做准备
+### 4. 提升可测试性：引入接口抽象
+`EnvironmentVariableService` 直接操作 Windows 注册表，导致难以编写不依赖环境的单元测试。
+- **建议**：定义 `IRegistryProvider` 接口，在生产环境使用注册表，在测试环境使用 Mock 实现。
+- **目标**：实现核心业务逻辑的 100% 覆盖测试。
 
 ---
 
-## 二、功能增强
+## 二、 功能增强 (优先级：中)
 
-### 4. 变量比较与差异查看
+### 5. PATH 路径有效性校验 (已识别需求)
+用户在编辑 PATH 变量时，可能会输入不存在的路径。
+- **建议**：在多值编辑列表中，实时检测每一行路径的物理存在性。若不存在，显示警告图标（UI 细节可见 `ui-design.md`）。
 
-开发者经常需要对比两台机器或两次快照的环境变量差异。
+### 6. 环境快照对比 (Diff)
+方便用户对比当前环境与历史快照（导入的文件）的差异。
+- **建议**：增加一个简单的对比模式，标记出哪些变量被修改了。
 
-**建议**：增加差异对比功能：
-
-- 选中一个快照与当前环境对比
-- 高亮新增 / 修改 / 删除的变量
-
-### 5. 变量值校验
-
-对于 PATH 类变量，包含的路径可能实际不存在。
-
-**建议**：在结构化编辑区为每一项增加校验提示：
-
-- 路径不存在时标红或显示警告图标
-- 检测到重复项时给出提示
+### 7. 增强的日志查看器
+虽然已有日志记录，但查看日志仍需用户手动打开 LocalAppData 目录。
+- **建议**：在「关于」或「设置」页面增加「打开日志目录」或「实时日志流查看」按钮。
 
 ---
 
-## 三、用户体验
+## 三、 用户体验优化 (优先级：低)
 
-### 6. 键盘快捷键
+### 8. 快捷键支持
+当前软件对键盘用户不够友好。
+- **建议**：支持以下常用快捷键：
+  - `Ctrl + S`: 保存当前修改
+  - `Ctrl + N`: 新建变量
+  - `F5`: 刷新列表
+  - `Ctrl + F`: 聚焦搜索框
 
-当前操作全部依赖鼠标。
+### 9. 多值项拖拽排序
+目前 PATH 项的排序依赖点击「上移/下移」按钮，效率较低。
+- **建议**：支持鼠标在列表项上直接拖拽重排序。
 
-**建议**：为常用操作添加快捷键：
-
-| 快捷键 | 功能 |
-|--------|------|
-| `Ctrl+S` | 保存 |
-| `Ctrl+N` | 新建 |
-| `F5` | 刷新 |
-| `Delete` | 删除（需确认） |
-| `Ctrl+F` | 聚焦搜索框 |
-| `Escape` | 取消编辑 |
-
-### 7. 结构化编辑区拖拽排序
-
-当前多值项的排序依赖上移 / 下移按钮。
-
-**建议**：支持鼠标拖拽重排（ListBox 拖放），操作更直观。
-
----
-
-## 四、小改进
-
-- `SnapshotInfo` 和 `ExportData` 等小类目前定义在 Service 文件尾部，建议单独放到 `Models/` 目录
-- `VersionHistoryService` 构造函数中直接 `Directory.CreateDirectory`，若权限不足可能抛异常，建议加 try-catch
-- `EditableValueItem` 的 `PropertyChanged` 订阅 / 取消订阅较分散，可考虑封装为一个方法统一管理
+### 10. 搜索功能增强
+目前的搜索是全匹配或简单包含。
+- **建议**：支持正则表达式搜索，或对搜索关键字进行多字段（Name, Value, Alias）加权匹配。
