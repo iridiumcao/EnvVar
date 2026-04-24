@@ -4,7 +4,7 @@
 
 一个面向 Windows 的环境变量可视化管理工具，使用 .NET 10 / WPF 构建。
 
-![简体中文](docs/images/niNGe9B2Jo.png)
+![简体中文](docs/images/svhQ9zgq0G.png)
 
 ## 下载
 
@@ -26,7 +26,7 @@
 VirusTotal 检测结果：**1/70**。仅 1 个机器学习引擎误报，其余 69 个安全厂商均未检测到问题。
 
 这是新 Inno Setup 安装包的常见误报，并非真正问题。完整 VirusTotal 报告：
-https://www.virustotal.com/gui/file/15c7f347097e9084aa25e8ab4d7aff1250d7528df0131981f2b4845103f0c48e/detection
+https://www.virustotal.com/gui/file/0e1f6913a12bfc16547a948d793d55e54318d18cd1f2bad00f05538a1ae1a67f/detection
 
 ## 功能
 
