@@ -15,12 +15,12 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 10.0.x
 
@@ -40,14 +40,14 @@ jobs:
         ./installer/build-installer.ps1 -version ${{ env.APP_VERSION }}
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: EnvVar-Setup-${{ env.APP_VERSION }}
         path: release/EnvVar-Setup-${{ env.APP_VERSION }}.exe
 
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v3
       with:
         files: release/EnvVar-Setup-${{ env.APP_VERSION }}.exe
         draft: false
